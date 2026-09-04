@@ -1,204 +1,304 @@
-const body = document.body;
+const header = document.getElementById('header');
 const menuToggle = document.querySelector('.menu-toggle');
-const siteNav = document.querySelector('.site-nav');
-const progressBar = document.querySelector('.scroll-progress');
+const navLinks = document.querySelectorAll('.main-nav a');
+const body = document.body;
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const finePointer = window.matchMedia('(pointer: fine)').matches;
 
-if (menuToggle) {
-  menuToggle.addEventListener('click', () => {
-    const isOpen = body.classList.toggle('menu-open');
-    menuToggle.setAttribute('aria-expanded', String(isOpen));
-  });
+// Stabilny start po załadowaniu fontów — ogranicza przeskoki typografii.
+Promise.race([
+  document.fonts?.ready || Promise.resolve(),
+  new Promise(resolve => setTimeout(resolve, 900))
+]).then(() => requestAnimationFrame(() => body.classList.add('page-loaded')));
+
+function setHeaderState() {
+  header?.classList.toggle('scrolled', window.scrollY > 30);
 }
+setHeaderState();
+window.addEventListener('scroll', setHeaderState, { passive: true });
 
-document.querySelectorAll('.site-nav a').forEach(link => {
-  link.addEventListener('click', () => {
-    body.classList.remove('menu-open');
-    menuToggle?.setAttribute('aria-expanded', 'false');
-  });
+menuToggle?.addEventListener('click', () => {
+  const open = header.classList.toggle('menu-open');
+  menuToggle.setAttribute('aria-expanded', String(open));
+  menuToggle.setAttribute('aria-label', open ? 'Zamknij menu' : 'Otwórz menu');
+  body.classList.toggle('menu-active', open);
 });
 
+navLinks.forEach(link => link.addEventListener('click', () => {
+  header?.classList.remove('menu-open');
+  menuToggle?.setAttribute('aria-expanded', 'false');
+  menuToggle?.setAttribute('aria-label', 'Otwórz menu');
+  body.classList.remove('menu-active');
+}));
+
+// Pasek postępu.
+const progressBar = document.querySelector('.scroll-progress span');
+let scrollTick = false;
+function updateScrollProgress() {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+  progressBar?.style.setProperty('--progress', progress);
+  scrollTick = false;
+}
 window.addEventListener('scroll', () => {
-  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-  const percent = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
-  progressBar.style.width = `${percent}%`;
-});
+  if (scrollTick) return;
+  scrollTick = true;
+  requestAnimationFrame(updateScrollProgress);
+}, { passive: true });
+updateScrollProgress();
 
-const reveals = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('is-visible');
-      io.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.14 });
-reveals.forEach(el => io.observe(el));
+// Reveal przy scrollu.
+const revealEls = [...document.querySelectorAll('.reveal')];
+revealEls.forEach((el, i) => el.style.setProperty('--reveal-order', i % 4));
+if (!reducedMotion) {
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -7% 0px' });
+  revealEls.forEach(el => revealObserver.observe(el));
+} else {
+  revealEls.forEach(el => el.classList.add('visible'));
+}
 
-const hoverLiftTargets = document.querySelectorAll('.hover-lift');
-hoverLiftTargets.forEach(card => {
-  card.addEventListener('mousemove', (e) => {
-    if (window.matchMedia('(max-width: 860px)').matches) return;
-    const rect = card.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    const rotateY = (x - 0.5) * 4;
-    const rotateX = (0.5 - y) * 4;
-    card.style.transform = `translateY(-5px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-  });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-  });
-});
+// Parallax szerokiego przerywnika.
+const parallaxEls = document.querySelectorAll('.image-break .parallax-bg');
+if (!reducedMotion && window.innerWidth > 780) {
+  let ticking = false;
+  const parallax = () => {
+    parallaxEls.forEach(el => {
+      const section = el.parentElement;
+      const rect = section.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+      const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * -0.045;
+      el.style.transform = `translate3d(0, ${offset}px, 0) scale(1.055)`;
+    });
+    ticking = false;
+  };
+  parallax();
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(parallax);
+  }, { passive: true });
+}
 
-const tiltTargets = document.querySelectorAll('.tilt-card');
-tiltTargets.forEach(card => {
-  card.addEventListener('mousemove', (e) => {
-    if (window.matchMedia('(max-width: 860px)').matches) return;
-    const rect = card.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    const rotateY = (x - 0.5) * 10;
-    const rotateX = (0.5 - y) * 10;
-    const base = card.classList.contains('social-card--front') ? -7 : 6;
-    card.style.transform = `rotate(${base}deg) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+// Subtelny ruch tła hero kursorem.
+const hero = document.querySelector('.hero');
+const heroBg = document.querySelector('.hero-bg');
+if (hero && heroBg && finePointer && !reducedMotion) {
+  hero.addEventListener('pointermove', (event) => {
+    const rect = hero.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - .5;
+    const y = (event.clientY - rect.top) / rect.height - .5;
+    heroBg.style.setProperty('--hero-x', `${x * -9}px`);
+    heroBg.style.setProperty('--hero-y', `${y * -7}px`);
   });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-  });
-});
-
-const magneticButtons = document.querySelectorAll('.magnetic');
-magneticButtons.forEach(btn => {
-  btn.addEventListener('mousemove', (e) => {
-    if (window.matchMedia('(max-width: 860px)').matches) return;
-    const rect = btn.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    btn.style.transform = `translate(${x * 0.08}px, ${y * 0.08}px)`;
-  });
-  btn.addEventListener('mouseleave', () => {
-    btn.style.transform = '';
-  });
-});
-
-const parallaxCard = document.querySelector('.parallax-card');
-if (parallaxCard) {
-  window.addEventListener('mousemove', (e) => {
-    if (window.matchMedia('(max-width: 860px)').matches) return;
-    const depth = Number(parallaxCard.dataset.depth || 18);
-    const x = (e.clientX / window.innerWidth - 0.5) * depth;
-    const y = (e.clientY / window.innerHeight - 0.5) * depth;
-    parallaxCard.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+  hero.addEventListener('pointerleave', () => {
+    heroBg.style.setProperty('--hero-x', '0px');
+    heroBg.style.setProperty('--hero-y', '0px');
   });
 }
 
+// Galerie — lokalne pliki, bez zależności od zewnętrznych serwerów.
 const galleries = {
-  'project-1': [
-    { src: 'proj1-1.jpg', alt: 'Projekt 1, ujęcie 1', caption: 'Saska Kępa · ujęcie 01' },
-    { src: 'proj1-2.jpg', alt: 'Projekt 1, ujęcie 2', caption: 'Saska Kępa · ujęcie 02' },
-    { src: 'proj1-3.jpg', alt: 'Projekt 1, ujęcie 3', caption: 'Saska Kępa · ujęcie 03' },
-    { src: 'proj1-4.jpg', alt: 'Projekt 1, ujęcie 4', caption: 'Saska Kępa · ujęcie 04' }
-  ],
-  'project-2': [
-    { src: 'proj2-1.jpg', alt: 'Projekt 2, ujęcie 1', caption: 'Wilanów · ujęcie 01' },
-    { src: 'proj2-2.jpg', alt: 'Projekt 2, ujęcie 2', caption: 'Wilanów · ujęcie 02' },
-    { src: 'proj2-3.jpg', alt: 'Projekt 2, ujęcie 3', caption: 'Wilanów · ujęcie 03' },
-    { src: 'proj2-4.jpg', alt: 'Projekt 2, ujęcie 4', caption: 'Wilanów · ujęcie 04' }
-  ],
-  'project-3': [
-    { src: 'proj3-1.jpg', alt: 'Projekt 3, ujęcie 1', caption: 'Apartament Ochota · ujęcie 01' },
-    { src: 'proj3-2.jpg', alt: 'Projekt 3, ujęcie 2', caption: 'Apartament Ochota · ujęcie 02' },
-    { src: 'proj3-3.jpg', alt: 'Projekt 3, ujęcie 3', caption: 'Apartament Ochota · ujęcie 03' },
-    { src: 'proj3-4.jpg', alt: 'Projekt 3, ujęcie 4', caption: 'Apartament Ochota · ujęcie 04' }
-  ]
+  1: {
+    title: 'Elegancja',
+    images: ['elegancja-1.webp', 'elegancja-2.webp', 'elegancja-3.webp', 'elegancja-4.webp']
+  },
+  2: {
+    title: 'Koncept',
+    images: ['koncept-1.webp', 'koncept-2.webp', 'koncept-3.webp']
+  },
+  3: {
+    title: 'Nowoczesny',
+    images: ['nowoczesny-1.webp', 'nowoczesny-2.webp', 'nowoczesny-3.webp', 'nowoczesny-4.webp']
+  }
 };
 
-const lightbox = document.querySelector('.lightbox');
-const lightboxImage = document.querySelector('.lightbox__image');
-const lightboxCaption = document.querySelector('.lightbox__caption');
-const lightboxThumbs = document.querySelector('.lightbox__thumbs');
-const closeBtn = document.querySelector('.lightbox__close');
-const prevBtn = document.querySelector('.lightbox__nav--prev');
-const nextBtn = document.querySelector('.lightbox__nav--next');
-let activeGalleryKey = null;
+const modal = document.getElementById('galleryModal');
+const galleryImage = document.getElementById('galleryImage');
+const galleryCurrent = document.getElementById('galleryCurrent');
+const galleryTotal = document.getElementById('galleryTotal');
+const galleryCaption = document.getElementById('galleryCaption');
+const galleryThumbs = document.getElementById('galleryThumbs');
+const closeBtn = document.querySelector('.gallery-close');
+const prevBtn = document.querySelector('.gallery-prev');
+const nextBtn = document.querySelector('.gallery-next');
+let activeGallery = 1;
 let activeIndex = 0;
+let lastTrigger = null;
+let galleryTouchStart = 0;
 
-function renderLightboxImage() {
-  const items = galleries[activeGalleryKey];
-  if (!items || !items[activeIndex]) return;
-  const item = items[activeIndex];
-  lightboxImage.src = item.src;
-  lightboxImage.alt = item.alt;
-  lightboxCaption.textContent = item.caption;
-
-  [...lightboxThumbs.children].forEach((thumb, i) => {
-    thumb.classList.toggle('active', i === activeIndex);
-  });
-  const activeThumb = lightboxThumbs.children[activeIndex];
-  activeThumb?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+function getActiveImages() {
+  return galleries[activeGallery]?.images || [];
 }
 
-function openLightbox(key) {
-  activeGalleryKey = key;
-  activeIndex = 0;
-  lightboxThumbs.innerHTML = '';
+function preloadAround() {
+  const images = getActiveImages();
+  if (!images.length) return;
+  [-1, 1].forEach(direction => {
+    const index = (activeIndex + direction + images.length) % images.length;
+    const preload = new Image();
+    preload.src = images[index];
+  });
+}
 
-  galleries[key].forEach((item, index) => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.setAttribute('aria-label', `Otwórz miniaturę ${index + 1}`);
-    btn.innerHTML = `<img src="${item.src}" alt="${item.alt}" />`;
-    btn.addEventListener('click', () => {
+function renderThumbs() {
+  if (!galleryThumbs) return;
+  galleryThumbs.innerHTML = '';
+  getActiveImages().forEach((src, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = index === activeIndex ? 'active' : '';
+    button.setAttribute('aria-label', `Pokaż zdjęcie ${index + 1}`);
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = '';
+    img.loading = 'lazy';
+    button.appendChild(img);
+    button.addEventListener('click', () => {
       activeIndex = index;
-      renderLightboxImage();
+      updateGallery(true);
     });
-    lightboxThumbs.appendChild(btn);
+    galleryThumbs.appendChild(button);
   });
-
-  lightbox.classList.add('is-open');
-  lightbox.setAttribute('aria-hidden', 'false');
-  body.classList.add('lightbox-open');
-  renderLightboxImage();
 }
 
-function closeLightbox() {
-  lightbox.classList.remove('is-open');
-  lightbox.setAttribute('aria-hidden', 'true');
-  body.classList.remove('lightbox-open');
-  lightboxImage.src = '';
+function updateGallery(animate = false) {
+  const gallery = galleries[activeGallery];
+  const images = gallery?.images || [];
+  const src = images[activeIndex];
+  if (!src || !galleryImage) return;
+
+  if (animate && !reducedMotion) galleryImage.classList.add('is-changing');
+  const swap = () => {
+    galleryImage.src = src;
+    galleryImage.alt = `${gallery.title} — ujęcie ${activeIndex + 1}`;
+    galleryCurrent.textContent = String(activeIndex + 1).padStart(2, '0');
+    galleryTotal.textContent = String(images.length).padStart(2, '0');
+    galleryCaption.textContent = `${gallery.title} · ujęcie ${String(activeIndex + 1).padStart(2, '0')}`;
+    [...galleryThumbs.children].forEach((el, i) => el.classList.toggle('active', i === activeIndex));
+    galleryThumbs.children[activeIndex]?.scrollIntoView({
+      behavior: reducedMotion ? 'auto' : 'smooth',
+      inline: 'center',
+      block: 'nearest'
+    });
+    preloadAround();
+  };
+
+  if (animate && !reducedMotion) setTimeout(swap, 100);
+  else swap();
 }
 
-function changeSlide(direction) {
-  const items = galleries[activeGalleryKey];
-  if (!items) return;
-  activeIndex = (activeIndex + direction + items.length) % items.length;
-  renderLightboxImage();
+galleryImage?.addEventListener('load', () => galleryImage.classList.remove('is-changing'));
+
+function openGallery(number, trigger) {
+  activeGallery = Number(number);
+  activeIndex = 0;
+  lastTrigger = trigger;
+  renderThumbs();
+  updateGallery(false);
+  modal?.classList.add('open');
+  modal?.setAttribute('aria-hidden', 'false');
+  body.classList.add('gallery-open');
+  closeBtn?.focus({ preventScroll: true });
 }
 
-document.querySelectorAll('.project-card').forEach(card => {
-  card.addEventListener('click', () => openLightbox(card.dataset.gallery));
-});
+function closeGallery() {
+  modal?.classList.remove('open');
+  modal?.setAttribute('aria-hidden', 'true');
+  body.classList.remove('gallery-open');
+  lastTrigger?.focus({ preventScroll: true });
+}
 
-closeBtn?.addEventListener('click', closeLightbox);
-prevBtn?.addEventListener('click', () => changeSlide(-1));
-nextBtn?.addEventListener('click', () => changeSlide(1));
-lightbox?.addEventListener('click', (e) => {
-  const target = e.target;
-  if (target instanceof HTMLElement && target.dataset.close === 'true') {
-    closeLightbox();
-  }
-});
+function moveGallery(direction) {
+  const images = getActiveImages();
+  if (!images.length) return;
+  activeIndex = (activeIndex + direction + images.length) % images.length;
+  updateGallery(true);
+}
 
-document.addEventListener('keydown', (e) => {
-  if (!lightbox?.classList.contains('is-open')) return;
-  if (e.key === 'Escape') closeLightbox();
-  if (e.key === 'ArrowLeft') changeSlide(-1);
-  if (e.key === 'ArrowRight') changeSlide(1);
+document.querySelectorAll('[data-gallery]').forEach(button => {
+  button.addEventListener('click', () => openGallery(button.dataset.gallery, button));
 });
+closeBtn?.addEventListener('click', closeGallery);
+prevBtn?.addEventListener('click', () => moveGallery(-1));
+nextBtn?.addEventListener('click', () => moveGallery(1));
+modal?.addEventListener('click', event => {
+  if (event.target === modal) closeGallery();
+});
+modal?.addEventListener('touchstart', event => {
+  galleryTouchStart = event.changedTouches[0]?.clientX || 0;
+}, { passive: true });
+modal?.addEventListener('touchend', event => {
+  const end = event.changedTouches[0]?.clientX || 0;
+  const delta = end - galleryTouchStart;
+  if (Math.abs(delta) > 55) moveGallery(delta > 0 ? -1 : 1);
+}, { passive: true });
 
-lightboxThumbs?.addEventListener('wheel', (e) => {
-  if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-    e.preventDefault();
-    lightboxThumbs.scrollLeft += e.deltaY;
-  }
+galleryThumbs?.addEventListener('wheel', event => {
+  if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+  event.preventDefault();
+  galleryThumbs.scrollLeft += event.deltaY;
 }, { passive: false });
+
+document.addEventListener('keydown', event => {
+  if (!modal?.classList.contains('open')) return;
+  if (event.key === 'Escape') closeGallery();
+  if (event.key === 'ArrowLeft') moveGallery(-1);
+  if (event.key === 'ArrowRight') moveGallery(1);
+});
+
+// Premium micro-interactions — subtelny tilt kart na desktopie.
+if (finePointer && !reducedMotion) {
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('pointermove', event => {
+      const rect = card.getBoundingClientRect();
+      const px = (event.clientX - rect.left) / rect.width - .5;
+      const py = (event.clientY - rect.top) / rect.height - .5;
+      card.style.setProperty('--tilt-y', `${px * 3.2}deg`);
+      card.style.setProperty('--tilt-x', `${py * -2.4}deg`);
+      card.style.setProperty('--spot-x', `${(px + .5) * 100}%`);
+      card.style.setProperty('--spot-y', `${(py + .5) * 100}%`);
+      card.classList.add('is-tilting');
+    });
+    card.addEventListener('pointerleave', () => {
+      card.classList.remove('is-tilting');
+      card.style.removeProperty('--tilt-x');
+      card.style.removeProperty('--tilt-y');
+    });
+  });
+}
+
+// FAQ — jedna odpowiedź naraz.
+const details = [...document.querySelectorAll('.faq details')];
+details.forEach(item => item.addEventListener('toggle', () => {
+  if (!item.open) return;
+  details.forEach(other => { if (other !== item) other.open = false; });
+}));
+
+// Rok w stopce.
+const year = document.getElementById('year');
+if (year) year.textContent = new Date().getFullYear();
+
+// Aktywna sekcja w nawigacji.
+const sectionLinks = [...document.querySelectorAll('.main-nav a[href^="#"]')]
+  .map(link => ({ link, section: document.querySelector(link.getAttribute('href')) }))
+  .filter(item => item.section);
+
+if ('IntersectionObserver' in window) {
+  const activeSectionObserver = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter(entry => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (!visible) return;
+    sectionLinks.forEach(({ link, section }) => {
+      link.classList.toggle('is-active', section === visible.target);
+    });
+  }, { rootMargin: '-28% 0px -58% 0px', threshold: [0, .15, .35, .6] });
+
+  sectionLinks.forEach(({ section }) => activeSectionObserver.observe(section));
+}
