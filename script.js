@@ -307,9 +307,11 @@ if ('IntersectionObserver' in window) {
       const tryb = el.dataset.fx;
       let p;
 
-      if (tryb === 'hero') {
-        /* 0 na samej górze, 1 gdy hero wyjedzie z ekranu */
-        p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height)));
+      if (tryb === 'hero' || tryb === 'realizacje') {
+        /* Sekcja jest wyzsza niz ekran i ma w srodku przypieta scene.
+           p biegnie od 0 do 1 przez cala droge przewijania tej sekcji. */
+        p = -r.top / Math.max(1, r.height - window.innerHeight);
+        p = Math.min(1, Math.max(0, p));
       } else if (tryb === 'kadr') {
         /* Zdjęcie dochodzi do naturalnej skali mniej więcej na środku ekranu,
            a nie dopiero przy wyjeździe górą. */
@@ -322,6 +324,42 @@ if ('IntersectionObserver' in window) {
       }
 
       el.style.setProperty('--p', p.toFixed(4));
+
+      /* Przerywnik: osobna wartosc odslony - zdjecie rozsuwa sie na pelna
+         szerokosc w pierwszej polowie przejscia i tak juz zostaje. */
+
+      /* Hero: kolejne elementy tresci wchodza jeden po drugim wraz ze scrollem. */
+      if (tryb === 'hero') {
+        const krok = (od, do_) => Math.min(1, Math.max(0, (p - od) / (do_ - od)));
+        el.style.setProperty('--k1', krok(0.04, 0.24).toFixed(4));
+        el.style.setProperty('--k2', krok(0.18, 0.46).toFixed(4));
+        el.style.setProperty('--k3', krok(0.40, 0.66).toFixed(4));
+      }
+
+      /* Realizacje: scroll przelacza kolejne kafle zamiast zjezdzac obok nich. */
+      if (tryb === 'realizacje') {
+        const ile = 3;
+        /* 0 dla pierwszej realizacji, ile-1 dla ostatniej - dzieki temu
+           pierwszy kafel jest w pelni widoczny od razu, a ostatni do konca. */
+        const pozycja = p * (ile - 1);
+        let najlepszy = 1;
+        let najwyzsza = -1;
+        for (let i = 1; i <= ile; i += 1) {
+          const dystans = Math.abs(pozycja - (i - 1));
+          const aktywnosc = Math.min(1, Math.max(0, 1 - dystans / 0.78));
+          el.style.setProperty(`--a${i}`, aktywnosc.toFixed(4));
+          if (aktywnosc > najwyzsza) { najwyzsza = aktywnosc; najlepszy = i; }
+        }
+        /* Klikalna zostaje tylko realizacja aktualnie na wierzchu -
+           inaczej niewidoczne kafle przechwytywalyby klikniecia. */
+        el.querySelectorAll('[data-kafel]').forEach(k => {
+          k.classList.toggle('aktywny', +k.dataset.kafel === najlepszy);
+        });
+      }
+      if (tryb === 'przerywnik') {
+        const odslona = Math.min(1, Math.max(0, (p - 0.12) / 0.33));
+        el.style.setProperty('--odslona', odslona.toFixed(4));
+      }
     });
   };
 

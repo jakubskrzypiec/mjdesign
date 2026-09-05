@@ -35,18 +35,20 @@
   </header>
 
   <main>
-    <section class="hero" id="start" aria-labelledby="hero-title">
-      <div class="hero-bg" data-fx="hero" aria-hidden="true"></div>
-      <div class="hero-shade" aria-hidden="true"></div>
-      <div class="hero-content reveal" data-fx="hero-copy">
-        <p class="eyebrow light">ARCHITEKTURA WNĘTRZ · WARSZAWA</p>
-        <h1 id="hero-title">Wnętrza, które<br>naprawdę są Twoje.</h1>
-        <div class="hero-actions">
-          <a href="#kontakt" class="hero-btn hero-btn-primary">Kontakt</a>
-          <a href="#realizacje" class="hero-btn hero-btn-secondary">Realizacje</a>
+    <section class="hero hero-scroll" id="start" aria-labelledby="hero-title" data-fx="hero">
+      <div class="hero-stage">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="eyebrow light" data-krok="1">ARCHITEKTURA WNĘTRZ · WARSZAWA</p>
+          <h1 id="hero-title" data-krok="2">Wnętrza, które<br>naprawdę są Twoje.</h1>
+          <div class="hero-actions" data-krok="3">
+            <a href="#kontakt" class="hero-btn hero-btn-primary">Kontakt</a>
+            <a href="#realizacje" class="hero-btn hero-btn-secondary">Realizacje</a>
+          </div>
         </div>
+        <a href="#pracownia" class="scroll-cue" data-krok="0" aria-label="Przewiń niżej"><span>SCROLL</span><i></i></a>
       </div>
-      <a href="#pracownia" class="scroll-cue" data-fx="hero-copy" aria-label="Przewiń niżej"><span>SCROLL</span><i></i></a>
     </section>
 
     <section class="about-intro section" id="pracownia">
@@ -109,14 +111,15 @@
       </div>
     </section>
 
-    <section class="projects section" id="realizacje">
+    <section class="projects section projects-scroll" id="realizacje" data-fx="realizacje">
       <div class="simple-head projects-head reveal">
         <p class="eyebrow">WYBRANE REALIZACJE</p>
         <h2>Każde wnętrze ma własny charakter.</h2>
       </div>
 
-      <div class="project-grid">
-        <button class="project-card reveal" type="button" data-gallery="1" aria-label="Otwórz galerię Elegancja">
+      <div class="projects-stage">
+        <div class="project-grid">
+        <button data-kafel="1" class="project-card reveal" type="button" data-gallery="1" aria-label="Otwórz galerię Elegancja">
           <div class="project-card-media">
             <img data-fx="kadr" src="elegancja-2.webp" alt="Realizacja Elegancja — salon i jadalnia" loading="lazy" decoding="async">
             <span class="project-tag">4 ujęcia</span>
@@ -126,7 +129,7 @@
           </span>
         </button>
 
-        <button class="project-card reveal delay-1" type="button" data-gallery="2" aria-label="Otwórz galerię Koncept">
+        <button data-kafel="2" class="project-card reveal delay-1" type="button" data-gallery="2" aria-label="Otwórz galerię Koncept">
           <div class="project-card-media">
             <img data-fx="kadr" src="koncept-1.webp" alt="Realizacja Koncept — strefa dzienna z kuchnią" loading="lazy" decoding="async">
             <span class="project-tag">3 ujęcia</span>
@@ -136,7 +139,7 @@
           </span>
         </button>
 
-        <button class="project-card reveal delay-2" type="button" data-gallery="3" aria-label="Otwórz galerię Nowoczesny">
+        <button data-kafel="3" class="project-card reveal delay-2" type="button" data-gallery="3" aria-label="Otwórz galerię Nowoczesny">
           <div class="project-card-media">
             <img data-fx="kadr" src="nowoczesny-1.webp" alt="Realizacja Nowoczesny — salon z kuchnią" loading="lazy" decoding="async">
             <span class="project-tag">4 ujęcia</span>
@@ -145,6 +148,7 @@
             <span class="project-meta"><small>Otwórz galerię</small><b>Nowoczesny</b></span>
           </span>
         </button>
+      </div>
       </div>
       <div class="project-hint">Kliknij wybraną realizację, żeby otworzyć pełną galerię.</div>
     </section>

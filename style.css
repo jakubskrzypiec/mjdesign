@@ -1824,7 +1824,7 @@ body { background: #f7f5f1; }
    ktora miala !important i blokowala przyblizanie. */
 .page-loaded .hero-bg[data-fx="hero"],
 .hero-bg[data-fx="hero"] {
-  transform: scale(calc(1.035 + var(--p, 0) * 0.13)) !important;
+  transform: scale(calc(1.035 + var(--p, 0) * 0.30)) !important;
   transform-origin: 50% 45%;
   will-change: transform;
 }
@@ -1845,7 +1845,7 @@ body { background: #f7f5f1; }
 .blog-new-media img[data-fx="kadr"] {
   /* Skala ze scrolla i dodatek z najechania sumuja sie w jednej wartosci,
      zeby nowy efekt nie skasowal istniejacego powiekszenia przy hoverze. */
-  transform: scale(calc(1.10 - var(--p, 0) * 0.10 + var(--hover, 0)));
+  transform: scale(calc(1.24 - var(--p, 0) * 0.24 + var(--hover, 0)));
   transform-origin: center;
   will-change: transform;
 }
@@ -1856,14 +1856,14 @@ body { background: #f7f5f1; }
 
 /* Przerywnik ze zdjęciem: obraz delikatnie odjeżdża w głąb. */
 .image-break[data-fx] .parallax-bg {
-  transform: translate3d(0, calc((var(--p, .5) - .5) * 56px), 0)
-             scale(calc(1.16 - var(--p, 0) * 0.10));
+  transform: translate3d(0, calc((var(--p, .5) - .5) * 90px), 0)
+             scale(calc(1.34 - var(--p, 0) * 0.22));
   transform-origin: center;
 }
 
 /* Karta na przerywniku dochodzi z lekkim wyprzedzeniem. */
 .image-break-caption[data-fx="karta"] {
-  transform: translate3d(0, calc((0.5 - var(--p, 0)) * 46px), 0);
+  transform: translate3d(0, calc((0.5 - var(--p, 0)) * 110px), 0);
   will-change: transform;
 }
 
@@ -1876,4 +1876,166 @@ body { background: #f7f5f1; }
   .project-card-media img[data-fx="kadr"],
   .blog-new-media img[data-fx="kadr"],
   .image-break-caption[data-fx="karta"] { transform: none; }
+}
+
+
+/* Przerywnik ze zdjeciem rozrasta sie z zawezonego kadru na pelna szerokosc.
+   Robione na clip-path, wiec nie rusza ukladu strony - zmienia sie tylko to,
+   ile zdjecia widac. To najmocniejszy efekt na stronie. */
+.image-break[data-fx="przerywnik"] {
+  clip-path: inset(
+    calc((1 - var(--odslona, 0)) * 7vh)
+    calc((1 - var(--odslona, 0)) * 13vw)
+    round calc((1 - var(--odslona, 0)) * 26px)
+  );
+  transition: none;
+}
+
+@media (max-width: 780px) {
+  .image-break[data-fx="przerywnik"] { clip-path: none; }
+}
+
+/* ============================================================
+   HERO STEROWANE SCROLLEM
+   Sekcja jest wyższa niż ekran, w środku siedzi przypięta scena.
+   Na starcie widać samo zdjęcie; teksty wchodzą kolejno przy przewijaniu.
+   ============================================================ */
+.hero.hero-scroll {
+  height: 260vh;
+  min-height: 260vh;
+  max-height: none;
+  display: block;
+  overflow: visible;
+}
+
+.hero.hero-scroll .hero-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+/* Zdjęcie przybliża się przez cały czas trwania sceny. */
+.hero.hero-scroll .hero-bg,
+.page-loaded .hero.hero-scroll .hero-bg {
+  transform: scale(calc(1.02 + var(--p, 0) * 0.22)) !important;
+  transform-origin: 50% 45%;
+  will-change: transform;
+}
+
+/* Teksty: każdy ma własny krok, wchodzi z dołu i się rozjaśnia. */
+.hero.hero-scroll .hero-content,
+.page-loaded .hero.hero-scroll .hero-content {
+  opacity: 1;
+  transform: none;
+}
+
+.hero.hero-scroll [data-krok="1"] { --k: var(--k1, 0); }
+.hero.hero-scroll [data-krok="2"] { --k: var(--k2, 0); }
+.hero.hero-scroll [data-krok="3"] { --k: var(--k3, 0); }
+
+.hero.hero-scroll [data-krok="1"],
+.hero.hero-scroll [data-krok="2"],
+.hero.hero-scroll [data-krok="3"],
+.page-loaded .hero.hero-scroll [data-krok="1"],
+.page-loaded .hero.hero-scroll [data-krok="2"],
+.page-loaded .hero.hero-scroll [data-krok="3"] {
+  opacity: var(--k) !important;
+  transform: translate3d(0, calc((1 - var(--k)) * 46px), 0) !important;
+  /* Bez tego stare przejscie (opacity .7s z opoznieniem .55s) startuje od nowa
+     przy kazdej klatce scrolla i wartosc nigdy nie dochodzi do celu. */
+  transition: none !important;
+  will-change: transform, opacity;
+}
+
+/* Podpowiedź SCROLL znika, gdy tekst zaczyna wchodzić. */
+.hero.hero-scroll .scroll-cue {
+  opacity: calc(1 - var(--k1, 0) * 1.6);
+}
+
+/* ============================================================
+   REALIZACJE PRZEŁĄCZANE SCROLLEM
+   Zamiast zjeżdżać obok trzech kafli, scroll przybliża kolejno
+   pierwszą, drugą i trzecią realizację.
+   ============================================================ */
+.projects.projects-scroll {
+  height: 340vh;
+  padding-bottom: 0;
+}
+
+.projects.projects-scroll .projects-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: grid;
+  place-items: center;
+}
+
+.projects.projects-scroll .project-grid {
+  position: relative;
+  display: block;
+  width: min(var(--page), 1100px);
+  height: min(74svh, 720px);
+  perspective: none;
+}
+
+.projects.projects-scroll .project-card {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: var(--a, 0) !important;
+  transform: scale(calc(0.9 + var(--a, 0) * 0.1)) !important;
+  transition: none !important;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.projects.projects-scroll .project-card[data-kafel="1"] { --a: var(--a1, 0); z-index: 1; }
+.projects.projects-scroll .project-card[data-kafel="2"] { --a: var(--a2, 0); z-index: 2; }
+.projects.projects-scroll .project-card[data-kafel="3"] { --a: var(--a3, 0); z-index: 3; }
+
+/* Klikalna jest tylko realizacja aktualnie na wierzchu. */
+.projects.projects-scroll .project-card[style*="--a"] { pointer-events: none; }
+.projects.projects-scroll .project-card.aktywny { pointer-events: auto; }
+
+.projects.projects-scroll .project-card-media {
+  flex: 1;
+  min-height: 0;
+}
+
+.projects.projects-scroll .project-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: none !important;
+}
+
+/* Na telefonie wracamy do zwykłej listy - przypinanie na małym ekranie męczy. */
+@media (max-width: 780px) {
+  .hero.hero-scroll { height: auto; min-height: 100svh; }
+  .hero.hero-scroll .hero-stage { position: static; height: auto; min-height: 100svh; }
+  .hero.hero-scroll [data-krok] { opacity: 1 !important; transform: none !important; }
+  .projects.projects-scroll { height: auto; padding-bottom: clamp(60px, 8vw, 96px); }
+  .projects.projects-scroll .projects-stage { position: static; height: auto; display: block; }
+  .projects.projects-scroll .project-grid {
+    display: grid; height: auto; width: var(--page);
+    grid-template-columns: 1fr; gap: 18px;
+  }
+  .projects.projects-scroll .project-card {
+    position: relative; inset: auto; height: auto;
+    opacity: 1 !important; transform: none !important; pointer-events: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero.hero-scroll { height: auto; min-height: 100svh; }
+  .hero.hero-scroll .hero-stage { position: static; height: auto; min-height: 100svh; }
+  .hero.hero-scroll [data-krok] { opacity: 1 !important; transform: none !important; }
+  .projects.projects-scroll { height: auto; }
+  .projects.projects-scroll .projects-stage { position: static; height: auto; display: block; }
+  .projects.projects-scroll .project-grid { display: grid; grid-template-columns: repeat(3,1fr); height: auto; }
+  .projects.projects-scroll .project-card { position: relative; inset: auto; height: auto; opacity: 1 !important; transform: none !important; pointer-events: auto; }
 }
