@@ -36,9 +36,9 @@
 
   <main>
     <section class="hero" id="start" aria-labelledby="hero-title">
-      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-bg" data-fx="hero" aria-hidden="true"></div>
       <div class="hero-shade" aria-hidden="true"></div>
-      <div class="hero-content reveal">
+      <div class="hero-content reveal" data-fx="hero-copy">
         <p class="eyebrow light">ARCHITEKTURA WNĘTRZ · WARSZAWA</p>
         <h1 id="hero-title">Wnętrza, które<br>naprawdę są Twoje.</h1>
         <div class="hero-actions">
@@ -46,7 +46,7 @@
           <a href="#realizacje" class="hero-btn hero-btn-secondary">Realizacje</a>
         </div>
       </div>
-      <a href="#pracownia" class="scroll-cue" aria-label="Przewiń niżej"><span>SCROLL</span><i></i></a>
+      <a href="#pracownia" class="scroll-cue" data-fx="hero-copy" aria-label="Przewiń niżej"><span>SCROLL</span><i></i></a>
     </section>
 
     <section class="about-intro section" id="pracownia">
@@ -101,9 +101,9 @@
       </div>
     </section>
 
-    <section class="image-break image-break-desk" aria-label="Proces projektowy Małgorzaty Juszkiewicz">
+    <section class="image-break image-break-desk" data-fx="przerywnik" aria-label="Proces projektowy Małgorzaty Juszkiewicz">
       <div class="parallax-bg"></div>
-      <div class="image-break-caption reveal">
+      <div class="image-break-caption reveal" data-fx="karta">
         <p>Projekt zaczyna się od dobrego planu.</p>
         <span>Funkcja, materiały, światło i detale układają się później w jedną spójną całość.</span>
       </div>
@@ -118,7 +118,7 @@
       <div class="project-grid">
         <button class="project-card reveal" type="button" data-gallery="1" aria-label="Otwórz galerię Elegancja">
           <div class="project-card-media">
-            <img src="elegancja-2.webp" alt="Realizacja Elegancja — salon i jadalnia" loading="lazy" decoding="async">
+            <img data-fx="kadr" src="elegancja-2.webp" alt="Realizacja Elegancja — salon i jadalnia" loading="lazy" decoding="async">
             <span class="project-tag">4 ujęcia</span>
           </div>
           <span class="project-card-body">
@@ -128,7 +128,7 @@
 
         <button class="project-card reveal delay-1" type="button" data-gallery="2" aria-label="Otwórz galerię Koncept">
           <div class="project-card-media">
-            <img src="koncept-1.webp" alt="Realizacja Koncept — strefa dzienna z kuchnią" loading="lazy" decoding="async">
+            <img data-fx="kadr" src="koncept-1.webp" alt="Realizacja Koncept — strefa dzienna z kuchnią" loading="lazy" decoding="async">
             <span class="project-tag">3 ujęcia</span>
           </div>
           <span class="project-card-body">
@@ -138,7 +138,7 @@
 
         <button class="project-card reveal delay-2" type="button" data-gallery="3" aria-label="Otwórz galerię Nowoczesny">
           <div class="project-card-media">
-            <img src="nowoczesny-1.webp" alt="Realizacja Nowoczesny — salon z kuchnią" loading="lazy" decoding="async">
+            <img data-fx="kadr" src="nowoczesny-1.webp" alt="Realizacja Nowoczesny — salon z kuchnią" loading="lazy" decoding="async">
             <span class="project-tag">4 ujęcia</span>
           </div>
           <span class="project-card-body">
@@ -222,7 +222,7 @@
 
       <div class="blog-new-grid">
         <article class="blog-new-card reveal">
-          <div class="blog-new-media"><img src="blog-notatnik.webp" alt="Otwarty notes projektanta wnętrz z rysunkiem i próbkami materiałów" loading="lazy" decoding="async"></div>
+          <div class="blog-new-media"><img data-fx="kadr" src="blog-notatnik.webp" alt="Otwarty notes projektanta wnętrz z rysunkiem i próbkami materiałów" loading="lazy" decoding="async"></div>
           <div class="blog-new-body">
             <span>Współpraca · proces</span>
             <h3>Jak dobrze zacząć projekt wnętrza?</h3>
@@ -232,7 +232,7 @@
         </article>
 
         <article class="blog-new-card reveal delay-1">
-          <div class="blog-new-media"><img src="blog-moodboard.webp" alt="Moodboard wnętrzarski w otwartym notesie z próbkami tkanin i drewna" loading="lazy" decoding="async"></div>
+          <div class="blog-new-media"><img data-fx="kadr" src="blog-moodboard.webp" alt="Moodboard wnętrzarski w otwartym notesie z próbkami tkanin i drewna" loading="lazy" decoding="async"></div>
           <div class="blog-new-body">
             <span>Funkcja · planowanie</span>
             <h3>Funkcja przed dekoracją.</h3>
@@ -242,7 +242,7 @@
         </article>
 
         <article class="blog-new-card reveal delay-2">
-          <div class="blog-new-media"><img src="blog-pracownia.webp" alt="Atelier projektanta wnętrz z otwartym notesem, książkami i materiałami" loading="lazy" decoding="async"></div>
+          <div class="blog-new-media"><img data-fx="kadr" src="blog-pracownia.webp" alt="Atelier projektanta wnętrz z otwartym notesem, książkami i materiałami" loading="lazy" decoding="async"></div>
           <div class="blog-new-body">
             <span>Materiały · estetyka</span>
             <h3>Materiały, które dobrze się starzeją.</h3>

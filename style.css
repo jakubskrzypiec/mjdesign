@@ -1812,3 +1812,68 @@ body { background: #f7f5f1; }
 
 
 /* Instrument Sans — wybrany kierunek typografii nagłówków */
+
+/* ============================================================
+   EFEKTY STEROWANE SCROLLEM
+   Wartość --p (0-1) ustawia skrypt. Wszystko poniżej działa na
+   transformach i przezroczystości, więc nie przelicza układu strony.
+   ============================================================ */
+
+/* Hero: zdjęcie powoli się przybliża, treść odpływa w górę i gaśnie. */
+/* Wyzsza specyficznosc niz stara regula `.page-loaded .hero-bg`,
+   ktora miala !important i blokowala przyblizanie. */
+.page-loaded .hero-bg[data-fx="hero"],
+.hero-bg[data-fx="hero"] {
+  transform: scale(calc(1.035 + var(--p, 0) * 0.13)) !important;
+  transform-origin: 50% 45%;
+  will-change: transform;
+}
+
+.hero-content[data-fx="hero-copy"] {
+  transform: translate3d(0, calc(var(--p, 0) * -70px), 0);
+  opacity: calc(1 - var(--p, 0) * 1.15);
+  will-change: transform, opacity;
+}
+
+.scroll-cue[data-fx="hero-copy"] {
+  opacity: calc(1 - var(--p, 0) * 2.4);
+}
+
+/* Zdjęcia realizacji „oddychają" w kadrze: wjeżdżają lekko powiększone
+   i siadają do naturalnej skali mniej więcej na środku ekranu. */
+.project-card-media img[data-fx="kadr"],
+.blog-new-media img[data-fx="kadr"] {
+  /* Skala ze scrolla i dodatek z najechania sumuja sie w jednej wartosci,
+     zeby nowy efekt nie skasowal istniejacego powiekszenia przy hoverze. */
+  transform: scale(calc(1.10 - var(--p, 0) * 0.10 + var(--hover, 0)));
+  transform-origin: center;
+  will-change: transform;
+}
+
+.project-card:hover .project-card-media img[data-fx="kadr"] {
+  --hover: .05;
+}
+
+/* Przerywnik ze zdjęciem: obraz delikatnie odjeżdża w głąb. */
+.image-break[data-fx] .parallax-bg {
+  transform: translate3d(0, calc((var(--p, .5) - .5) * 56px), 0)
+             scale(calc(1.16 - var(--p, 0) * 0.10));
+  transform-origin: center;
+}
+
+/* Karta na przerywniku dochodzi z lekkim wyprzedzeniem. */
+.image-break-caption[data-fx="karta"] {
+  transform: translate3d(0, calc((0.5 - var(--p, 0)) * 46px), 0);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-fx] { transform: none !important; opacity: 1 !important; }
+}
+
+@media (max-width: 780px) {
+  /* Na telefonie zostawiamy tylko hero — reszta bez ruchu, dla płynności. */
+  .project-card-media img[data-fx="kadr"],
+  .blog-new-media img[data-fx="kadr"],
+  .image-break-caption[data-fx="karta"] { transform: none; }
+}

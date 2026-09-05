@@ -63,27 +63,8 @@ if (!reducedMotion) {
   revealEls.forEach(el => el.classList.add('visible'));
 }
 
-// Parallax szerokiego przerywnika.
-const parallaxEls = document.querySelectorAll('.image-break .parallax-bg');
-if (!reducedMotion && window.innerWidth > 780) {
-  let ticking = false;
-  const parallax = () => {
-    parallaxEls.forEach(el => {
-      const section = el.parentElement;
-      const rect = section.getBoundingClientRect();
-      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-      const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * -0.045;
-      el.style.transform = `translate3d(0, ${offset}px, 0) scale(1.055)`;
-    });
-    ticking = false;
-  };
-  parallax();
-  window.addEventListener('scroll', () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(parallax);
-  }, { passive: true });
-}
+// Parallax przerywnika przejal silnik data-fx nizej (jeden mechanizm zamiast dwoch,
+// inaczej styl inline nadpisywalby reguly z CSS).
 
 // Hero pozostaje statyczne względem kursora.
 
@@ -287,3 +268,70 @@ if ('IntersectionObserver' in window) {
 
   sectionLinks.forEach(({ section }) => activeSectionObserver.observe(section));
 }
+
+/* ============================================================
+   INTERAKTYWNOŚĆ STEROWANA SCROLLEM
+   Każdy element z atrybutem data-fx dostaje własność --p o wartości
+   od 0 do 1, opisującą, jak daleko przesunął się przez ekran.
+   Cała reszta dzieje się w CSS na transformach i przezroczystości,
+   więc nie rusza układu strony i nie zmusza przeglądarki do przeliczeń.
+   ============================================================ */
+(() => {
+  if (reducedMotion) return;
+
+  const elementy = [...document.querySelectorAll('[data-fx]')];
+  if (!elementy.length) return;
+
+  let widoczne = [];
+  let zaplanowane = false;
+
+  /* Obserwator trzyma listę elementów faktycznie będących na ekranie,
+     żeby przy przewijaniu liczyć tylko je, a nie wszystkie. */
+  const obserwator = new IntersectionObserver(wpisy => {
+    wpisy.forEach(w => {
+      const el = w.target;
+      if (w.isIntersecting) { if (!widoczne.includes(el)) widoczne.push(el); }
+      else widoczne = widoczne.filter(x => x !== el);
+    });
+    licz();
+  }, { rootMargin: '15% 0px 15% 0px' });
+
+  elementy.forEach(el => obserwator.observe(el));
+
+  const licz = () => {
+    zaplanowane = false;
+    const wysokosc = window.innerHeight;
+
+    widoczne.forEach(el => {
+      const r = el.getBoundingClientRect();
+      const tryb = el.dataset.fx;
+      let p;
+
+      if (tryb === 'hero') {
+        /* 0 na samej górze, 1 gdy hero wyjedzie z ekranu */
+        p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height)));
+      } else if (tryb === 'kadr') {
+        /* Zdjęcie dochodzi do naturalnej skali mniej więcej na środku ekranu,
+           a nie dopiero przy wyjeździe górą. */
+        p = (wysokosc - r.top) / Math.max(1, wysokosc * 0.75);
+        p = Math.min(1, Math.max(0, p));
+      } else {
+        /* 0 gdy element dopiero wchodzi od dołu, 1 gdy wychodzi górą */
+        p = (wysokosc - r.top) / Math.max(1, wysokosc + r.height);
+        p = Math.min(1, Math.max(0, p));
+      }
+
+      el.style.setProperty('--p', p.toFixed(4));
+    });
+  };
+
+  const naScroll = () => {
+    if (zaplanowane) return;
+    zaplanowane = true;
+    requestAnimationFrame(licz);
+  };
+
+  window.addEventListener('scroll', naScroll, { passive: true });
+  window.addEventListener('resize', naScroll, { passive: true });
+  licz();
+})();
