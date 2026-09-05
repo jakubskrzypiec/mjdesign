@@ -47,115 +47,6 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 updateScrollProgress();
 
-
-// Scroll interaction — lekka, natywna implementacja bez bibliotek i bez sztucznego blokowania scrolla.
-const heroScroll = document.querySelector('.hero-scroll');
-const projectScroll = document.querySelector('.projects-scroll');
-const projectCardsStory = projectScroll ? [...projectScroll.querySelectorAll('.project-card')] : [];
-const projectStoryCurrent = projectScroll?.querySelector('.project-story-current');
-const philosophySection = document.querySelector('.philosophy');
-const philosophyImage = philosophySection?.querySelector('.philosophy-media img');
-const nativeStoryMode = !reducedMotion && window.matchMedia('(min-width: 961px)').matches;
-
-const clamp01 = value => Math.min(1, Math.max(0, value));
-let storyTick = false;
-
-function sectionProgress(section) {
-  if (!section) return 0;
-  const rect = section.getBoundingClientRect();
-  const distance = Math.max(1, rect.height - window.innerHeight);
-  return clamp01((-rect.top) / distance);
-}
-
-function updateHeroScrollStory() {
-  if (!heroScroll || !nativeStoryMode) return;
-  const p = sectionProgress(heroScroll);
-  const eased = p * p * (3 - 2 * p);
-  const insetY = 3.4 * (1 - eased);
-  const insetX = 3.2 * (1 - eased);
-  const radius = 26 * (1 - eased);
-  const scale = 1.075 - eased * .045;
-  const copyOpacity = .74 + eased * .26;
-  const copyY = 22 * (1 - eased);
-  const bgY = -18 * eased;
-  const shade = .96 + eased * .04;
-  heroScroll.style.setProperty('--hero-progress', String(Math.max(.01, p)));
-  heroScroll.style.setProperty('--hero-inset-y', `${insetY}vh`);
-  heroScroll.style.setProperty('--hero-inset-x', `${insetX}vw`);
-  heroScroll.style.setProperty('--hero-radius', `${radius}px`);
-  heroScroll.style.setProperty('--hero-scale', String(scale));
-  heroScroll.style.setProperty('--hero-copy-opacity', String(copyOpacity));
-  heroScroll.style.setProperty('--hero-copy-y', `${copyY}px`);
-  heroScroll.style.setProperty('--hero-bg-y', `${bgY}px`);
-  heroScroll.style.setProperty('--hero-shade-opacity', String(shade));
-  heroScroll.style.setProperty('--hero-meter-opacity', String(1 - p * .8));
-}
-
-function updateProjectsStory() {
-  if (!projectScroll || !projectCardsStory.length || !nativeStoryMode) return;
-  const p = sectionProgress(projectScroll);
-  const count = projectCardsStory.length;
-  const position = Math.min(count - 0.0001, p * count);
-  const active = Math.floor(position);
-  const local = position - active;
-  const fadeStart = .70;
-  const nextMix = active < count - 1 ? clamp01((local - fadeStart) / (1 - fadeStart)) : 0;
-
-  projectCardsStory.forEach((card, i) => {
-    let opacity = 0;
-    let y = 26;
-    let scale = 1.065;
-    if (i === active) {
-      opacity = 1 - nextMix;
-      y = -8 * nextMix;
-      scale = 1.065 - local * .035;
-    } else if (i === active + 1) {
-      opacity = nextMix;
-      y = 26 * (1 - nextMix);
-      scale = 1.065 - nextMix * .012;
-    }
-    card.style.opacity = String(opacity);
-    card.style.visibility = opacity > .01 ? 'visible' : 'hidden';
-    card.style.pointerEvents = opacity > .55 ? 'auto' : 'none';
-    card.style.transform = `translate3d(0, ${y}px, 0)`;
-    card.style.setProperty('--story-scale', String(scale));
-    card.style.zIndex = String(2 + i);
-  });
-
-  const displayIndex = nextMix > .55 && active < count - 1 ? active + 1 : active;
-  if (projectStoryCurrent) projectStoryCurrent.textContent = String(displayIndex + 1).padStart(2, '0');
-  projectScroll.style.setProperty('--story-progress', String(Math.max(.01, p)));
-}
-
-function updatePhilosophyMotion() {
-  if (!philosophySection || !philosophyImage || !nativeStoryMode) return;
-  const rect = philosophySection.getBoundingClientRect();
-  if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-  const center = rect.top + rect.height / 2;
-  const delta = (center - window.innerHeight / 2) / (window.innerHeight + rect.height);
-  const y = Math.max(-24, Math.min(24, delta * -42));
-  const scale = 1.035 + (1 - Math.min(1, Math.abs(delta) * 2)) * .015;
-  philosophyImage.style.setProperty('--philosophy-y', `${y}px`);
-  philosophyImage.style.setProperty('--philosophy-scale', String(scale));
-}
-
-function updateNativeStory() {
-  updateHeroScrollStory();
-  updateProjectsStory();
-  updatePhilosophyMotion();
-  storyTick = false;
-}
-
-if (nativeStoryMode) {
-  requestAnimationFrame(updateNativeStory);
-  window.addEventListener('scroll', () => {
-    if (storyTick) return;
-    storyTick = true;
-    requestAnimationFrame(updateNativeStory);
-  }, { passive: true });
-  window.addEventListener('resize', () => requestAnimationFrame(updateNativeStory), { passive: true });
-}
-
 // Reveal przy scrollu.
 const revealEls = [...document.querySelectorAll('.reveal')];
 revealEls.forEach((el, i) => el.style.setProperty('--reveal-order', i % 4));
@@ -349,7 +240,6 @@ document.addEventListener('keydown', event => {
 // Premium micro-interactions — subtelny tilt kart na desktopie.
 if (finePointer && !reducedMotion) {
   document.querySelectorAll('.project-card').forEach(card => {
-    if (nativeStoryMode && card.closest('.projects-scroll')) return;
     card.addEventListener('pointermove', event => {
       const rect = card.getBoundingClientRect();
       const px = (event.clientX - rect.left) / rect.width - .5;
