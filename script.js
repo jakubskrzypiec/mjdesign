@@ -5,6 +5,13 @@ const body = document.body;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer = window.matchMedia('(pointer: fine)').matches;
 
+// Scroll-story: mocniejsza narracja na desktopie, bez obciążania mobile.
+const storyMode = !reducedMotion && window.matchMedia('(min-width: 961px)').matches && window.gsap && window.ScrollTrigger;
+if (storyMode) {
+  body.classList.add('story-mode', 'story-hero-active');
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 // Stabilny start po załadowaniu fontów — ogranicza przeskoki typografii.
 Promise.race([
   document.fonts?.ready || Promise.resolve(),
@@ -65,7 +72,7 @@ if (!reducedMotion) {
 
 // Parallax szerokiego przerywnika.
 const parallaxEls = document.querySelectorAll('.image-break .parallax-bg');
-if (!reducedMotion && window.innerWidth > 780) {
+if (!reducedMotion && window.innerWidth > 780 && !storyMode) {
   let ticking = false;
   const parallax = () => {
     parallaxEls.forEach(el => {
@@ -85,7 +92,140 @@ if (!reducedMotion && window.innerWidth > 780) {
   }, { passive: true });
 }
 
-// Hero pozostaje statyczne względem kursora.
+// Hero nie reaguje na kursor. Na desktopie scroll steruje narracją.
+if (storyMode) {
+  const hero = document.querySelector('.hero');
+  const heroFrame = document.querySelector('.hero-media-frame');
+  const heroBg = document.querySelector('.hero-media-frame .hero-bg');
+  const heroIntro = document.querySelector('.hero-intro');
+  const heroContent = document.querySelector('.hero-content');
+  const heroSlash = document.querySelector('.story-slash');
+  const scrollCue = document.querySelector('.scroll-cue');
+
+  gsap.set(header, { autoAlpha: 0, y: -12 });
+  gsap.set(heroContent, { autoAlpha: 0, y: 46 });
+  gsap.set(scrollCue, { autoAlpha: 0 });
+
+  const heroTimeline = gsap.timeline({
+    defaults: { ease: 'none' },
+    scrollTrigger: {
+      trigger: hero,
+      start: 'top top',
+      end: '+=175%',
+      scrub: 1,
+      pin: true,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onEnter: () => body.classList.add('story-hero-active'),
+      onEnterBack: () => body.classList.add('story-hero-active'),
+      onLeave: () => body.classList.remove('story-hero-active'),
+      onLeaveBack: () => body.classList.add('story-hero-active')
+    }
+  });
+
+  heroTimeline
+    .to(heroIntro, { autoAlpha: 0, y: -28, duration: .18 }, 0)
+    .to(heroFrame, {
+      width: '100vw',
+      height: '100svh',
+      borderRadius: 0,
+      boxShadow: '0 0 0 rgba(0,0,0,0)',
+      duration: .58,
+      ease: 'power2.inOut'
+    }, .08)
+    .to(heroBg, { scale: 1.015, duration: .62, ease: 'power2.inOut' }, .08)
+    .to(heroSlash, { scaleY: 1, duration: .18, ease: 'power2.out' }, .48)
+    .to(heroSlash, { xPercent: 135, autoAlpha: 0, duration: .20, ease: 'power2.in' }, .64)
+    .to(header, { autoAlpha: 1, y: 0, duration: .14, ease: 'power2.out' }, .58)
+    .to(heroContent, { autoAlpha: 1, y: 0, duration: .24, ease: 'power2.out' }, .66)
+    .to(scrollCue, { autoAlpha: 1, duration: .12 }, .78);
+
+  // Przerywnik: kadr rośnie z planszy do pełnego ekranu.
+  const processSection = document.querySelector('.image-break-desk');
+  const processBg = processSection?.querySelector('.parallax-bg');
+  const processCaption = processSection?.querySelector('.image-break-caption');
+  if (processSection && processBg && processCaption) {
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: processSection,
+        start: 'top top',
+        end: '+=120%',
+        scrub: 1,
+        pin: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true
+      }
+    })
+    .to(processBg, {
+      clipPath: 'inset(0% 0% 0% 0% round 0px)',
+      scale: 1.015,
+      duration: .68,
+      ease: 'power2.inOut'
+    }, 0)
+    .to(processCaption, {
+      autoAlpha: 1,
+      y: 0,
+      duration: .24,
+      ease: 'power2.out'
+    }, .56);
+  }
+
+  // Realizacje jako trzy pełnoekranowe rozdziały.
+  const projects = document.querySelector('.projects');
+  const cards = [...document.querySelectorAll('.projects .project-card')];
+  const projectCurrent = document.querySelector('.project-story-current');
+  const projectUI = document.querySelector('.project-story-ui');
+
+  if (projects && cards.length) {
+    cards.forEach((card, index) => {
+      gsap.set(card, { autoAlpha: index === 0 ? 1 : 0, pointerEvents: index === 0 ? 'auto' : 'none' });
+      gsap.set(card.querySelector('img'), { scale: 1.08 });
+    });
+
+    const setActiveProject = (index) => {
+      cards.forEach((card, i) => card.style.pointerEvents = i === index ? 'auto' : 'none');
+      if (projectCurrent) projectCurrent.textContent = String(index + 1).padStart(2, '0');
+    };
+
+    const projectTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: projects,
+        start: 'top top',
+        end: `+=${Math.max(2400, window.innerHeight * 3.1)}`,
+        scrub: 1,
+        pin: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: self => {
+          const raw = Math.min(.9999, Math.max(0, self.progress));
+          const index = Math.min(cards.length - 1, Math.floor(raw * cards.length));
+          setActiveProject(index);
+          projectUI?.style.setProperty('--story-project-progress', String(Math.max(.01, self.progress)));
+        }
+      }
+    });
+
+    cards.forEach((card, index) => {
+      const img = card.querySelector('img');
+      const at = index;
+      if (index === 0) {
+        projectTimeline.to(img, { scale: 1.015, duration: .82, ease: 'none' }, at);
+      } else {
+        const prev = cards[index - 1];
+        projectTimeline
+          .to(prev, { autoAlpha: 0, duration: .22, ease: 'power1.inOut' }, at - .08)
+          .fromTo(card,
+            { autoAlpha: 0, yPercent: 5 },
+            { autoAlpha: 1, yPercent: 0, duration: .28, ease: 'power2.out' },
+            at)
+          .to(img, { scale: 1.015, duration: .82, ease: 'none' }, at);
+      }
+    });
+  }
+
+  window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
+}
+
 
 // Galerie — lokalne pliki, bez zależności od zewnętrznych serwerów.
 const galleries = {

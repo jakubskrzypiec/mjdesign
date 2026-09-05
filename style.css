@@ -1812,3 +1812,317 @@ body { background: #f7f5f1; }
 
 
 /* Instrument Sans — wybrany kierunek typografii nagłówków */
+
+/* =========================================================
+   SCROLL STORY — Flatta-inspired interaction, MJ identity
+   Aktywne wyłącznie na desktopie, gdy JS doda .story-mode.
+   ========================================================= */
+
+.hero-intro,
+.story-slash,
+.project-story-ui { display: none; }
+
+body.story-mode {
+  --story-ink: #181817;
+  --story-paper: #f7f5f1;
+}
+
+body.story-mode .hero {
+  height: 100svh;
+  min-height: 100svh;
+  background: var(--story-paper);
+  align-items: flex-end;
+  isolation: isolate;
+}
+
+body.story-mode .hero-media-frame {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 35vw;
+  height: 54vh;
+  transform: translate(-50%, -50%);
+  border-radius: 24px;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 28px 80px rgba(22, 20, 18, .14);
+  will-change: width, height, border-radius, transform;
+}
+
+body.story-mode .hero-media-frame .hero-bg,
+body.story-mode .hero-media-frame .hero-shade {
+  position: absolute;
+  inset: 0;
+}
+
+body.story-mode .hero-media-frame .hero-bg {
+  transform: scale(1.13) !important;
+  animation: none !important;
+  will-change: transform;
+}
+
+body.story-mode .hero-intro {
+  display: flex;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 14px;
+  color: var(--story-ink);
+  pointer-events: none;
+}
+
+body.story-mode .hero-intro-logo {
+  width: clamp(150px, 13vw, 220px);
+  height: auto;
+  margin-bottom: 4px;
+}
+
+body.story-mode .hero-intro span {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+body.story-mode .hero-intro small {
+  margin-top: 12px;
+  font-size: 9px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(24,24,23,.44);
+}
+
+body.story-mode .hero-content {
+  opacity: 0;
+  transform: translate3d(0, 46px, 0);
+  will-change: opacity, transform;
+}
+
+body.story-mode .hero-actions { opacity: 1; transform: none; }
+body.story-mode .scroll-cue { opacity: 0; }
+
+body.story-mode .story-slash {
+  display: block;
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 50%;
+  width: 1px;
+  height: 145vh;
+  background: rgba(255,255,255,.72);
+  transform: translate(-50%,-50%) rotate(28deg) scaleY(0);
+  transform-origin: center;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+body.story-mode.story-hero-active .site-header {
+  background: transparent !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+body.story-mode.story-hero-active .site-header .brand-light { opacity: 1 !important; }
+body.story-mode.story-hero-active .site-header .brand-dark { opacity: 0 !important; }
+body.story-mode.story-hero-active .main-nav .nav-cta {
+  color: #fff !important;
+  border-color: rgba(255,255,255,.65) !important;
+}
+
+body.story-mode .site-header {
+  opacity: 0;
+  transform: translateY(-12px);
+  will-change: opacity, transform;
+}
+
+/* Proces: mały kadr przechodzi w pełny ekran podczas scrolla. */
+body.story-mode .image-break {
+  height: 100svh;
+  min-height: 100svh;
+  background: var(--cream);
+  overflow: hidden;
+}
+
+body.story-mode .image-break .parallax-bg {
+  inset: 0;
+  transform: scale(1.12);
+  clip-path: inset(15% 17% 15% 17% round 28px);
+  will-change: transform, clip-path;
+}
+
+body.story-mode .image-break::before {
+  content: 'OD KONCEPCJI DO WNĘTRZA';
+  position: absolute;
+  left: 5vw;
+  top: 5vh;
+  z-index: 3;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  color: var(--green-deep);
+  opacity: .65;
+}
+
+body.story-mode .image-break-caption {
+  z-index: 4;
+  left: auto;
+  right: 5vw;
+  bottom: 5vh;
+  width: min(510px, 42vw);
+  max-width: none;
+  opacity: 0;
+  transform: translate3d(0, 42px, 0);
+}
+
+/* Realizacje jako trzy rozdziały sterowane scrollem. */
+body.story-mode .projects {
+  position: relative;
+  min-height: 100svh;
+  height: 100svh;
+  padding-top: clamp(78px, 8vh, 110px);
+  padding-bottom: clamp(24px, 4vh, 48px);
+  background: var(--cream);
+  overflow: hidden;
+}
+
+body.story-mode .projects-head {
+  position: absolute;
+  z-index: 6;
+  left: 6vw;
+  top: clamp(96px, 11vh, 140px);
+  width: min(620px, 40vw);
+  margin: 0;
+  pointer-events: none;
+}
+
+body.story-mode .projects-head .eyebrow { color: rgba(255,255,255,.74); }
+body.story-mode .projects-head h2 {
+  color: #fff;
+  font-size: clamp(42px, 4.2vw, 70px);
+  text-shadow: 0 12px 36px rgba(0,0,0,.22);
+}
+
+body.story-mode .project-grid {
+  width: calc(100vw - 6vw);
+  height: calc(100svh - 11vh);
+  margin: 0 0 0 3vw;
+  display: block;
+  position: relative;
+  perspective: none;
+}
+
+body.story-mode .project-card {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: none !important;
+  background: #171714;
+  overflow: hidden;
+}
+
+body.story-mode .project-card:first-child {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+body.story-mode .project-card-media {
+  height: 100%;
+  aspect-ratio: auto;
+  overflow: hidden;
+  background: #171714;
+}
+
+body.story-mode .project-card-media::after {
+  background: linear-gradient(90deg, rgba(12,12,11,.58) 0%, rgba(12,12,11,.14) 48%, rgba(12,12,11,.02) 75%);
+}
+
+body.story-mode .project-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.08);
+  transition: none;
+}
+
+body.story-mode .project-card-body {
+  position: absolute;
+  z-index: 4;
+  left: 6vw;
+  bottom: 7vh;
+  width: auto;
+  min-width: 320px;
+  padding: 20px 24px;
+  background: rgba(247,245,241,.92);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,.24);
+}
+body.story-mode .project-meta { align-items: flex-start; gap: 4px; }
+body.story-mode .project-meta b { font-size: clamp(26px, 2.4vw, 38px); color: var(--green-deep); }
+body.story-mode .project-meta small { color: var(--muted); }
+body.story-mode .project-tag {
+  top: 28px;
+  right: 28px;
+  left: auto;
+  color: #fff;
+  background: rgba(18,18,17,.34);
+  border-color: rgba(255,255,255,.2);
+}
+
+body.story-mode .project-card::after,
+body.story-mode .project-card-body::after { display: none; }
+body.story-mode .project-hint { display: none; }
+
+body.story-mode .project-story-ui {
+  display: grid;
+  position: absolute;
+  z-index: 8;
+  right: 5vw;
+  bottom: 4vh;
+  grid-template-columns: auto 150px auto;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  pointer-events: none;
+}
+
+body.story-mode .project-story-ui i {
+  display: block;
+  width: 150px;
+  height: 1px;
+  background: rgba(255,255,255,.3);
+  overflow: hidden;
+}
+body.story-mode .project-story-ui b {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  transform: scaleX(var(--story-project-progress, .01));
+  transform-origin: left center;
+}
+
+/* W story-mode reveal nie może walczyć z GSAP w trzech sekcjach. */
+body.story-mode .hero .reveal,
+body.story-mode .image-break .reveal,
+body.story-mode .projects .reveal {
+  filter: none !important;
+}
+
+@media (max-width: 960px), (prefers-reduced-motion: reduce) {
+  .hero-media-frame { position: static; }
+  .hero-intro, .story-slash, .project-story-ui { display: none !important; }
+}
