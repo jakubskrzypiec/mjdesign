@@ -285,6 +285,23 @@ if ('IntersectionObserver' in window) {
   let widoczne = [];
   let zaplanowane = false;
 
+  /* Na telefonie efekty scrollowe sa wylaczone - przypinanie sekcji
+     i przeliczanie na kazdej klatce potrafilo tam rozjechac uklad.
+     Telefon dostaje zwykla, spokojnie przewijana strone. */
+  const maly = window.matchMedia('(max-width: 780px)');
+  const WLASNOSCI = ['--p', '--k1', '--k2', '--k3', '--w1', '--w2', '--w3',
+                     '--s1', '--s2', '--s3', '--odslona'];
+  let wyczyszczone = false;
+
+  const wyczysc = () => {
+    if (wyczyszczone) return;
+    wyczyszczone = true;
+    elementy.forEach(el => {
+      WLASNOSCI.forEach(w => el.style.removeProperty(w));
+      el.querySelectorAll('[data-kafel]').forEach(k => k.classList.remove('aktywny'));
+    });
+  };
+
   /* Obserwator trzyma listę elementów faktycznie będących na ekranie,
      żeby przy przewijaniu liczyć tylko je, a nie wszystkie. */
   const obserwator = new IntersectionObserver(wpisy => {
@@ -300,6 +317,8 @@ if ('IntersectionObserver' in window) {
 
   const licz = () => {
     zaplanowane = false;
+    if (maly.matches) { wyczysc(); return; }
+    wyczyszczone = false;
     const wysokosc = window.innerHeight;
 
     widoczne.forEach(el => {
@@ -384,5 +403,7 @@ if ('IntersectionObserver' in window) {
 
   window.addEventListener('scroll', naScroll, { passive: true });
   window.addEventListener('resize', naScroll, { passive: true });
+  /* Obrot telefonu albo zmiana szerokosci okna przelacza tryb w obie strony. */
+  if (maly.addEventListener) maly.addEventListener('change', naScroll);
   licz();
 })();

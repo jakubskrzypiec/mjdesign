@@ -1437,6 +1437,10 @@ body { background: var(--cream); }
 .portrait-placeholder.portrait-image::after {
   content: 'PRACOWNIA · WARSZAWA';
   position: absolute;
+  /* Reguła ogólna .portrait-placeholder::after ma `inset: 0`. Bez tego
+     resetu podpis rozciagal sie na cale zdjecie i po najechaniu kursorem
+     przykrywal je biala, rozmyta plansza. */
+  inset: auto;
   left: 24px;
   bottom: 20px;
   padding: 9px 12px;
@@ -2101,6 +2105,10 @@ body { background: #f7f5f1; }
 @media (max-width: 780px) {
   .hero.hero-scroll { height: auto; min-height: 100svh; }
   .hero.hero-scroll .hero-stage { position: static; height: auto; min-height: 100svh; }
+  /* Regula `.page-loaded .hero.hero-scroll [data-krok="1"]` jest bardziej
+     szczegolowa niz zwykly reset, wiec tresc hero zostawala niewidoczna.
+     Ustawiamy same wartosci krokow na 1 - to dziala niezaleznie od wagi. */
+  .hero.hero-scroll { --k1: 1; --k2: 1; --k3: 1; --p: 0; }
   .hero.hero-scroll [data-krok] { opacity: 1 !important; transform: none !important; }
   .hero.hero-scroll .hero-shade, .page-loaded .hero.hero-scroll .hero-shade { opacity: 1 !important; }
   .hero.hero-scroll .hero-bg, .page-loaded .hero.hero-scroll .hero-bg { transform: none !important; }
@@ -2122,6 +2130,10 @@ body { background: #f7f5f1; }
 @media (prefers-reduced-motion: reduce) {
   .hero.hero-scroll { height: auto; min-height: 100svh; }
   .hero.hero-scroll .hero-stage { position: static; height: auto; min-height: 100svh; }
+  /* Regula `.page-loaded .hero.hero-scroll [data-krok="1"]` jest bardziej
+     szczegolowa niz zwykly reset, wiec tresc hero zostawala niewidoczna.
+     Ustawiamy same wartosci krokow na 1 - to dziala niezaleznie od wagi. */
+  .hero.hero-scroll { --k1: 1; --k2: 1; --k3: 1; --p: 0; }
   .hero.hero-scroll [data-krok] { opacity: 1 !important; transform: none !important; }
   .hero.hero-scroll .hero-shade, .page-loaded .hero.hero-scroll .hero-shade { opacity: 1 !important; }
   .hero.hero-scroll .hero-bg, .page-loaded .hero.hero-scroll .hero-bg { transform: none !important; }
