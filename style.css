@@ -1764,3 +1764,48 @@ body { background: #f7f5f1; }
   .blog-new-body { padding: 22px 20px 24px; }
   .blog-new-body h3 { font-size: 31px; }
 }
+
+
+/* Social slim — niższa, lżejsza wersja */
+.social-directory.section {
+  padding-top: clamp(46px, 4.2vw, 68px);
+  padding-bottom: clamp(46px, 4.2vw, 68px);
+}
+.social-directory-shell {
+  grid-template-columns: .88fr 1.12fr;
+  gap: clamp(42px, 5vw, 82px);
+  padding: clamp(38px, 4.2vw, 58px) clamp(42px, 4.8vw, 70px);
+  border-radius: 28px;
+}
+.social-directory-copy .eyebrow { margin-bottom: 14px; }
+.social-directory-copy h2 {
+  max-width: 520px;
+  margin-bottom: 16px;
+  font-size: clamp(48px, 4.2vw, 70px);
+  line-height: .95;
+}
+.social-directory-copy > p:not(.eyebrow) {
+  max-width: 470px;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.social-directory-link {
+  min-height: 88px;
+  grid-template-columns: 48px 1fr auto;
+  gap: 18px;
+  padding: 13px 4px;
+}
+.social-directory-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+}
+.social-directory-icon svg { width: 18px; height: 18px; }
+.social-directory-name strong { font-size: clamp(18px, 1.35vw, 23px); }
+.social-directory-name small { font-size: 11px; }
+@media (max-width: 680px) {
+  .social-directory.section { padding-top: 34px; padding-bottom: 34px; }
+  .social-directory-shell { padding: 28px 20px; }
+  .social-directory-copy h2 { font-size: clamp(40px, 11vw, 52px); }
+  .social-directory-link { min-height: 82px; }
+}
