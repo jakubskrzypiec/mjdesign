@@ -85,22 +85,7 @@ if (!reducedMotion && window.innerWidth > 780) {
   }, { passive: true });
 }
 
-// Subtelny ruch tła hero kursorem.
-const hero = document.querySelector('.hero');
-const heroBg = document.querySelector('.hero-bg');
-if (hero && heroBg && finePointer && !reducedMotion) {
-  hero.addEventListener('pointermove', (event) => {
-    const rect = hero.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width - .5;
-    const y = (event.clientY - rect.top) / rect.height - .5;
-    heroBg.style.setProperty('--hero-x', `${x * -9}px`);
-    heroBg.style.setProperty('--hero-y', `${y * -7}px`);
-  });
-  hero.addEventListener('pointerleave', () => {
-    heroBg.style.setProperty('--hero-x', '0px');
-    heroBg.style.setProperty('--hero-y', '0px');
-  });
-}
+// Hero pozostaje statyczne względem kursora.
 
 // Galerie — lokalne pliki, bez zależności od zewnętrznych serwerów.
 const galleries = {
