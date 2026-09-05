@@ -1920,7 +1920,7 @@ body { background: #f7f5f1; }
 /* Zdjęcie przybliża się przez cały czas trwania sceny. */
 .hero.hero-scroll .hero-bg,
 .page-loaded .hero.hero-scroll .hero-bg {
-  transform: scale(calc(1.02 + var(--p, 0) * 0.22)) !important;
+  transform: scale(calc(1.02 + var(--p, 0) * 0.13)) !important;
   transform-origin: 50% 45%;
   will-change: transform;
 }
@@ -1930,6 +1930,14 @@ body { background: #f7f5f1; }
 .page-loaded .hero.hero-scroll .hero-content {
   opacity: 1;
   transform: none;
+}
+
+/* Przyciemnienie narasta razem z tekstem - napisy wchodza na spokojne tlo,
+   a pierwsza klatka zostaje czystym zdjeciem. */
+.hero.hero-scroll .hero-shade,
+.page-loaded .hero.hero-scroll .hero-shade {
+  opacity: calc(.5 + var(--k2, 0) * .5) !important;
+  transition: none !important;
 }
 
 .hero.hero-scroll [data-krok="1"] { --k: var(--k1, 0); }
@@ -1943,7 +1951,7 @@ body { background: #f7f5f1; }
 .page-loaded .hero.hero-scroll [data-krok="2"],
 .page-loaded .hero.hero-scroll [data-krok="3"] {
   opacity: var(--k) !important;
-  transform: translate3d(0, calc((1 - var(--k)) * 46px), 0) !important;
+  transform: translate3d(0, calc((1 - var(--k)) * 22px), 0) !important;
   /* Bez tego stare przejscie (opacity .7s z opoznieniem .55s) startuje od nowa
      przy kazdej klatce scrolla i wartosc nigdy nie dochodzi do celu. */
   transition: none !important;
@@ -1979,16 +1987,73 @@ body { background: #f7f5f1; }
   position: sticky;
   top: var(--header-h, 0px);
   height: calc(100svh - var(--header-h, 0px));
-  display: grid;
-  place-items: center;
+  /* Naglowek i podpis siedza razem ze scena, zeby nie przewijaly sie
+     za przypietymi kaflami. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 24px 0;
+}
+
+.projects.projects-scroll .projects-head {
+  margin: 0 auto;
+  width: min(var(--page), 1100px);
+  flex: none;
+}
+
+.projects.projects-scroll .projects-head h2 {
+  font-size: clamp(30px, 3.4vw, 44px);
+  line-height: 1.06;
 }
 
 .projects.projects-scroll .project-grid {
   position: relative;
   display: block;
   width: min(var(--page), 1100px);
-  height: min(74svh, 720px);
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 640px;
+  /* Krawedz odslaniania ma byc rowna - kadr przycina wszystkie kafle
+     dokladnie w tej samej ramce. */
+  overflow: hidden;
   perspective: none;
+}
+
+/* Trzy cienkie paski pokazuja, na ktorej realizacji jestesmy. */
+.projects.projects-scroll .projects-postep {
+  width: min(var(--page), 1100px);
+  display: flex;
+  gap: 8px;
+  flex: none;
+}
+
+.projects.projects-scroll .projects-postep i {
+  position: relative;
+  height: 2px;
+  flex: 1;
+  background: rgba(74,60,53,.16);
+  overflow: hidden;
+}
+
+.projects.projects-scroll .projects-postep i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--green-deep, #2f342f);
+  transform: scaleX(var(--w, 0));
+  transform-origin: left center;
+}
+
+.projects.projects-scroll .projects-postep i[data-pasek="1"] { --w: var(--w1, 1); }
+.projects.projects-scroll .projects-postep i[data-pasek="2"] { --w: var(--w2, 0); }
+.projects.projects-scroll .projects-postep i[data-pasek="3"] { --w: var(--w3, 0); }
+
+.projects.projects-scroll .project-hint {
+  width: min(var(--page), 1100px);
+  margin: 0 auto;
+  flex: none;
 }
 
 .projects.projects-scroll .project-card {
@@ -1996,16 +2061,22 @@ body { background: #f7f5f1; }
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: var(--a, 0) !important;
-  transform: scale(calc(0.9 + var(--a, 0) * 0.1)) !important;
+  /* Zamiast przenikania - czyste odslanianie od dolu. Kafel jest zawsze
+     w pelni kryjacy, wiec w zadnym momencie nie widac dwoch obrazow na raz. */
+  opacity: 1 !important;
+  clip-path: inset(calc((1 - var(--w, 1)) * 100%) 0 0 0);
+  /* Skala na kaflu zmieniala jego ramke, przez co krawedzie sasiednich
+     realizacji sie rozjezdzaly. Delikatny ruch robi teraz samo zdjecie
+     wewnatrz staloj ramki. */
+  transform: none !important;
   transition: none !important;
   pointer-events: none;
-  will-change: transform, opacity;
+  will-change: clip-path;
 }
 
-.projects.projects-scroll .project-card[data-kafel="1"] { --a: var(--a1, 0); z-index: 1; }
-.projects.projects-scroll .project-card[data-kafel="2"] { --a: var(--a2, 0); z-index: 2; }
-.projects.projects-scroll .project-card[data-kafel="3"] { --a: var(--a3, 0); z-index: 3; }
+.projects.projects-scroll .project-card[data-kafel="1"] { --w: 1; --s: var(--s1, 1); z-index: 1; }
+.projects.projects-scroll .project-card[data-kafel="2"] { --w: var(--w2, 0); --s: var(--s2, 1); z-index: 2; }
+.projects.projects-scroll .project-card[data-kafel="3"] { --w: var(--w3, 0); --s: var(--s3, 1); z-index: 3; }
 
 /* Klikalna jest tylko realizacja aktualnie na wierzchu. */
 .projects.projects-scroll .project-card[style*="--a"] { pointer-events: none; }
@@ -2020,7 +2091,10 @@ body { background: #f7f5f1; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: none !important;
+  transform: scale(var(--s, 1)) !important;
+  transform-origin: center;
+  transition: none !important;
+  will-change: transform;
 }
 
 /* Na telefonie wracamy do zwykłej listy - przypinanie na małym ekranie męczy. */
@@ -2028,24 +2102,34 @@ body { background: #f7f5f1; }
   .hero.hero-scroll { height: auto; min-height: 100svh; }
   .hero.hero-scroll .hero-stage { position: static; height: auto; min-height: 100svh; }
   .hero.hero-scroll [data-krok] { opacity: 1 !important; transform: none !important; }
+  .hero.hero-scroll .hero-shade, .page-loaded .hero.hero-scroll .hero-shade { opacity: 1 !important; }
+  .hero.hero-scroll .hero-bg, .page-loaded .hero.hero-scroll .hero-bg { transform: none !important; }
   .projects.projects-scroll { height: auto; padding-bottom: clamp(60px, 8vw, 96px); }
-  .projects.projects-scroll .projects-stage { position: static; height: auto; display: block; }
+  .projects.projects-scroll .projects-stage { position: static; height: auto; display: block; padding: 0; }
+  .projects.projects-scroll .projects-postep { display: none; }
+  .projects.projects-scroll .projects-head { width: var(--page); margin: 0 auto 36px; }
   .projects.projects-scroll .project-grid {
-    display: grid; height: auto; width: var(--page);
+    display: grid; height: auto; max-height: none; overflow: visible; width: var(--page);
     grid-template-columns: 1fr; gap: 18px;
   }
   .projects.projects-scroll .project-card {
     position: relative; inset: auto; height: auto;
-    opacity: 1 !important; transform: none !important; pointer-events: auto;
+    opacity: 1 !important; clip-path: none; transform: none !important; pointer-events: auto;
   }
+  .projects.projects-scroll .project-card-media img { transform: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero.hero-scroll { height: auto; min-height: 100svh; }
   .hero.hero-scroll .hero-stage { position: static; height: auto; min-height: 100svh; }
   .hero.hero-scroll [data-krok] { opacity: 1 !important; transform: none !important; }
+  .hero.hero-scroll .hero-shade, .page-loaded .hero.hero-scroll .hero-shade { opacity: 1 !important; }
+  .hero.hero-scroll .hero-bg, .page-loaded .hero.hero-scroll .hero-bg { transform: none !important; }
   .projects.projects-scroll { height: auto; }
-  .projects.projects-scroll .projects-stage { position: static; height: auto; display: block; }
-  .projects.projects-scroll .project-grid { display: grid; grid-template-columns: repeat(3,1fr); height: auto; }
-  .projects.projects-scroll .project-card { position: relative; inset: auto; height: auto; opacity: 1 !important; transform: none !important; pointer-events: auto; }
+  .projects.projects-scroll .projects-stage { position: static; height: auto; display: block; padding: 0; }
+  .projects.projects-scroll .projects-postep { display: none; }
+  .projects.projects-scroll .projects-head { width: var(--page); margin: 0 auto 36px; }
+  .projects.projects-scroll .project-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; height: auto; max-height: none; overflow: visible; }
+  .projects.projects-scroll .project-card { position: relative; inset: auto; height: auto; opacity: 1 !important; clip-path: none; transform: none !important; pointer-events: auto; }
+  .projects.projects-scroll .project-card-media img { transform: none !important; }
 }

@@ -330,32 +330,45 @@ if ('IntersectionObserver' in window) {
 
       /* Hero: kolejne elementy tresci wchodza jeden po drugim wraz ze scrollem. */
       if (tryb === 'hero') {
-        const krok = (od, do_) => Math.min(1, Math.max(0, (p - od) / (do_ - od)));
-        el.style.setProperty('--k1', krok(0.04, 0.24).toFixed(4));
-        el.style.setProperty('--k2', krok(0.18, 0.46).toFixed(4));
-        el.style.setProperty('--k3', krok(0.40, 0.66).toFixed(4));
+        /* Wygladzenie (smoothstep): ruch startuje i konczy sie miekko,
+           zamiast biec liniowo razem z kolkiem myszy. */
+        const gladko = t => t * t * (3 - 2 * t);
+        const krok = (od, do_) => gladko(Math.min(1, Math.max(0, (p - od) / (do_ - od))));
+        el.style.setProperty('--k1', krok(0.03, 0.26).toFixed(4));
+        el.style.setProperty('--k2', krok(0.14, 0.44).toFixed(4));
+        el.style.setProperty('--k3', krok(0.32, 0.62).toFixed(4));
       }
 
       /* Realizacje: scroll przelacza kolejne kafle zamiast zjezdzac obok nich. */
       if (tryb === 'realizacje') {
         const ile = 3;
-        /* 0 dla pierwszej realizacji, ile-1 dla ostatniej - dzieki temu
-           pierwszy kafel jest w pelni widoczny od razu, a ostatni do konca. */
-        const pozycja = p * (ile - 1);
-        let najlepszy = 1;
-        let najwyzsza = -1;
+        const gladko = t => t * t * (3 - 2 * t);
+        const pozycja = p * (ile - 1);            /* 0 .. ile-1 */
+
+        /* Kafle nie przenikaja przez siebie - kazdy kolejny jest odslaniany
+           od dolu nad poprzednim. Dzieki temu w kazdej chwili widac jeden
+           pelny obraz, a nie dwa polprzezroczyste na raz. */
+        const odslona = [];
         for (let i = 1; i <= ile; i += 1) {
-          const dystans = Math.abs(pozycja - (i - 1));
-          const aktywnosc = Math.min(1, Math.max(0, 1 - dystans / 0.78));
-          el.style.setProperty(`--a${i}`, aktywnosc.toFixed(4));
-          if (aktywnosc > najwyzsza) { najwyzsza = aktywnosc; najlepszy = i; }
+          odslona[i] = i === 1 ? 1 : gladko(Math.min(1, Math.max(0, pozycja - (i - 2))));
         }
-        /* Klikalna zostaje tylko realizacja aktualnie na wierzchu -
-           inaczej niewidoczne kafle przechwytywalyby klikniecia. */
+
+        let wierzchni = 1;
+        for (let i = 1; i <= ile; i += 1) {
+          el.style.setProperty(`--w${i}`, odslona[i].toFixed(4));
+          /* Glebia robi samo zdjecie w stalej ramce: wjezdzajace jest jeszcze
+             lekko przyblizone i osiada na 1, a przykrywane powoli dojezdza. */
+          const przykryty = i < ile ? odslona[i + 1] : 0;
+          const skala = 1 + (1 - odslona[i]) * 0.06 + przykryty * 0.05;
+          el.style.setProperty(`--s${i}`, skala.toFixed(4));
+          if (odslona[i] > 0.5) wierzchni = i;
+        }
+
         el.querySelectorAll('[data-kafel]').forEach(k => {
-          k.classList.toggle('aktywny', +k.dataset.kafel === najlepszy);
+          k.classList.toggle('aktywny', +k.dataset.kafel === wierzchni);
         });
       }
+
       if (tryb === 'przerywnik') {
         const odslona = Math.min(1, Math.max(0, (p - 0.12) / 0.33));
         el.style.setProperty('--odslona', odslona.toFixed(4));
