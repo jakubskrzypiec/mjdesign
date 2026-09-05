@@ -35,29 +35,23 @@
   </header>
 
   <main>
-    <section class="hero" id="start" aria-labelledby="hero-title">
-      <div class="hero-intro" aria-hidden="true">
-        <img class="hero-intro-logo" src="logo-dark.png" alt="">
-        <span>ARCHITEKTURA WNĘTRZ · WARSZAWA</span>
-        <small>Przewiń, aby wejść do projektu</small>
-      </div>
-
-      <div class="hero-media-frame" aria-hidden="true">
-        <div class="hero-bg"></div>
-        <div class="hero-shade"></div>
-      </div>
-
-      <div class="story-slash" aria-hidden="true"></div>
-
-      <div class="hero-content">
-        <p class="eyebrow light">ARCHITEKTURA WNĘTRZ · WARSZAWA</p>
-        <h1 id="hero-title">Wnętrza, które<br>naprawdę są Twoje.</h1>
-        <div class="hero-actions">
-          <a href="#kontakt" class="hero-btn hero-btn-primary">Kontakt</a>
-          <a href="#realizacje" class="hero-btn hero-btn-secondary">Realizacje</a>
+    <section class="hero hero-scroll" id="start" aria-labelledby="hero-title">
+      <div class="hero-sticky">
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-bg"></div>
+          <div class="hero-shade"></div>
         </div>
+        <div class="hero-content reveal">
+          <p class="eyebrow light">ARCHITEKTURA WNĘTRZ · WARSZAWA</p>
+          <h1 id="hero-title">Wnętrza, które<br>naprawdę są Twoje.</h1>
+          <div class="hero-actions">
+            <a href="#kontakt" class="hero-btn hero-btn-primary">Kontakt</a>
+            <a href="#realizacje" class="hero-btn hero-btn-secondary">Realizacje</a>
+          </div>
+        </div>
+        <div class="hero-scroll-meter" aria-hidden="true"><span>01</span><i><b></b></i><span>SCROLL</span></div>
+        <a href="#pracownia" class="scroll-cue" aria-label="Przewiń niżej"><span>SCROLL</span><i></i></a>
       </div>
-      <a href="#pracownia" class="scroll-cue" aria-label="Przewiń niżej"><span>SCROLL</span><i></i></a>
     </section>
 
     <section class="about-intro section" id="pracownia">
@@ -120,19 +114,20 @@
       </div>
     </section>
 
-    <section class="projects section" id="realizacje">
-      <div class="simple-head projects-head reveal">
-        <p class="eyebrow">WYBRANE REALIZACJE</p>
-        <h2>Każde wnętrze ma własny charakter.</h2>
-      </div>
+    <section class="projects projects-scroll" id="realizacje">
+      <div class="projects-sticky">
+        <div class="simple-head projects-head reveal">
+          <p class="eyebrow">WYBRANE REALIZACJE</p>
+          <h2>Każde wnętrze ma własny charakter.</h2>
+        </div>
 
-      <div class="project-story-ui" aria-hidden="true">
-        <span class="project-story-current">01</span>
-        <i><b></b></i>
-        <span>03</span>
-      </div>
+        <div class="project-story-ui" aria-hidden="true">
+          <span class="project-story-current">01</span>
+          <i><b></b></i>
+          <span>03</span>
+        </div>
 
-      <div class="project-grid">
+        <div class="project-grid">
         <button class="project-card reveal" type="button" data-gallery="1" aria-label="Otwórz galerię Elegancja">
           <div class="project-card-media">
             <img src="elegancja-2.webp" alt="Realizacja Elegancja — salon i jadalnia" loading="lazy" decoding="async">
@@ -162,8 +157,9 @@
             <span class="project-meta"><small>Otwórz galerię</small><b>Nowoczesny</b></span>
           </span>
         </button>
+        </div>
+        <div class="project-hint">Kliknij aktywną realizację, żeby otworzyć pełną galerię.</div>
       </div>
-      <div class="project-hint">Kliknij wybraną realizację, żeby otworzyć pełną galerię.</div>
     </section>
 
     <section class="google-reviews section" id="opinie">
@@ -380,8 +376,6 @@
     <div class="gallery-thumbs" id="galleryThumbs"></div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
