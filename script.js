@@ -170,7 +170,10 @@ function openGallery(number, trigger) {
   modal?.classList.add('open');
   modal?.setAttribute('aria-hidden', 'false');
   body.classList.add('gallery-open');
-  closeBtn?.focus({ preventScroll: true });
+  /* Ogniskujemy okno, a nie krzyzyk - inaczej po otwarciu galerii
+     przy krzyzyku pojawia sie ramka ogniskowania przegladarki.
+     Klawiatura i tak trafia w srodek okna, wiec Tab i Esc dzialaja. */
+  modal?.focus({ preventScroll: true });
 }
 
 function closeGallery() {

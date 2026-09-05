@@ -613,9 +613,9 @@ h3 { font-size: clamp(29px, 2.7vw, 44px); line-height: 1; }
 /* Galeria */
 .gallery-modal { position: fixed; inset: 0; z-index: 500; display: none; background: rgba(20,16,14,.97); color: #fff; }
 .gallery-modal.open { display: grid; grid-template-columns: 82px 1fr 82px; grid-template-rows: 1fr auto; align-items: center; }
-.gallery-close { position: absolute; top: 22px; right: 27px; width: 46px; height: 46px; border: 1px solid rgba(255,255,255,.25); background: transparent; color: #fff; font-size: 30px; cursor: pointer; z-index: 3; }
+.gallery-close { position: absolute; top: 22px; right: 27px; width: 46px; height: 46px; border: 0; background: transparent; color: #fff; cursor: pointer; z-index: 3; }
 .gallery-counter { position: absolute; top: 32px; left: 30px; font-size: 10px; letter-spacing: .12em; color: rgba(255,255,255,.6); }
-.gallery-nav { border: 0; background: transparent; color: #fff; font-size: 30px; cursor: pointer; opacity: .7; }
+.gallery-nav { border: 0; background: transparent; color: #fff; cursor: pointer; opacity: .7; }
 .gallery-stage { grid-column: 2; margin: 70px auto 20px; max-width: min(1180px, calc(100vw - 220px)); max-height: calc(100vh - 180px); display: grid; place-items: center; }
 .gallery-stage img { max-width: 100%; max-height: calc(100vh - 220px); object-fit: contain; transition: opacity .2s ease; }
 .gallery-stage figcaption { margin-top: 10px; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.55); }
@@ -1260,10 +1260,46 @@ p, a, strong, span { overflow-wrap: break-word; }
 }
 .gallery-stage img.is-changing { opacity: .2; transform: scale(.992); }
 .gallery-stage figcaption { min-height: 18px; margin-top: 8px; text-align: center; }
-.gallery-nav { width: 56px; height: 56px; border: 1px solid rgba(255,255,255,.12); border-radius: 50%; transition: opacity .25s ease, background .25s ease, transform .25s ease; }
-.gallery-nav:hover { opacity: 1; background: rgba(255,255,255,.07); transform: scale(1.04); }
-.gallery-close { border-radius: 50%; transition: transform .3s ease, background .3s ease; }
-.gallery-close:hover { transform: rotate(90deg); background: rgba(255,255,255,.08); }
+/* Ikony galerii bez kolek. Znaki × i → to glify czcionki - siedza na
+   linii pisma, wiec w kolku nigdy nie wychodzily na srodek. Zamiast tego
+   rysowane sa jako SVG, ktore centruje sie samo. */
+.gallery-nav { width: 56px; height: 56px; border: 0; border-radius: 0; transition: opacity .25s ease, transform .25s ease; }
+.gallery-nav:hover { opacity: 1; }
+.gallery-prev:hover svg { transform: translateX(-3px); }
+.gallery-next:hover svg { transform: translateX(3px); }
+.gallery-close { border-radius: 0; transition: opacity .25s ease, transform .3s ease; opacity: .8; }
+.gallery-close:hover { opacity: 1; transform: rotate(90deg); }
+
+.gallery-close, .gallery-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 0;
+}
+
+.gallery-close svg, .gallery-nav svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform .25s ease;
+}
+
+.gallery-nav svg { width: 26px; height: 26px; }
+
+.gallery-modal:focus { outline: none; }
+.gallery-close:focus-visible, .gallery-nav:focus-visible {
+  outline: 1px solid rgba(255,255,255,.55);
+  outline-offset: 6px;
+}
+
+/* Strzalki na srodku swoich kolumn - wczesniej lewa dotykala krawedzi ekranu. */
+.gallery-nav { justify-self: center; }
 .gallery-thumbs {
   min-height: 78px;
   scrollbar-width: thin;
