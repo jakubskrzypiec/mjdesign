@@ -12,7 +12,7 @@
   --muted: #77736e;
   --white: #ffffff;
   --line: rgba(31,31,29,.13);
-  --serif: "Newsreader", Georgia, serif;
+  --serif: "Instrument Sans", Arial, sans-serif;
   --sans: "Manrope", Arial, sans-serif;
   --header-h: 86px;
   --page: min(1500px, calc(100vw - 12vw));
@@ -41,13 +41,13 @@ h1, h2, h3, p { margin-top: 0; }
 h1, h2, h3 {
   font-family: var(--serif);
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   color: var(--green-deep);
-  letter-spacing: -.035em;
+  letter-spacing: -.055em;
 }
-h1 { font-size: clamp(62px, 7vw, 118px); line-height: .9; }
-h2 { font-size: clamp(52px, 5.7vw, 88px); line-height: .92; }
-h3 { font-size: clamp(32px, 3vw, 48px); line-height: .98; }
+h1 { font-size: clamp(58px, 6.6vw, 108px); line-height: .94; }
+h2 { font-size: clamp(48px, 5.2vw, 80px); line-height: .95; }
+h3 { font-size: clamp(29px, 2.7vw, 44px); line-height: 1; }
 
 .eyebrow {
   margin: 0 0 20px;
@@ -1415,9 +1415,9 @@ body { background: var(--cream); }
 }
 .hero h1 {
   max-width: 820px;
-  font-size: clamp(66px, 6.4vw, 104px);
-  line-height: .9;
-  letter-spacing: -.045em;
+  font-size: clamp(62px, 6vw, 98px);
+  line-height: .94;
+  letter-spacing: -.06em;
 }
 .hero-btn-primary { background: var(--rose); border-color: var(--rose); }
 .hero-btn-secondary { background: rgba(31,24,20,.25); }
@@ -1520,8 +1520,8 @@ body { background: var(--cream); }
   }
   .hero h1 {
     max-width: 610px;
-    font-size: clamp(54px, 15vw, 78px);
-    line-height: .9;
+    font-size: clamp(50px, 13.7vw, 72px);
+    line-height: .95;
   }
   .hero-actions { gap: 10px; }
   .hero-btn { min-width: 0; flex: 1 1 150px; }
@@ -1540,7 +1540,7 @@ body { background: var(--cream); }
 }
 
 @media (max-width: 430px) {
-  .hero h1 { font-size: clamp(49px, 14.2vw, 66px); }
+  .hero h1 { font-size: clamp(46px, 13.3vw, 62px); }
   .hero-btn { width: 100%; flex-basis: 100%; }
   .portrait-placeholder.portrait-image { min-height: 460px; }
   .project-grid { grid-template-columns: 1fr; }
@@ -1809,3 +1809,6 @@ body { background: #f7f5f1; }
   .social-directory-copy h2 { font-size: clamp(40px, 11vw, 52px); }
   .social-directory-link { min-height: 82px; }
 }
+
+
+/* Instrument Sans — wybrany kierunek typografii nagłówków */
