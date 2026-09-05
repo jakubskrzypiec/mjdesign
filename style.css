@@ -1961,14 +1961,24 @@ body { background: #f7f5f1; }
    pierwszą, drugą i trzecią realizację.
    ============================================================ */
 .projects.projects-scroll {
+  /* Sekcja ma `display:flex` z `justify-content:center`. Przy sztywnej wysokosci
+     centrowanie wypychalo tresc na srodek i zostawialo ok. 1000 px pustki nad
+     i pod scena - stad pusty bezowy pas. Uklad wraca do zwyklego przeplywu. */
+  display: block;
   height: 340vh;
+  min-height: 0;
   padding-bottom: 0;
+  /* `overflow: hidden` z reguly wyzej tworzy wlasny kontener przewijania,
+     przez co `position: sticky` w srodku przestaje dzialac i scena jechala
+     razem z sekcja zamiast sie zatrzymac. `clip` przycina tak samo,
+     ale kontenera nie tworzy. */
+  overflow: clip;
 }
 
 .projects.projects-scroll .projects-stage {
   position: sticky;
-  top: 0;
-  height: 100svh;
+  top: var(--header-h, 0px);
+  height: calc(100svh - var(--header-h, 0px));
   display: grid;
   place-items: center;
 }
