@@ -246,7 +246,7 @@ if (finePointer && !reducedMotion) {
 
 // Realizacje — subtelne prowadzenie wzroku scrollem przy zachowaniu 3 kafli naraz.
 (() => {
-  const section = document.querySelector('.projects:not(.projects-scroll)');
+  const section = document.querySelector('.projects:not(.projects-scroll):not(.projects-triple-scroll)');
   if (!section || reducedMotion) return;
 
   const cards = [...section.querySelectorAll('.project-card')];
@@ -480,4 +480,83 @@ if ('IntersectionObserver' in window) {
   /* Obrot telefonu albo zmiana szerokosci okna przelacza tryb w obie strony. */
   if (maly.addEventListener) maly.addEventListener('change', naScroll);
   licz();
+})();
+
+// Realizacje V3 — trzy duże kafle zostają obok siebie, a scroll podmienia
+// kolejne kadry wewnątrz KAŻDEJ realizacji. Nie przesuwamy samych kart.
+(() => {
+  const section = document.querySelector('[data-project-scroll]');
+  if (!section) return;
+
+  const desktop = window.matchMedia('(min-width: 1101px)');
+  let ticking = false;
+  let nearby = true;
+
+  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const smooth = value => value * value * (3 - 2 * value);
+  const step = (p, from, to) => smooth(clamp((p - from) / (to - from)));
+
+  const setShot = (number, reveal) => {
+    section.style.setProperty(`--shot${number}-clip`, `${((1 - reveal) * 100).toFixed(2)}%`);
+    section.style.setProperty(`--shot${number}-y`, `${((1 - reveal) * 22).toFixed(2)}px`);
+    section.style.setProperty(`--shot${number}-scale`, (1.038 - reveal * .038).toFixed(4));
+  };
+
+  const reset = () => {
+    section.style.setProperty('--frame-progress', '0');
+    setShot(2, 0);
+    setShot(3, 0);
+    setShot(4, 0);
+  };
+
+  const update = () => {
+    ticking = false;
+    if (!desktop.matches || reducedMotion || !nearby) {
+      if (!desktop.matches || reducedMotion) reset();
+      return;
+    }
+
+    const rect = section.getBoundingClientRect();
+    const rootStyle = getComputedStyle(document.documentElement);
+    const headerH = parseFloat(rootStyle.getPropertyValue('--header-h')) || 0;
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const travel = Math.max(1, rect.height - vh);
+    const p = clamp((headerH - rect.top) / travel);
+
+    // Długie chwile spokoju między zmianami i miękkie wejścia nowych kadrów.
+    const shot2 = step(p, .08, .27);
+    const shot3 = step(p, .37, .56);
+    const shot4 = step(p, .66, .85);
+
+    setShot(2, shot2);
+    setShot(3, shot3);
+    setShot(4, shot4);
+    section.style.setProperty('--frame-progress', p.toFixed(4));
+  };
+
+  const requestUpdate = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  };
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      nearby = entries.some(entry => entry.isIntersecting);
+      requestUpdate();
+    }, { rootMargin: '80% 0px 80% 0px' });
+    observer.observe(section);
+  }
+
+  // Podgrzewamy obrazy zanim użytkownik dojedzie do sekcji, żeby wipe był płynny.
+  section.querySelectorAll('.project-shot').forEach(img => {
+    const preload = new Image();
+    preload.src = img.currentSrc || img.src;
+  });
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate, { passive: true });
+  if (desktop.addEventListener) desktop.addEventListener('change', requestUpdate);
+  reset();
+  requestUpdate();
 })();

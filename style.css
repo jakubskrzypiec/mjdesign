@@ -2194,15 +2194,15 @@ body { background: #f7f5f1; }
 
 /* Realizacje: trzy projekty widoczne od razu na desktopie; kliknięcie nadal
    otwiera istniejącą galerię. */
-.projects:not(.projects-scroll) { min-height: 0; }
-.projects:not(.projects-scroll) .projects-stage { width: 100%; }
-.projects:not(.projects-scroll) .projects-head {
+.projects:not(.projects-scroll):not(.projects-triple-scroll) { min-height: 0; }
+.projects:not(.projects-scroll):not(.projects-triple-scroll) .projects-stage { width: 100%; }
+.projects:not(.projects-scroll):not(.projects-triple-scroll) .projects-head {
   width: var(--page);
   margin-left: auto;
   margin-right: auto;
 }
-.projects:not(.projects-scroll) .project-card-media { aspect-ratio: 1.18 / .88; }
-.projects:not(.projects-scroll) .project-meta b { font-size: clamp(30px, 2vw, 40px); }
+.projects:not(.projects-scroll):not(.projects-triple-scroll) .project-card-media { aspect-ratio: 1.18 / .88; }
+.projects:not(.projects-scroll):not(.projects-triple-scroll) .project-meta b { font-size: clamp(30px, 2vw, 40px); }
 
 /* Trzy opinie pod istniejącym nagłówkiem Google. */
 .review-grid {
@@ -2257,18 +2257,18 @@ body { background: #f7f5f1; }
 }
 
 @media (max-width: 980px) {
-  .projects:not(.projects-scroll) .project-grid { grid-template-columns: 1fr 1fr; }
-  .projects:not(.projects-scroll) .project-card:last-child { grid-column: 1 / -1; }
-  .projects:not(.projects-scroll) .project-card:last-child .project-card-media { aspect-ratio: 1.9 / .78; }
+  .projects:not(.projects-scroll):not(.projects-triple-scroll) .project-grid { grid-template-columns: 1fr 1fr; }
+  .projects:not(.projects-scroll):not(.projects-triple-scroll) .project-card:last-child { grid-column: 1 / -1; }
+  .projects:not(.projects-scroll):not(.projects-triple-scroll) .project-card:last-child .project-card-media { aspect-ratio: 1.9 / .78; }
   .review-grid { grid-template-columns: 1fr; }
   .review-card { min-height: 0; }
 }
 
 @media (max-width: 780px) {
-  .projects:not(.projects-scroll) .project-grid { grid-template-columns: 1fr; }
-  .projects:not(.projects-scroll) .project-card:last-child { grid-column: auto; }
-  .projects:not(.projects-scroll) .project-card-media,
-  .projects:not(.projects-scroll) .project-card:last-child .project-card-media { aspect-ratio: 1.08 / .78; }
+  .projects:not(.projects-scroll):not(.projects-triple-scroll) .project-grid { grid-template-columns: 1fr; }
+  .projects:not(.projects-scroll):not(.projects-triple-scroll) .project-card:last-child { grid-column: auto; }
+  .projects:not(.projects-scroll):not(.projects-triple-scroll) .project-card-media,
+  .projects:not(.projects-scroll):not(.projects-triple-scroll) .project-card:last-child .project-card-media { aspect-ratio: 1.08 / .78; }
   .review-grid { width: calc(100vw - 32px); margin-top: 20px; }
   .review-card { padding: 26px 22px 24px; }
 }
@@ -2299,7 +2299,7 @@ body { background: #f7f5f1; }
 /* Realizacje: trzy kafle zostają widoczne jednocześnie, ale scroll prowadzi
    wzrok kolejno od lewej do prawej. Zmiany są celowo małe: kilka px ruchu,
    ok. 1% skali i odrobinę głębszy cień dla aktywnej realizacji. */
-.projects:not(.projects-scroll) .project-card {
+.projects:not(.projects-scroll):not(.projects-triple-scroll) .project-card {
   --scroll-y: 0px;
   --scroll-scale: 1;
   --scroll-focus: 0;
@@ -2310,16 +2310,16 @@ body { background: #f7f5f1; }
   transition: border-color .28s ease, box-shadow .22s ease;
 }
 
-.projects:not(.projects-scroll) .project-card.scroll-focus {
+.projects:not(.projects-scroll):not(.projects-triple-scroll) .project-card.scroll-focus {
   border-color: rgba(74,60,53,.26);
 }
 
-.projects:not(.projects-scroll) .project-card:hover {
+.projects:not(.projects-scroll):not(.projects-triple-scroll) .project-card:hover {
   transform: translate3d(0, calc(var(--scroll-y) - 8px), 0)
              scale(calc(var(--scroll-scale) + .008));
 }
 
-.projects:not(.projects-scroll) .project-card.is-tilting {
+.projects:not(.projects-scroll):not(.projects-triple-scroll) .project-card.is-tilting {
   transform: perspective(1100px)
              translate3d(0, calc(var(--scroll-y) - 7px), 0)
              rotateX(var(--tilt-x)) rotateY(var(--tilt-y))
@@ -2327,7 +2327,7 @@ body { background: #f7f5f1; }
 }
 
 /* Delikatny akcent pod nazwą realizacji reaguje na aktualnie prowadzony kafel. */
-.projects:not(.projects-scroll) .project-card-body::before {
+.projects:not(.projects-scroll):not(.projects-triple-scroll) .project-card-body::before {
   content: "";
   position: absolute;
   left: 22px;
@@ -2342,11 +2342,227 @@ body { background: #f7f5f1; }
 }
 
 @media (max-width: 1100px), (prefers-reduced-motion: reduce) {
-  .projects:not(.projects-scroll) .project-card,
-  .projects:not(.projects-scroll) .project-card:hover,
-  .projects:not(.projects-scroll) .project-card.is-tilting {
+  .projects:not(.projects-scroll):not(.projects-triple-scroll) .project-card,
+  .projects:not(.projects-scroll):not(.projects-triple-scroll) .project-card:hover,
+  .projects:not(.projects-scroll):not(.projects-triple-scroll) .project-card.is-tilting {
     --scroll-y: 0px !important;
     --scroll-scale: 1 !important;
     --scroll-focus: 0 !important;
   }
+}
+
+/* === 16.09 V3 — trzy duże realizacje, kadry zmieniane scrollem === */
+@media (min-width: 1101px) {
+  .projects.projects-triple-scroll {
+    display: block;
+    height: 370vh;
+    min-height: 0;
+    padding: 0;
+    overflow: clip;
+    background: var(--cream-2);
+  }
+
+  .projects.projects-triple-scroll .projects-stage {
+    position: sticky;
+    top: var(--header-h, 92px);
+    height: calc(100svh - var(--header-h, 92px));
+    width: 100%;
+    padding: clamp(22px, 2.4vh, 34px) 0 clamp(18px, 2vh, 28px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .projects.projects-triple-scroll .projects-head {
+    width: min(1740px, calc(100vw - 6vw));
+    margin: 0 auto clamp(20px, 2.2vh, 30px);
+    flex: 0 0 auto;
+  }
+
+  .projects.projects-triple-scroll .projects-head h2 {
+    max-width: 960px;
+    font-size: clamp(46px, 4.5vw, 76px);
+    line-height: .96;
+  }
+
+  .projects.projects-triple-scroll .project-grid {
+    width: min(1740px, calc(100vw - 6vw));
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(14px, 1.35vw, 26px);
+    align-items: stretch;
+    perspective: none;
+  }
+
+  .projects.projects-triple-scroll .project-card,
+  .projects.projects-triple-scroll .project-card:hover,
+  .projects.projects-triple-scroll .project-card.is-tilting {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    transform: none !important;
+    box-shadow: 0 18px 46px rgba(32,30,27,.07);
+    border-color: rgba(74,60,53,.14);
+    transition: box-shadow .35s ease, border-color .35s ease;
+  }
+
+  .projects.projects-triple-scroll .project-card:hover {
+    box-shadow: 0 28px 58px rgba(32,30,27,.12);
+    border-color: rgba(74,60,53,.24);
+  }
+
+  .projects.projects-triple-scroll .project-card::after {
+    display: none;
+  }
+
+  .projects.projects-triple-scroll .project-card-media {
+    position: relative;
+    aspect-ratio: 1.38 / .92;
+    overflow: hidden;
+    isolation: isolate;
+    background: #d7d0c6;
+  }
+
+  .projects.projects-triple-scroll .project-card-media::after {
+    z-index: 12;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(21,32,24,.035), rgba(21,32,24,.015) 58%, rgba(21,32,24,.13) 100%);
+  }
+
+  .projects.projects-triple-scroll .project-shot {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 1 !important;
+    transition: none !important;
+    will-change: clip-path, transform;
+  }
+
+  .projects.projects-triple-scroll .project-shot-base {
+    position: relative;
+    z-index: 1;
+    transform: scale(1.015) !important;
+  }
+
+  .projects.projects-triple-scroll .project-shot[data-shot="2"] {
+    z-index: 2;
+    clip-path: inset(var(--shot2-clip, 100%) 0 0 0);
+    transform: translate3d(0, var(--shot2-y, 22px), 0) scale(var(--shot2-scale, 1.038)) !important;
+  }
+
+  .projects.projects-triple-scroll .project-shot[data-shot="3"] {
+    z-index: 3;
+    clip-path: inset(var(--shot3-clip, 100%) 0 0 0);
+    transform: translate3d(0, var(--shot3-y, 22px), 0) scale(var(--shot3-scale, 1.038)) !important;
+  }
+
+  .projects.projects-triple-scroll .project-shot[data-shot="4"] {
+    z-index: 4;
+    clip-path: inset(var(--shot4-clip, 100%) 0 0 0);
+    transform: translate3d(0, var(--shot4-y, 22px), 0) scale(var(--shot4-scale, 1.038)) !important;
+  }
+
+  .projects.projects-triple-scroll .project-tag {
+    z-index: 20;
+  }
+
+  .projects.projects-triple-scroll .project-card-body {
+    position: relative;
+    z-index: 15;
+    min-height: 94px;
+    padding: 20px 22px 22px;
+  }
+
+  .projects.projects-triple-scroll .project-card-body::before {
+    display: none;
+  }
+
+  .projects.projects-triple-scroll .project-meta b {
+    font-size: clamp(31px, 2.15vw, 42px);
+  }
+
+  .projects.projects-triple-scroll .projects-scroll-meta {
+    width: min(1740px, calc(100vw - 6vw));
+    margin: clamp(16px, 1.7vh, 22px) auto 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+
+  .projects.projects-triple-scroll .projects-scroll-meta > span {
+    font-size: 8px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgba(47,52,47,.48);
+    white-space: nowrap;
+  }
+
+  .projects.projects-triple-scroll .projects-scroll-meta > i {
+    position: relative;
+    height: 1px;
+    overflow: hidden;
+    background: rgba(74,60,53,.17);
+  }
+
+  .projects.projects-triple-scroll .projects-scroll-meta > i > b {
+    position: absolute;
+    inset: 0;
+    background: var(--green-deep);
+    transform: scaleX(var(--frame-progress, 0));
+    transform-origin: left center;
+    will-change: transform;
+  }
+
+  .projects.projects-triple-scroll .project-hint {
+    width: min(1740px, calc(100vw - 6vw));
+    margin: 10px auto 0;
+    flex: 0 0 auto;
+    opacity: .48;
+  }
+}
+
+/* Tablet i telefon: bez przypinania sekcji — zwykłe, wygodne przewijanie kart. */
+@media (max-width: 1100px) {
+  .projects.projects-triple-scroll {
+    height: auto;
+    min-height: 0;
+    padding-top: 76px;
+    padding-bottom: 76px;
+    overflow: hidden;
+  }
+  .projects.projects-triple-scroll .projects-stage {
+    position: static;
+    height: auto;
+    padding: 0;
+  }
+  .projects.projects-triple-scroll .projects-head,
+  .projects.projects-triple-scroll .project-hint,
+  .projects.projects-triple-scroll .projects-scroll-meta {
+    width: var(--page);
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .projects.projects-triple-scroll .projects-scroll-meta { display: none; }
+  .projects.projects-triple-scroll .project-grid {
+    width: var(--page);
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 14px;
+  }
+  .projects.projects-triple-scroll .project-card {
+    flex: 0 0 min(78vw, 560px);
+    scroll-snap-align: start;
+    transform: none !important;
+  }
+  .projects.projects-triple-scroll .project-card-media { aspect-ratio: 1.16 / .9; }
+  .projects.projects-triple-scroll .project-shot:not(.project-shot-base) { display: none; }
 }
