@@ -293,7 +293,7 @@ if ('IntersectionObserver' in window) {
      Telefon dostaje zwykla, spokojnie przewijana strone. */
   const maly = window.matchMedia('(max-width: 780px)');
   const WLASNOSCI = ['--p', '--k1', '--k2', '--k3', '--w1', '--w2', '--w3',
-                     '--s1', '--s2', '--s3', '--odslona'];
+                     '--s1', '--s2', '--s3', '--f1', '--f2', '--f3', '--odslona'];
   let wyczyszczone = false;
 
   const wyczysc = () => {
@@ -329,9 +329,9 @@ if ('IntersectionObserver' in window) {
       const tryb = el.dataset.fx;
       let p;
 
-      if (tryb === 'hero' || tryb === 'realizacje') {
-        /* Sekcja jest wyzsza niz ekran i ma w srodku przypieta scene.
-           p biegnie od 0 do 1 przez cala droge przewijania tej sekcji. */
+      if (tryb === 'hero') {
+        /* Hero jest wyzsze niz ekran i ma w srodku przypieta scene.
+           p biegnie od 0 do 1 przez cala droge przewijania sekcji. */
         p = -r.top / Math.max(1, r.height - window.innerHeight);
         p = Math.min(1, Math.max(0, p));
       } else if (tryb === 'kadr') {
@@ -361,34 +361,22 @@ if ('IntersectionObserver' in window) {
         el.style.setProperty('--k3', krok(0.32, 0.62).toFixed(4));
       }
 
-      /* Realizacje: scroll przelacza kolejne kafle zamiast zjezdzac obok nich. */
-      if (tryb === 'realizacje') {
+      /* Realizacje: kafle stoja obok siebie, a scroll przewija w kazdym
+         z nich kolejne ujecia - pierwsze, drugie, trzecie. */
+      if (tryb === 'fotoslider') {
         const ile = 3;
         const gladko = t => t * t * (3 - 2 * t);
-        const pozycja = p * (ile - 1);            /* 0 .. ile-1 */
+        /* Zmiana ujec dzieje sie w srodkowej czesci przejazdu sekcji przez
+           ekran - pierwsze i ostatnie zdjecie da sie spokojnie obejrzec. */
+        const q = Math.min(1, Math.max(0, (p - 0.28) / 0.44));
+        const pozycja = q * (ile - 1);            /* 0 .. ile-1 */
 
-        /* Kafle nie przenikaja przez siebie - kazdy kolejny jest odslaniany
-           od dolu nad poprzednim. Dzieki temu w kazdej chwili widac jeden
-           pelny obraz, a nie dwa polprzezroczyste na raz. */
-        const odslona = [];
+        /* Kolejne ujecie wchodzi na wierzch poprzedniego, ktore zostaje
+           w pelni kryjace. Bez tego przy przenikaniu przebijaloby tlo. */
         for (let i = 1; i <= ile; i += 1) {
-          odslona[i] = i === 1 ? 1 : gladko(Math.min(1, Math.max(0, pozycja - (i - 2))));
+          const f = i === 1 ? 1 : gladko(Math.min(1, Math.max(0, pozycja - (i - 2))));
+          el.style.setProperty(`--f${i}`, f.toFixed(4));
         }
-
-        let wierzchni = 1;
-        for (let i = 1; i <= ile; i += 1) {
-          el.style.setProperty(`--w${i}`, odslona[i].toFixed(4));
-          /* Glebia robi samo zdjecie w stalej ramce: wjezdzajace jest jeszcze
-             lekko przyblizone i osiada na 1, a przykrywane powoli dojezdza. */
-          const przykryty = i < ile ? odslona[i + 1] : 0;
-          const skala = 1 + (1 - odslona[i]) * 0.06 + przykryty * 0.05;
-          el.style.setProperty(`--s${i}`, skala.toFixed(4));
-          if (odslona[i] > 0.5) wierzchni = i;
-        }
-
-        el.querySelectorAll('[data-kafel]').forEach(k => {
-          k.classList.toggle('aktywny', +k.dataset.kafel === wierzchni);
-        });
       }
 
       if (tryb === 'przerywnik') {
