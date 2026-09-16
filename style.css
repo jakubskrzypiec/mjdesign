@@ -1960,7 +1960,7 @@ body { background: #f7f5f1; }
 /* Zdjęcie przybliża się przez cały czas trwania sceny. */
 .hero.hero-scroll .hero-bg,
 .page-loaded .hero.hero-scroll .hero-bg {
-  transform: scale(calc(1.02 + var(--p, 0) * 0.13)) !important;
+  transform: scale(calc(1.02 + var(--p, 0) * 0.143)) !important;
   transform-origin: 50% 45%;
   will-change: transform;
 }
