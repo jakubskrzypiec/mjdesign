@@ -2181,3 +2181,94 @@ body { background: #f7f5f1; }
   .projects.projects-scroll .project-card { position: relative; inset: auto; height: auto; opacity: 1 !important; clip-path: none; transform: none !important; pointer-events: auto; }
   .projects.projects-scroll .project-card-media img { transform: none !important; }
 }
+
+
+/* === Poprawki klienta 16.09.2026 === */
+
+/* Hero: headline jest widoczny od pierwszej klatki. Zakres ruchu zdjęcia
+   zwiększony o ok. 10% względem poprzedniej wersji. */
+.hero.hero-scroll .hero-bg,
+.page-loaded .hero.hero-scroll .hero-bg {
+  transform: scale(calc(1.02 + var(--p, 0) * 0.143)) !important;
+}
+
+/* Realizacje: trzy projekty widoczne od razu na desktopie; kliknięcie nadal
+   otwiera istniejącą galerię. */
+.projects:not(.projects-scroll) { min-height: 0; }
+.projects:not(.projects-scroll) .projects-stage { width: 100%; }
+.projects:not(.projects-scroll) .projects-head {
+  width: var(--page);
+  margin-left: auto;
+  margin-right: auto;
+}
+.projects:not(.projects-scroll) .project-card-media { aspect-ratio: 1.18 / .88; }
+.projects:not(.projects-scroll) .project-meta b { font-size: clamp(30px, 2vw, 40px); }
+
+/* Trzy opinie pod istniejącym nagłówkiem Google. */
+.review-grid {
+  width: min(1320px, calc(100vw - 12vw));
+  margin: 28px auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.review-card {
+  min-height: 250px;
+  padding: 34px 34px 30px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  background: #f7f6f3;
+}
+.review-stars {
+  margin-bottom: 28px;
+  font-size: 14px;
+  letter-spacing: .12em;
+  color: var(--rose);
+}
+.review-card blockquote {
+  margin: 0 0 34px;
+  font-family: var(--serif);
+  font-size: clamp(24px, 2vw, 31px);
+  line-height: 1.12;
+  letter-spacing: -.035em;
+  color: var(--green-deep);
+}
+.review-author {
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+.review-author strong {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.review-author span {
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@media (max-width: 980px) {
+  .projects:not(.projects-scroll) .project-grid { grid-template-columns: 1fr 1fr; }
+  .projects:not(.projects-scroll) .project-card:last-child { grid-column: 1 / -1; }
+  .projects:not(.projects-scroll) .project-card:last-child .project-card-media { aspect-ratio: 1.9 / .78; }
+  .review-grid { grid-template-columns: 1fr; }
+  .review-card { min-height: 0; }
+}
+
+@media (max-width: 780px) {
+  .projects:not(.projects-scroll) .project-grid { grid-template-columns: 1fr; }
+  .projects:not(.projects-scroll) .project-card:last-child { grid-column: auto; }
+  .projects:not(.projects-scroll) .project-card-media,
+  .projects:not(.projects-scroll) .project-card:last-child .project-card-media { aspect-ratio: 1.08 / .78; }
+  .review-grid { width: calc(100vw - 32px); margin-top: 20px; }
+  .review-card { padding: 26px 22px 24px; }
+}
