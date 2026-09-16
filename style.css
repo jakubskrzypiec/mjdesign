@@ -1960,7 +1960,7 @@ body { background: #f7f5f1; }
 /* Zdjęcie przybliża się przez cały czas trwania sceny. */
 .hero.hero-scroll .hero-bg,
 .page-loaded .hero.hero-scroll .hero-bg {
-  transform: scale(calc(1.02 + var(--p, 0) * 0.13)) !important;
+  transform: scale(calc(1.02 + var(--p, 0) * 0.143)) !important;
   transform-origin: 50% 45%;
   will-change: transform;
 }
@@ -1972,11 +1972,11 @@ body { background: #f7f5f1; }
   transform: none;
 }
 
-/* Przyciemnienie narasta razem z tekstem - napisy wchodza na spokojne tlo,
-   a pierwsza klatka zostaje czystym zdjeciem. */
+/* Przyciemnienie jest czytelne juz w pierwszej klatce - naglowek ma byc
+   widoczny od razu - i poglebia sie razem z reszta tekstu. */
 .hero.hero-scroll .hero-shade,
 .page-loaded .hero.hero-scroll .hero-shade {
-  opacity: calc(.5 + var(--k2, 0) * .5) !important;
+  opacity: calc(.72 + var(--k2, 0) * .28) !important;
   transition: none !important;
 }
 
