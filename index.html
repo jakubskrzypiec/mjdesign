@@ -74,7 +74,7 @@
       </div>
     </section>
 
-    <section class="projects section projects-scroll" id="realizacje" data-fx="realizacje">
+    <section class="projects section" id="realizacje" data-fx="fotoslider">
       <div class="projects-stage">
         <div class="simple-head projects-head reveal">
           <p class="eyebrow">WYBRANE REALIZACJE</p>
@@ -84,7 +84,9 @@
         <div class="project-grid">
         <button data-kafel="1" class="project-card reveal" type="button" data-gallery="1" aria-label="Otwórz galerię Elegancja">
           <div class="project-card-media">
-            <img data-fx="kadr" src="elegancja-2.webp" alt="Realizacja Elegancja — salon i jadalnia" loading="lazy" decoding="async">
+            <img data-foto="1" src="elegancja-1.webp" alt="Realizacja Elegancja — salon i jadalnia" loading="lazy" decoding="async">
+            <img data-foto="2" src="elegancja-2.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+            <img data-foto="3" src="elegancja-3.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
             <span class="project-tag">4 ujęcia</span>
           </div>
           <span class="project-card-body">
@@ -94,7 +96,9 @@
 
         <button data-kafel="2" class="project-card reveal delay-1" type="button" data-gallery="2" aria-label="Otwórz galerię Koncept">
           <div class="project-card-media">
-            <img data-fx="kadr" src="koncept-1.webp" alt="Realizacja Koncept — strefa dzienna z kuchnią" loading="lazy" decoding="async">
+            <img data-foto="1" src="koncept-1.webp" alt="Realizacja Koncept — strefa dzienna z kuchnią" loading="lazy" decoding="async">
+            <img data-foto="2" src="koncept-2.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+            <img data-foto="3" src="koncept-3.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
             <span class="project-tag">3 ujęcia</span>
           </div>
           <span class="project-card-body">
@@ -104,7 +108,9 @@
 
         <button data-kafel="3" class="project-card reveal delay-2" type="button" data-gallery="3" aria-label="Otwórz galerię Nowoczesny">
           <div class="project-card-media">
-            <img data-fx="kadr" src="nowoczesny-1.webp" alt="Realizacja Nowoczesny — salon z kuchnią" loading="lazy" decoding="async">
+            <img data-foto="1" src="nowoczesny-1.webp" alt="Realizacja Nowoczesny — salon z kuchnią" loading="lazy" decoding="async">
+            <img data-foto="2" src="nowoczesny-2.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+            <img data-foto="3" src="nowoczesny-3.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
             <span class="project-tag">4 ujęcia</span>
           </div>
           <span class="project-card-body">
@@ -122,14 +128,44 @@
     </section>
 
     <section class="google-reviews section" id="opinie">
+      <!-- UWAGA: ponizsze trzy opinie to tresci pogladowe, wstawione zeby
+           pokazac uklad sekcji. Do podmiany na prawdziwe wpisy z profilu
+           Google - tresc, imie autora i ocena. -->
+      <div class="simple-head reveal">
+        <p class="eyebrow">OPINIE KLIENTÓW</p>
+        <h2>Zobacz, jak klienci oceniają współpracę z pracownią.</h2>
+      </div>
+
+      <p class="opinie-uwaga reveal">Treści poglądowe — układ do akceptacji. Opinie zostaną podmienione na prawdziwe wpisy z profilu Google.</p>
+
+      <div class="opinie-grid">
+        <figure class="opinia reveal">
+          <div class="opinia-ocena" aria-label="Ocena 5 na 5">★★★★★</div>
+          <blockquote>Od pierwszej rozmowy czuliśmy, że ktoś naprawdę nas słucha. Wnętrze wyszło dokładnie takie, jak chcieliśmy — tylko lepiej poukładane, niż potrafiliśmy to sobie wyobrazić.</blockquote>
+          <figcaption><b>Imię i nazwisko klienta</b><small>Mieszkanie 68 m² · Warszawa</small></figcaption>
+        </figure>
+
+        <figure class="opinia reveal delay-1">
+          <div class="opinia-ocena" aria-label="Ocena 5 na 5">★★★★★</div>
+          <blockquote>Najbardziej doceniam spokój i porządek w całym procesie. Na każdym etapie wiedzieliśmy, co się dzieje i ile to potrwa — obyło się bez niespodzianek.</blockquote>
+          <figcaption><b>Imię i nazwisko klienta</b><small>Dom jednorodzinny · okolice Warszawy</small></figcaption>
+        </figure>
+
+        <figure class="opinia reveal delay-2">
+          <div class="opinia-ocena" aria-label="Ocena 5 na 5">★★★★★</div>
+          <blockquote>Wnętrze jest piękne, ale przede wszystkim wygodne. Po roku mieszkania nie zmienilibyśmy w nim właściwie nic — i to chyba najlepsza recenzja.</blockquote>
+          <figcaption><b>Imię i nazwisko klienta</b><small>Apartament 104 m² · Warszawa</small></figcaption>
+        </figure>
+      </div>
+
       <div class="google-card reveal">
         <div class="google-mark">
           <span>OPINIE KLIENTÓW</span>
           <strong>Google</strong>
         </div>
         <div class="google-copy">
-          <h2>Zobacz, jak klienci oceniają współpracę z pracownią.</h2>
-          <p>Aktualne opinie są dostępne bezpośrednio w profilu Google.</p>
+          <h2>Komplet opinii znajdziesz w profilu Google.</h2>
+          <p>Aktualne wpisy są dostępne bezpośrednio w wyszukiwarce.</p>
         </div>
         <a class="google-link" href="https://www.google.pl/search?q=ma%C5%82gorzata+juszkiewicz+opinie+google" target="_blank" rel="noopener">Zobacz opinie</a>
       </div>
