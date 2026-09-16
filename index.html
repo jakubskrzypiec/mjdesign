@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="preload" as="image" href="hero.webp" fetchpriority="high">
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -27,9 +27,9 @@
 
     <nav class="main-nav" aria-label="Nawigacja główna">
       <a href="#pracownia">Pracownia</a>
+      <a href="#oferta">Oferta</a>
       <a href="#realizacje">Realizacje</a>
       <a href="#blog">Blog</a>
-      <a href="#oferta">Oferta</a>
       <a href="#kontakt" class="nav-cta">Porozmawiajmy</a>
     </nav>
   </header>
@@ -40,8 +40,8 @@
         <div class="hero-bg" aria-hidden="true"></div>
         <div class="hero-shade" aria-hidden="true"></div>
         <div class="hero-content">
-          <p class="eyebrow light">ARCHITEKTURA WNĘTRZ · WARSZAWA</p>
-          <h1 id="hero-title">Wnętrza, które<br>naprawdę są Twoje.</h1>
+          <p class="eyebrow light" data-krok="1">ARCHITEKTURA WNĘTRZ · WARSZAWA</p>
+          <h1 id="hero-title" data-krok="2">Wnętrza, które<br>naprawdę są Twoje.</h1>
           <div class="hero-actions" data-krok="3">
             <a href="#kontakt" class="hero-btn hero-btn-primary">Kontakt</a>
             <a href="#realizacje" class="hero-btn hero-btn-secondary">Realizacje</a>
@@ -66,6 +66,43 @@
       </div>
     </section>
 
+    <section class="offer section" id="oferta">
+      <div class="simple-head reveal">
+        <p class="eyebrow">ZAKRES WSPÓŁPRACY</p>
+        <h2>Oferta.</h2>
+      </div>
+
+      <div class="offer-list">
+        <article class="offer-row reveal">
+          <span class="offer-index">01</span>
+          <div class="offer-title"><h3>Projekt funkcjonalny</h3></div>
+          <p>Planowanie układu wnętrza w formie rzutów 2D. Powstają warianty funkcjonalne, które porządkują komunikację, ergonomię, wyposażenie i — kiedy jest to możliwe — układ ścian.</p>
+          <a href="#kontakt">Zapytaj o zakres</a>
+        </article>
+
+        <article class="offer-row reveal delay-1">
+          <span class="offer-index">02</span>
+          <div class="offer-title"><h3>Projekt koncepcyjny</h3></div>
+          <p>Rozwinięcie funkcji o kierunek wizualny: materiały, meble, kolorystykę, wyposażenie i moodboard. W zależności od potrzeb zakres może zostać uzupełniony o wizualizacje wybranych pomieszczeń.</p>
+          <a href="#kontakt">Poznaj możliwości</a>
+        </article>
+
+        <article class="offer-row reveal delay-2">
+          <span class="offer-index">03</span>
+          <div class="offer-title"><h3>Projekt kompleksowy</h3></div>
+          <p>Pełne opracowanie wnętrza od funkcji i koncepcji po dokumentację wykonawczą: rzuty, widoki ścian, projekty zabudów, zestawienia materiałowe i elementy potrzebne do wycen.</p>
+          <a href="#kontakt">Porozmawiajmy</a>
+        </article>
+
+        <article class="offer-row reveal">
+          <span class="offer-index">04</span>
+          <div class="offer-title"><h3>Nadzór autorski</h3></div>
+          <p>Wsparcie na etapie realizacji: spotkania z wykonawcami, kontrola zgodności prac z projektem, konsultowanie zmian wynikających z warunków technicznych oraz pomoc przy koordynacji dostaw.</p>
+          <a href="#kontakt">Zapytaj o nadzór</a>
+        </article>
+      </div>
+    </section>
+
     <section class="image-break image-break-desk" data-fx="przerywnik" aria-label="Proces projektowy Małgorzaty Juszkiewicz">
       <div class="parallax-bg"></div>
       <div class="image-break-caption reveal" data-fx="karta">
@@ -74,7 +111,7 @@
       </div>
     </section>
 
-    <section class="projects section" id="realizacje" data-fx="fotoslider">
+    <section class="projects section projects-scroll" id="realizacje" data-fx="realizacje">
       <div class="projects-stage">
         <div class="simple-head projects-head reveal">
           <p class="eyebrow">WYBRANE REALIZACJE</p>
@@ -84,9 +121,7 @@
         <div class="project-grid">
         <button data-kafel="1" class="project-card reveal" type="button" data-gallery="1" aria-label="Otwórz galerię Elegancja">
           <div class="project-card-media">
-            <img data-foto="1" src="elegancja-1.webp" alt="Realizacja Elegancja — salon i jadalnia" loading="lazy" decoding="async">
-            <img data-foto="2" src="elegancja-2.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
-            <img data-foto="3" src="elegancja-3.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+            <img data-fx="kadr" src="elegancja-2.webp" alt="Realizacja Elegancja — salon i jadalnia" loading="lazy" decoding="async">
             <span class="project-tag">4 ujęcia</span>
           </div>
           <span class="project-card-body">
@@ -96,9 +131,7 @@
 
         <button data-kafel="2" class="project-card reveal delay-1" type="button" data-gallery="2" aria-label="Otwórz galerię Koncept">
           <div class="project-card-media">
-            <img data-foto="1" src="koncept-1.webp" alt="Realizacja Koncept — strefa dzienna z kuchnią" loading="lazy" decoding="async">
-            <img data-foto="2" src="koncept-2.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
-            <img data-foto="3" src="koncept-3.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+            <img data-fx="kadr" src="koncept-1.webp" alt="Realizacja Koncept — strefa dzienna z kuchnią" loading="lazy" decoding="async">
             <span class="project-tag">3 ujęcia</span>
           </div>
           <span class="project-card-body">
@@ -108,9 +141,7 @@
 
         <button data-kafel="3" class="project-card reveal delay-2" type="button" data-gallery="3" aria-label="Otwórz galerię Nowoczesny">
           <div class="project-card-media">
-            <img data-foto="1" src="nowoczesny-1.webp" alt="Realizacja Nowoczesny — salon z kuchnią" loading="lazy" decoding="async">
-            <img data-foto="2" src="nowoczesny-2.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
-            <img data-foto="3" src="nowoczesny-3.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+            <img data-fx="kadr" src="nowoczesny-1.webp" alt="Realizacja Nowoczesny — salon z kuchnią" loading="lazy" decoding="async">
             <span class="project-tag">4 ujęcia</span>
           </div>
           <span class="project-card-body">
@@ -128,44 +159,14 @@
     </section>
 
     <section class="google-reviews section" id="opinie">
-      <!-- UWAGA: ponizsze trzy opinie to tresci pogladowe, wstawione zeby
-           pokazac uklad sekcji. Do podmiany na prawdziwe wpisy z profilu
-           Google - tresc, imie autora i ocena. -->
-      <div class="simple-head reveal">
-        <p class="eyebrow">OPINIE KLIENTÓW</p>
-        <h2>Zobacz, jak klienci oceniają współpracę z pracownią.</h2>
-      </div>
-
-      <p class="opinie-uwaga reveal">Treści poglądowe — układ do akceptacji. Opinie zostaną podmienione na prawdziwe wpisy z profilu Google.</p>
-
-      <div class="opinie-grid">
-        <figure class="opinia reveal">
-          <div class="opinia-ocena" aria-label="Ocena 5 na 5">★★★★★</div>
-          <blockquote>Od pierwszej rozmowy czuliśmy, że ktoś naprawdę nas słucha. Wnętrze wyszło dokładnie takie, jak chcieliśmy — tylko lepiej poukładane, niż potrafiliśmy to sobie wyobrazić.</blockquote>
-          <figcaption><b>Imię i nazwisko klienta</b><small>Mieszkanie 68 m² · Warszawa</small></figcaption>
-        </figure>
-
-        <figure class="opinia reveal delay-1">
-          <div class="opinia-ocena" aria-label="Ocena 5 na 5">★★★★★</div>
-          <blockquote>Najbardziej doceniam spokój i porządek w całym procesie. Na każdym etapie wiedzieliśmy, co się dzieje i ile to potrwa — obyło się bez niespodzianek.</blockquote>
-          <figcaption><b>Imię i nazwisko klienta</b><small>Dom jednorodzinny · okolice Warszawy</small></figcaption>
-        </figure>
-
-        <figure class="opinia reveal delay-2">
-          <div class="opinia-ocena" aria-label="Ocena 5 na 5">★★★★★</div>
-          <blockquote>Wnętrze jest piękne, ale przede wszystkim wygodne. Po roku mieszkania nie zmienilibyśmy w nim właściwie nic — i to chyba najlepsza recenzja.</blockquote>
-          <figcaption><b>Imię i nazwisko klienta</b><small>Apartament 104 m² · Warszawa</small></figcaption>
-        </figure>
-      </div>
-
       <div class="google-card reveal">
         <div class="google-mark">
           <span>OPINIE KLIENTÓW</span>
           <strong>Google</strong>
         </div>
         <div class="google-copy">
-          <h2>Komplet opinii znajdziesz w profilu Google.</h2>
-          <p>Aktualne wpisy są dostępne bezpośrednio w wyszukiwarce.</p>
+          <h2>Zobacz, jak klienci oceniają współpracę z pracownią.</h2>
+          <p>Aktualne opinie są dostępne bezpośrednio w profilu Google.</p>
         </div>
         <a class="google-link" href="https://www.google.pl/search?q=ma%C5%82gorzata+juszkiewicz+opinie+google" target="_blank" rel="noopener">Zobacz opinie</a>
       </div>
@@ -187,6 +188,34 @@
             <li>wsparcie na etapie realizacji</li>
           </ul>
           <a class="outline-link" href="#oferta">Poznaj zakres współpracy</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="social-directory section" id="sociale">
+      <div class="social-directory-shell reveal">
+        <div class="social-directory-copy">
+          <p class="eyebrow">SOCIAL MEDIA</p>
+          <h2>Bądź na bieżąco.</h2>
+          <p>Realizacje, kulisy pracy i aktualności z pracowni — więcej kadrów pojawia się na Instagramie i Facebooku.</p>
+        </div>
+
+        <div class="social-directory-links" aria-label="Social media Małgorzaty Juszkiewicz">
+          <a class="social-directory-link" href="https://www.instagram.com/malgorzata_juszkiewicz" target="_blank" rel="noopener">
+            <span class="social-directory-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.4" cy="6.8" r="1"></circle></svg>
+            </span>
+            <span class="social-directory-name"><strong>Instagram</strong><small>@malgorzata_juszkiewicz</small></span>
+            <span class="social-directory-arrow" aria-hidden="true">→</span>
+          </a>
+
+          <a class="social-directory-link" href="https://www.facebook.com/malgorzatajuszkiewicz.architektwnetrz" target="_blank" rel="noopener">
+            <span class="social-directory-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M13.4 20v-6.3h2.4l.4-2.8h-2.8V9.1c0-.8.2-1.4 1.4-1.4h1.5V5.2c-.3 0-1.2-.1-2.2-.1-2.2 0-3.8 1.3-3.8 3.8v2.1H8v2.8h2.3V20h3.1z"></path></svg>
+            </span>
+            <span class="social-directory-name"><strong>Facebook</strong><small>Małgorzata Juszkiewicz · Architekt wnętrz</small></span>
+            <span class="social-directory-arrow" aria-hidden="true">→</span>
+          </a>
         </div>
       </div>
     </section>
@@ -229,43 +258,6 @@
             <p>Jak budować spokojną, ponadczasową bazę wnętrza i gdzie warto postawić na jakość zamiast chwilowego trendu.</p>
             <small>Artykuł wkrótce</small>
           </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="offer section" id="oferta">
-      <div class="simple-head reveal">
-        <p class="eyebrow">ZAKRES WSPÓŁPRACY</p>
-        <h2>Oferta.</h2>
-      </div>
-
-      <div class="offer-list">
-        <article class="offer-row reveal">
-          <span class="offer-index">01</span>
-          <div class="offer-title"><h3>Projekt funkcjonalny</h3></div>
-          <p>Planowanie układu wnętrza w formie rzutów 2D. Powstają warianty funkcjonalne, które porządkują komunikację, ergonomię, wyposażenie i — kiedy jest to możliwe — układ ścian.</p>
-          <a href="#kontakt">Zapytaj o zakres</a>
-        </article>
-
-        <article class="offer-row reveal delay-1">
-          <span class="offer-index">02</span>
-          <div class="offer-title"><h3>Projekt koncepcyjny</h3></div>
-          <p>Rozwinięcie funkcji o kierunek wizualny: materiały, meble, kolorystykę, wyposażenie i moodboard. W zależności od potrzeb zakres może zostać uzupełniony o wizualizacje wybranych pomieszczeń.</p>
-          <a href="#kontakt">Poznaj możliwości</a>
-        </article>
-
-        <article class="offer-row reveal delay-2">
-          <span class="offer-index">03</span>
-          <div class="offer-title"><h3>Projekt kompleksowy</h3></div>
-          <p>Pełne opracowanie wnętrza od funkcji i koncepcji po dokumentację wykonawczą: rzuty, widoki ścian, projekty zabudów, zestawienia materiałowe i elementy potrzebne do wycen.</p>
-          <a href="#kontakt">Porozmawiajmy</a>
-        </article>
-
-        <article class="offer-row reveal">
-          <span class="offer-index">04</span>
-          <div class="offer-title"><h3>Nadzór autorski</h3></div>
-          <p>Wsparcie na etapie realizacji: spotkania z wykonawcami, kontrola zgodności prac z projektem, konsultowanie zmian wynikających z warunków technicznych oraz pomoc przy koordynacji dostaw.</p>
-          <a href="#kontakt">Zapytaj o nadzór</a>
         </article>
       </div>
     </section>
@@ -329,35 +321,6 @@
         </form>
       </div>
     </section>
-
-    <section class="social-directory section" id="sociale">
-      <div class="social-directory-shell reveal">
-        <div class="social-directory-copy">
-          <p class="eyebrow">SOCIAL MEDIA</p>
-          <h2>Bądź na bieżąco.</h2>
-          <p>Realizacje, kulisy pracy i aktualności z pracowni — więcej kadrów pojawia się na Instagramie i Facebooku.</p>
-        </div>
-
-        <div class="social-directory-links" aria-label="Social media Małgorzaty Juszkiewicz">
-          <a class="social-directory-link" href="https://www.instagram.com/malgorzata_juszkiewicz" target="_blank" rel="noopener">
-            <span class="social-directory-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.4" cy="6.8" r="1"></circle></svg>
-            </span>
-            <span class="social-directory-name"><strong>Instagram</strong><small>@malgorzata_juszkiewicz</small></span>
-            <span class="social-directory-arrow" aria-hidden="true">→</span>
-          </a>
-
-          <a class="social-directory-link" href="https://www.facebook.com/malgorzatajuszkiewicz.architektwnetrz" target="_blank" rel="noopener">
-            <span class="social-directory-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M13.4 20v-6.3h2.4l.4-2.8h-2.8V9.1c0-.8.2-1.4 1.4-1.4h1.5V5.2c-.3 0-1.2-.1-2.2-.1-2.2 0-3.8 1.3-3.8 3.8v2.1H8v2.8h2.3V20h3.1z"></path></svg>
-            </span>
-            <span class="social-directory-name"><strong>Facebook</strong><small>Małgorzata Juszkiewicz · Architekt wnętrz</small></span>
-            <span class="social-directory-arrow" aria-hidden="true">→</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
   </main>
 
   <footer class="site-footer">
@@ -409,6 +372,6 @@
     <div class="gallery-thumbs" id="galleryThumbs"></div>
   </div>
 
-  <script src="script.js?v=2"></script>
+  <script src="script.js"></script>
 </body>
 </html>
