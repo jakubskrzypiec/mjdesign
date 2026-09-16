@@ -1,4 +1,4 @@
-000:root {
+:root {
   --green: #343432;
   --green-deep: #1f1f1d;
   --sage: #aaa49c;
@@ -365,12 +365,7 @@ h3 { font-size: clamp(29px, 2.7vw, 44px); line-height: 1; }
 }
 .project-meta b {
   font-family: var(--serif);
-  /* Trzy kafle w rzedzie - przy wezszym oknie tytul musi zejsc nizej niz 34px.
-     Bez `overflow-wrap: normal` dziedziczone `break-word` lamalo "Nowoczesny"
-     w srodku wyrazu. */
-  font-size: clamp(22px, 2.5vw, 44px);
-  overflow-wrap: normal;
-  word-break: keep-all;
+  font-size: clamp(34px, 2.5vw, 44px);
   font-weight: 400;
   line-height: .92;
   color: var(--green-deep);
@@ -408,54 +403,6 @@ h3 { font-size: clamp(29px, 2.7vw, 44px); line-height: 1; }
 .google-copy h2 { margin: 0 0 8px; font-size: clamp(35px, 3.4vw, 54px); max-width: 800px; }
 .google-copy p { margin: 0; font-size: 11px; color: var(--muted); }
 .google-link { justify-self: end; padding-bottom: 6px; border-bottom: 1px solid var(--green); font-size: 9px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
-
-/* Referencje - trzy kolumny pod kafelkiem Google, uklad wg przykladu
-   przyslanego przez klienta. Tresci robocze, autorzy to placeholdery. */
-.referencje {
-  width: var(--page);
-  margin: clamp(48px, 5vw, 76px) auto 0;
-  background: var(--cream-2);
-  padding: clamp(44px, 4.6vw, 68px) clamp(24px, 3vw, 48px) clamp(48px, 5vw, 72px);
-}
-.referencje-tytul {
-  margin: 0 0 clamp(36px, 4vw, 56px);
-  text-align: center;
-  font-size: clamp(26px, 2.4vw, 34px);
-  color: var(--green-deep);
-}
-.referencje-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(28px, 3.4vw, 56px);
-  align-items: start;
-}
-.referencja {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 20px;
-}
-.referencja-znak {
-  font-family: var(--serif);
-  font-size: 46px;
-  line-height: .6;
-  color: var(--green-deep);
-}
-.referencja blockquote {
-  margin: 0;
-  max-width: 34ch;
-  font-size: 13px;
-  line-height: 1.75;
-  color: var(--muted);
-}
-.referencja figcaption {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .01em;
-  color: var(--rose);
-}
 
 /* 50/50 */
 .philosophy { background: var(--cream-3); }
@@ -1934,12 +1881,17 @@ body { background: #f7f5f1; }
 
 /* Zdjęcia realizacji „oddychają" w kadrze: wjeżdżają lekko powiększone
    i siadają do naturalnej skali mniej więcej na środku ekranu. */
+.project-card-media img[data-fx="kadr"],
 .blog-new-media img[data-fx="kadr"] {
   /* Skala ze scrolla i dodatek z najechania sumuja sie w jednej wartosci,
      zeby nowy efekt nie skasowal istniejacego powiekszenia przy hoverze. */
   transform: scale(calc(1.24 - var(--p, 0) * 0.24 + var(--hover, 0)));
   transform-origin: center;
   will-change: transform;
+}
+
+.project-card:hover .project-card-media img[data-fx="kadr"] {
+  --hover: .05;
 }
 
 /* Przerywnik ze zdjęciem: obraz delikatnie odjeżdża w głąb. */
@@ -1961,8 +1913,8 @@ body { background: #f7f5f1; }
 
 @media (max-width: 780px) {
   /* Na telefonie zostawiamy tylko hero — reszta bez ruchu, dla płynności. */
+  .project-card-media img[data-fx="kadr"],
   .blog-new-media img[data-fx="kadr"],
-  .projects .project-card-media img[data-foto],
   .image-break-caption[data-fx="karta"] { transform: none; }
 }
 
@@ -2008,7 +1960,7 @@ body { background: #f7f5f1; }
 /* Zdjęcie przybliża się przez cały czas trwania sceny. */
 .hero.hero-scroll .hero-bg,
 .page-loaded .hero.hero-scroll .hero-bg {
-  transform: scale(calc(1.02 + var(--p, 0) * 0.143)) !important;
+  transform: scale(calc(1.02 + var(--p, 0) * 0.13)) !important;
   transform-origin: 50% 45%;
   will-change: transform;
 }
@@ -2052,41 +2004,72 @@ body { background: #f7f5f1; }
 }
 
 /* ============================================================
-   REALIZACJE - TRZY KAFLE OBOK SIEBIE
-   Kafle stoja w rzedzie (uklad z `.project-grid`), a scroll
-   przewija zdjecia w srodku kazdego z nich: 1 -> 2 -> 3.
-   Ramka i kadr zostaja te same, zmienia sie tylko ujecie.
+   REALIZACJE PRZEŁĄCZANE SCROLLEM
+   Zamiast zjeżdżać obok trzech kafli, scroll przybliża kolejno
+   pierwszą, drugą i trzecią realizację.
    ============================================================ */
-.projects .project-card-media img[data-foto] {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: var(--f, 0);
-  /* Delikatne osiadanie kadru ze scrolla plus dodatek z najechania. */
-  transform: scale(calc(1.12 - var(--p, 0) * 0.12 + var(--hover, 0)));
-  transform-origin: center;
-  /* Opacity jedzie prosto ze scrolla - wlasne przejscie by sie z nim bilo. */
-  transition: none;
-  will-change: opacity, transform;
+.projects.projects-scroll {
+  /* Sekcja ma `display:flex` z `justify-content:center`. Przy sztywnej wysokosci
+     centrowanie wypychalo tresc na srodek i zostawialo ok. 1000 px pustki nad
+     i pod scena - stad pusty bezowy pas. Uklad wraca do zwyklego przeplywu. */
+  display: block;
+  height: 340vh;
+  min-height: 0;
+  padding-bottom: 0;
+  /* `overflow: hidden` z reguly wyzej tworzy wlasny kontener przewijania,
+     przez co `position: sticky` w srodku przestaje dzialac i scena jechala
+     razem z sekcja zamiast sie zatrzymac. `clip` przycina tak samo,
+     ale kontenera nie tworzy. */
+  overflow: clip;
 }
 
-.projects .project-card-media img[data-foto="1"] { --f: var(--f1, 1); }
-.projects .project-card-media img[data-foto="2"] { --f: var(--f2, 0); }
-.projects .project-card-media img[data-foto="3"] { --f: var(--f3, 0); }
+.projects.projects-scroll .projects-stage {
+  position: sticky;
+  top: var(--header-h, 0px);
+  height: calc(100svh - var(--header-h, 0px));
+  /* Naglowek i podpis siedza razem ze scena, zeby nie przewijaly sie
+     za przypietymi kaflami. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 24px 0;
+}
 
-.projects .project-card:hover .project-card-media img[data-foto] { --hover: .05; }
+.projects.projects-scroll .projects-head {
+  margin: 0 auto;
+  width: min(var(--page), 1100px);
+  flex: none;
+}
 
-/* Trzy cienkie paski pokazuja, ktore z ujec jest teraz na wierzchu. */
-.projects .projects-postep {
-  width: var(--page);
-  margin: clamp(18px, 2vw, 26px) auto 0;
+.projects.projects-scroll .projects-head h2 {
+  font-size: clamp(30px, 3.4vw, 44px);
+  line-height: 1.06;
+}
+
+.projects.projects-scroll .project-grid {
+  position: relative;
+  display: block;
+  width: min(var(--page), 1100px);
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 640px;
+  /* Krawedz odslaniania ma byc rowna - kadr przycina wszystkie kafle
+     dokladnie w tej samej ramce. */
+  overflow: hidden;
+  perspective: none;
+}
+
+/* Trzy cienkie paski pokazuja, na ktorej realizacji jestesmy. */
+.projects.projects-scroll .projects-postep {
+  width: min(var(--page), 1100px);
   display: flex;
   gap: 8px;
+  flex: none;
 }
 
-.projects .projects-postep i {
+.projects.projects-scroll .projects-postep i {
   position: relative;
   height: 2px;
   flex: 1;
@@ -2094,7 +2077,7 @@ body { background: #f7f5f1; }
   overflow: hidden;
 }
 
-.projects .projects-postep i::after {
+.projects.projects-scroll .projects-postep i::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -2103,19 +2086,58 @@ body { background: #f7f5f1; }
   transform-origin: left center;
 }
 
-.projects .projects-postep i[data-pasek="1"] { --w: var(--f1, 1); }
-.projects .projects-postep i[data-pasek="2"] { --w: var(--f2, 0); }
-.projects .projects-postep i[data-pasek="3"] { --w: var(--f3, 0); }
+.projects.projects-scroll .projects-postep i[data-pasek="1"] { --w: var(--w1, 1); }
+.projects.projects-scroll .projects-postep i[data-pasek="2"] { --w: var(--w2, 0); }
+.projects.projects-scroll .projects-postep i[data-pasek="3"] { --w: var(--w3, 0); }
 
-/* Bez ruchu - zostaje pierwsze ujecie kazdej realizacji. */
-@media (prefers-reduced-motion: reduce) {
-  .projects .project-card-media img[data-foto="1"] { --f: 1 !important; }
-  .projects .project-card-media img[data-foto="2"],
-  .projects .project-card-media img[data-foto="3"] { --f: 0 !important; }
-  .projects .project-card-media img[data-foto] { transform: none !important; }
-  .projects .projects-postep { display: none; }
+.projects.projects-scroll .project-hint {
+  width: min(var(--page), 1100px);
+  margin: 0 auto;
+  flex: none;
 }
 
+.projects.projects-scroll .project-card {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* Zamiast przenikania - czyste odslanianie od dolu. Kafel jest zawsze
+     w pelni kryjacy, wiec w zadnym momencie nie widac dwoch obrazow na raz. */
+  opacity: 1 !important;
+  clip-path: inset(calc((1 - var(--w, 1)) * 100%) 0 0 0);
+  /* Skala na kaflu zmieniala jego ramke, przez co krawedzie sasiednich
+     realizacji sie rozjezdzaly. Delikatny ruch robi teraz samo zdjecie
+     wewnatrz staloj ramki. */
+  transform: none !important;
+  transition: none !important;
+  pointer-events: none;
+  will-change: clip-path;
+}
+
+.projects.projects-scroll .project-card[data-kafel="1"] { --w: 1; --s: var(--s1, 1); z-index: 1; }
+.projects.projects-scroll .project-card[data-kafel="2"] { --w: var(--w2, 0); --s: var(--s2, 1); z-index: 2; }
+.projects.projects-scroll .project-card[data-kafel="3"] { --w: var(--w3, 0); --s: var(--s3, 1); z-index: 3; }
+
+/* Klikalna jest tylko realizacja aktualnie na wierzchu. */
+.projects.projects-scroll .project-card[style*="--a"] { pointer-events: none; }
+.projects.projects-scroll .project-card.aktywny { pointer-events: auto; }
+
+.projects.projects-scroll .project-card-media {
+  flex: 1;
+  min-height: 0;
+}
+
+.projects.projects-scroll .project-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(var(--s, 1)) !important;
+  transform-origin: center;
+  transition: none !important;
+  will-change: transform;
+}
+
+/* Na telefonie wracamy do zwykłej listy - przypinanie na małym ekranie męczy. */
 @media (max-width: 780px) {
   .hero.hero-scroll { height: auto; min-height: 100svh; }
   .hero.hero-scroll .hero-stage { position: static; height: auto; min-height: 100svh; }
@@ -2126,6 +2148,19 @@ body { background: #f7f5f1; }
   .hero.hero-scroll [data-krok] { opacity: 1 !important; transform: none !important; }
   .hero.hero-scroll .hero-shade, .page-loaded .hero.hero-scroll .hero-shade { opacity: 1 !important; }
   .hero.hero-scroll .hero-bg, .page-loaded .hero.hero-scroll .hero-bg { transform: none !important; }
+  .projects.projects-scroll { height: auto; padding-bottom: clamp(60px, 8vw, 96px); }
+  .projects.projects-scroll .projects-stage { position: static; height: auto; display: block; padding: 0; }
+  .projects.projects-scroll .projects-postep { display: none; }
+  .projects.projects-scroll .projects-head { width: var(--page); margin: 0 auto 36px; }
+  .projects.projects-scroll .project-grid {
+    display: grid; height: auto; max-height: none; overflow: visible; width: var(--page);
+    grid-template-columns: 1fr; gap: 18px;
+  }
+  .projects.projects-scroll .project-card {
+    position: relative; inset: auto; height: auto;
+    opacity: 1 !important; clip-path: none; transform: none !important; pointer-events: auto;
+  }
+  .projects.projects-scroll .project-card-media img { transform: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2138,14 +2173,11 @@ body { background: #f7f5f1; }
   .hero.hero-scroll [data-krok] { opacity: 1 !important; transform: none !important; }
   .hero.hero-scroll .hero-shade, .page-loaded .hero.hero-scroll .hero-shade { opacity: 1 !important; }
   .hero.hero-scroll .hero-bg, .page-loaded .hero.hero-scroll .hero-bg { transform: none !important; }
-}
-
-/* Referencje: trzy kolumny, dwie na tablecie, jedna na telefonie. */
-@media (max-width: 1024px) {
-  .referencje-grid { grid-template-columns: 1fr 1fr; row-gap: 44px; }
-}
-
-@media (max-width: 780px) {
-  .referencje-grid { grid-template-columns: 1fr; row-gap: 40px; }
-  .referencje { padding: 36px 20px 40px; }
+  .projects.projects-scroll { height: auto; }
+  .projects.projects-scroll .projects-stage { position: static; height: auto; display: block; padding: 0; }
+  .projects.projects-scroll .projects-postep { display: none; }
+  .projects.projects-scroll .projects-head { width: var(--page); margin: 0 auto 36px; }
+  .projects.projects-scroll .project-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; height: auto; max-height: none; overflow: visible; }
+  .projects.projects-scroll .project-card { position: relative; inset: auto; height: auto; opacity: 1 !important; clip-path: none; transform: none !important; pointer-events: auto; }
+  .projects.projects-scroll .project-card-media img { transform: none !important; }
 }
