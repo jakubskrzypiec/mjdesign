@@ -242,6 +242,77 @@ if (finePointer && !reducedMotion) {
   });
 }
 
+
+
+// Realizacje — subtelne prowadzenie wzroku scrollem przy zachowaniu 3 kafli naraz.
+(() => {
+  const section = document.querySelector('.projects:not(.projects-scroll)');
+  if (!section || reducedMotion) return;
+
+  const cards = [...section.querySelectorAll('.project-card')];
+  if (cards.length < 2) return;
+
+  const desktop = window.matchMedia('(min-width: 1101px)');
+  let ticking = false;
+  let nearby = true;
+
+  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+
+  const reset = () => {
+    cards.forEach(card => {
+      card.style.removeProperty('--scroll-y');
+      card.style.removeProperty('--scroll-scale');
+      card.style.removeProperty('--scroll-focus');
+      card.classList.remove('scroll-focus');
+    });
+  };
+
+  const update = () => {
+    ticking = false;
+    if (!desktop.matches || !nearby) {
+      reset();
+      return;
+    }
+
+    const rect = section.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const progress = clamp((vh - rect.top) / Math.max(1, vh + rect.height));
+    const position = progress * (cards.length - 1);
+    const travel = (progress - .5) * 2; // -1 .. 1 przez przejazd sekcji
+
+    cards.forEach((card, index) => {
+      const focus = clamp(1 - Math.abs(position - index));
+      const lane = cards.length === 1 ? 0 : (index / (cards.length - 1)) * 2 - 1;
+      const y = travel * lane * 12;
+      const scale = .992 + focus * .012;
+
+      card.style.setProperty('--scroll-y', `${y.toFixed(2)}px`);
+      card.style.setProperty('--scroll-scale', scale.toFixed(4));
+      card.style.setProperty('--scroll-focus', focus.toFixed(4));
+      card.classList.toggle('scroll-focus', focus > .64);
+    });
+  };
+
+  const requestUpdate = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  };
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      nearby = entries.some(entry => entry.isIntersecting);
+      requestUpdate();
+    }, { rootMargin: '55% 0px 55% 0px' });
+    observer.observe(section);
+  }
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate, { passive: true });
+  if (desktop.addEventListener) desktop.addEventListener('change', requestUpdate);
+  requestUpdate();
+})();
+
 // FAQ — jedna odpowiedź naraz.
 const details = [...document.querySelectorAll('.faq details')];
 details.forEach(item => item.addEventListener('toggle', () => {

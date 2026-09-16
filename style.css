@@ -2272,3 +2272,81 @@ body { background: #f7f5f1; }
   .review-grid { width: calc(100vw - 32px); margin-top: 20px; }
   .review-card { padding: 26px 22px 24px; }
 }
+
+
+/* === Dopracowanie 16.09 — spójność Pracowni + reaktywne Realizacje === */
+
+/* Desktop: dolny blok korzysta z dokładnie tej samej siatki co "Pracownia".
+   Dzięki temu lewe krawędzie i szerokości obu zdjęć są identyczne, więc
+   kolejne sekcje wyglądają jak świadoma kontynuacja, a nie dwa różne layouty. */
+@media (min-width: 1101px) {
+  .philosophy-grid {
+    grid-template-columns: minmax(360px, .86fr) 1.14fr;
+    gap: clamp(70px, 8vw, 150px);
+    min-height: 660px;
+    align-items: stretch;
+  }
+  .philosophy-media {
+    min-height: 660px;
+    height: 100%;
+  }
+  .philosophy-copy {
+    min-width: 0;
+    padding: clamp(48px, 5vw, 78px);
+  }
+}
+
+/* Realizacje: trzy kafle zostają widoczne jednocześnie, ale scroll prowadzi
+   wzrok kolejno od lewej do prawej. Zmiany są celowo małe: kilka px ruchu,
+   ok. 1% skali i odrobinę głębszy cień dla aktywnej realizacji. */
+.projects:not(.projects-scroll) .project-card {
+  --scroll-y: 0px;
+  --scroll-scale: 1;
+  --scroll-focus: 0;
+  transform: translate3d(0, var(--scroll-y), 0) scale(var(--scroll-scale));
+  box-shadow: 0 calc(12px + var(--scroll-focus) * 16px)
+              calc(28px + var(--scroll-focus) * 20px)
+              rgba(32,30,27, calc(.055 + var(--scroll-focus) * .055));
+  transition: border-color .28s ease, box-shadow .22s ease;
+}
+
+.projects:not(.projects-scroll) .project-card.scroll-focus {
+  border-color: rgba(74,60,53,.26);
+}
+
+.projects:not(.projects-scroll) .project-card:hover {
+  transform: translate3d(0, calc(var(--scroll-y) - 8px), 0)
+             scale(calc(var(--scroll-scale) + .008));
+}
+
+.projects:not(.projects-scroll) .project-card.is-tilting {
+  transform: perspective(1100px)
+             translate3d(0, calc(var(--scroll-y) - 7px), 0)
+             rotateX(var(--tilt-x)) rotateY(var(--tilt-y))
+             scale(var(--scroll-scale));
+}
+
+/* Delikatny akcent pod nazwą realizacji reaguje na aktualnie prowadzony kafel. */
+.projects:not(.projects-scroll) .project-card-body::before {
+  content: "";
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 0;
+  height: 1px;
+  background: var(--green-deep);
+  transform: scaleX(calc(.18 + var(--scroll-focus) * .82));
+  transform-origin: left center;
+  opacity: calc(.14 + var(--scroll-focus) * .32);
+  transition: opacity .22s ease;
+}
+
+@media (max-width: 1100px), (prefers-reduced-motion: reduce) {
+  .projects:not(.projects-scroll) .project-card,
+  .projects:not(.projects-scroll) .project-card:hover,
+  .projects:not(.projects-scroll) .project-card.is-tilting {
+    --scroll-y: 0px !important;
+    --scroll-scale: 1 !important;
+    --scroll-focus: 0 !important;
+  }
+}
