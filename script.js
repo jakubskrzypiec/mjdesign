@@ -714,3 +714,108 @@ if ('IntersectionObserver' in window) {
   mobile.addEventListener?.('change', requestRender);
   render();
 })();
+
+
+// ARTICLE BOOK V4 — całość artykułu czytana w jednej książce.
+(() => {
+  const reader = document.querySelector('[data-reader-book]');
+  if (!reader) return;
+
+  const spreads = [...reader.querySelectorAll('[data-reader-spread]')];
+  const cover = reader.querySelector('.reader-cover');
+  const current = reader.querySelector('[data-reader-current]');
+  const label = reader.querySelector('[data-reader-label]');
+  const mobile = window.matchMedia('(max-width: 760px)');
+
+  if (!spreads.length) return;
+
+  let ticking = false;
+
+  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const smooth = value => value * value * (3 - 2 * value);
+
+  const setActiveSpread = index => {
+    spreads.forEach((spread, i) => spread.classList.toggle('is-active', i === index));
+  };
+
+  const render = () => {
+    ticking = false;
+
+    if (mobile.matches || reducedMotion) {
+      spreads.forEach(spread => spread.classList.add('is-active'));
+      reader.style.setProperty('--cover-open', '1');
+      reader.style.setProperty('--cover-angle', '-178deg');
+      reader.style.setProperty('--book-x', '0%');
+      reader.style.setProperty('--book-scale', '1');
+      reader.style.setProperty('--reader-progress', '1');
+      reader.style.setProperty('--turn-angle', '0deg');
+      reader.style.setProperty('--turn-opacity', '0');
+      if (cover) cover.style.visibility = 'hidden';
+      return;
+    }
+
+    const rect = reader.getBoundingClientRect();
+    const distance = Math.max(1, reader.offsetHeight - window.innerHeight);
+    const progress = clamp(-rect.top / distance);
+
+    const coverProgress = smooth(clamp(progress / .22));
+    const readingProgress = clamp((progress - .20) / .80);
+
+    const coverAngle = coverProgress * -178;
+    const bookX = -25 * (1 - coverProgress);
+    const bookScale = .92 + coverProgress * .08;
+
+    reader.style.setProperty('--cover-open', coverProgress.toFixed(4));
+    reader.style.setProperty('--cover-angle', coverAngle.toFixed(2) + 'deg');
+    reader.style.setProperty('--book-x', bookX.toFixed(2) + '%');
+    reader.style.setProperty('--book-scale', bookScale.toFixed(4));
+    reader.style.setProperty('--reader-progress', progress.toFixed(4));
+
+    if (cover) {
+      cover.style.visibility = coverProgress > .995 ? 'hidden' : 'visible';
+    }
+
+    if (coverProgress < .92) {
+      setActiveSpread(0);
+      reader.style.setProperty('--turn-angle', '0deg');
+      reader.style.setProperty('--turn-opacity', '0');
+      if (current) current.textContent = '00';
+      if (label) label.textContent = 'Otwórz książkę';
+      return;
+    }
+
+    if (label) label.textContent = 'Przewijaj strony';
+
+    if (spreads.length === 1) {
+      setActiveSpread(0);
+      if (current) current.textContent = '01';
+      return;
+    }
+
+    const position = readingProgress * (spreads.length - 1);
+    const base = Math.min(spreads.length - 2, Math.floor(position));
+    const local = clamp(position - base);
+    const turn = smooth(clamp((local - .08) / .84));
+    const visibleIndex = turn < .5 ? base : base + 1;
+
+    setActiveSpread(visibleIndex);
+
+    const sheetOpacity = Math.sin(Math.PI * turn);
+    reader.style.setProperty('--turn-angle', (-178 * turn).toFixed(2) + 'deg');
+    reader.style.setProperty('--turn-opacity', sheetOpacity.toFixed(4));
+
+    if (current) current.textContent = String(visibleIndex + 1).padStart(2, '0');
+  };
+
+  const requestRender = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(render);
+  };
+
+  window.addEventListener('scroll', requestRender, { passive: true });
+  window.addEventListener('resize', requestRender, { passive: true });
+  mobile.addEventListener?.('change', requestRender);
+  setActiveSpread(0);
+  render();
+})();
