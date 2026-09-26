@@ -560,3 +560,77 @@ if ('IntersectionObserver' in window) {
   reset();
   requestUpdate();
 })();
+
+
+// Artykuły — notes sterowany scrollem.
+(() => {
+  const notebook = document.querySelector('[data-notebook]');
+  if (!notebook) return;
+
+  const pages = [...notebook.querySelectorAll('.notebook-page')];
+  const current = notebook.querySelector('[data-notebook-current]');
+  const total = notebook.querySelector('[data-notebook-total]');
+  const meter = notebook.querySelector('.notebook-progress span');
+  const mobile = window.matchMedia('(max-width: 760px)');
+
+  if (!pages.length) return;
+
+  notebook.style.setProperty('--notebook-pages', pages.length);
+  if (total) total.textContent = String(pages.length).padStart(2, '0');
+
+  pages.forEach((page, index) => {
+    page.style.setProperty('--page-depth', String(index));
+  });
+
+  let activeIndex = -1;
+  let ticking = false;
+
+  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+
+  const render = () => {
+    ticking = false;
+
+    if (mobile.matches || reducedMotion) {
+      pages.forEach(page => {
+        page.classList.remove('is-past', 'is-future');
+        page.classList.add('is-active');
+      });
+      if (current) current.textContent = '01';
+      if (meter) meter.style.setProperty('--book-progress', 1);
+      notebook.style.setProperty('--book-progress', 1);
+      return;
+    }
+
+    const rect = notebook.getBoundingClientRect();
+    const distance = Math.max(1, notebook.offsetHeight - window.innerHeight);
+    const progress = clamp(-rect.top / distance);
+    const nextIndex = Math.min(
+      pages.length - 1,
+      Math.max(0, Math.floor(progress * pages.length))
+    );
+
+    notebook.style.setProperty('--book-progress', progress.toFixed(4));
+
+    if (nextIndex === activeIndex) return;
+    activeIndex = nextIndex;
+
+    pages.forEach((page, index) => {
+      page.classList.toggle('is-past', index < activeIndex);
+      page.classList.toggle('is-active', index === activeIndex);
+      page.classList.toggle('is-future', index > activeIndex);
+    });
+
+    if (current) current.textContent = String(activeIndex + 1).padStart(2, '0');
+  };
+
+  const requestRender = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(render);
+  };
+
+  window.addEventListener('scroll', requestRender, { passive: true });
+  window.addEventListener('resize', requestRender, { passive: true });
+  mobile.addEventListener?.('change', requestRender);
+  render();
+})();
