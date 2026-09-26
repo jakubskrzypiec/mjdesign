@@ -670,3 +670,47 @@ if ('IntersectionObserver' in window) {
   mobile.addEventListener?.('change', requestRender);
   render();
 })();
+
+
+// Artykuły V3 — zamknięta okładka otwiera się raz, potem zwykły scroll.
+(() => {
+  const opening = document.querySelector('[data-article-open]');
+  if (!opening) return;
+
+  const mobile = window.matchMedia('(max-width: 760px)');
+  let ticking = false;
+
+  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const smooth = value => value * value * (3 - 2 * value);
+
+  const render = () => {
+    ticking = false;
+
+    const rect = opening.getBoundingClientRect();
+    const distance = Math.max(1, opening.offsetHeight - window.innerHeight);
+    const raw = clamp(-rect.top / distance);
+
+    // Okładka długo pozostaje zamknięta, następnie otwiera się wyraźnie
+    // i pod koniec scrolla zatrzymuje się już jako otwarta.
+    const open = reducedMotion ? 1 : smooth(clamp((raw - .06) / .78));
+    const angle = open * -176;
+    const scale = .90 + open * .10;
+    const x = mobile.matches ? 0 : -25 * (1 - open);
+
+    opening.style.setProperty('--open-progress', open.toFixed(4));
+    opening.style.setProperty('--cover-angle', angle.toFixed(2) + 'deg');
+    opening.style.setProperty('--book-scale', scale.toFixed(4));
+    opening.style.setProperty('--book-x', x.toFixed(2) + '%');
+  };
+
+  const requestRender = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(render);
+  };
+
+  window.addEventListener('scroll', requestRender, { passive: true });
+  window.addEventListener('resize', requestRender, { passive: true });
+  mobile.addEventListener?.('change', requestRender);
+  render();
+})();
