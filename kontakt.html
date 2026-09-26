@@ -10,9 +10,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="subpages.css">
+  <link rel="stylesheet" href="subpages.css?v=20260927-rework">
 </head>
-<body class="subpage">
+<body class="subpage mjx-page mjx-contact">
 <div class="scroll-progress" aria-hidden="true"><span></span></div>
 <header class="site-header" id="header">
   <a href="index.html" class="brand" aria-label="Małgorzata Juszkiewicz — strona główna">
@@ -29,56 +29,50 @@
   </nav>
 </header>
 <main class="subpage-main">
-  <section class="subpage-hero subpage-hero--contact">
-    <div class="subpage-hero-bg" aria-hidden="true"></div>
-    <div class="subpage-hero-shade" aria-hidden="true"></div>
-    <div class="subpage-hero-inner">
-      <p class="eyebrow light">KONTAKT · WARSZAWA</p>
-      <h1>Porozmawiajmy.</h1>
-      <p>Proszę opisać krótko inwestycję, jej lokalizację, metraż i planowany termin. To wystarczy, żeby rozpocząć rozmowę o możliwym zakresie współpracy.</p>
+  <section class="subpage-hero subpage-hero--contact mjx-hero">
+    <div class="subpage-hero-bg" aria-hidden="true"></div><div class="subpage-hero-shade" aria-hidden="true"></div>
+    <div class="subpage-hero-inner"><p class="eyebrow light">04 · KONTAKT / WARSZAWA</p><h1>Kontakt.</h1><p>Na początek wystarczy kilka zdań o inwestycji. Resztę uporządkujemy podczas rozmowy.</p></div>
+  </section>
+
+  <section class="mjx-contact-intro">
+    <div class="mjx-shell">
+      <div class="mjx-contact-big reveal">
+        <p class="eyebrow">NOWY PROJEKT</p>
+        <h2>Zacznijmy od konkretów.</h2>
+        <p>Metraż, lokalizacja, etap inwestycji i planowany termin — to wystarczy, żeby odpowiedzieć sensownie już w pierwszej wiadomości.</p>
+      </div>
+      <aside class="mjx-contact-card reveal delay-1">
+        <span>Pracownia</span><strong>Warszawa</strong>
+        <a href="mailto:mgjuszkiewicz@gmail.com">mgjuszkiewicz@gmail.com ↗</a>
+        <a href="tel:+48509066250">+48 509 066 250 ↗</a>
+        <p>ul. Hlonda 10/129<br>02-972 Warszawa</p>
+      </aside>
     </div>
   </section>
 
-  <section class="subpage-section contact-page">
-    <div class="contact-page-grid">
-      <div class="contact-page-copy reveal">
-        <p class="eyebrow">KONTAKT</p>
-        <h2>Opowiedz o swojej przestrzeni.</h2>
-        <p>Można napisać, zadzwonić albo skorzystać z formularza. W wiadomości warto podać podstawowe informacje o inwestycji — ułatwi to pierwszą rozmowę.</p>
-        <div class="contact-page-details">
-          <a href="mailto:mgjuszkiewicz@gmail.com"><span>E-mail</span><strong>mgjuszkiewicz@gmail.com</strong></a>
-          <a href="tel:+48509066250"><span>Telefon</span><strong>+48 509 066 250</strong></a>
-          <div><span>Pracownia</span><strong>ul. Hlonda 10/129 · 02-972 Warszawa</strong></div>
-        </div>
+  <section class="mjx-form-section">
+    <div class="mjx-shell mjx-form-grid">
+      <div class="mjx-form-aside reveal">
+        <span class="mjx-side-index">01—05</span>
+        <h3>Krótka wiadomość wystarczy.</h3>
+        <p>Nie potrzebujesz kompletnego briefu. Jeśli masz rzut, inspiracje albo zdjęcia obecnego wnętrza, możesz wspomnieć o nich w wiadomości.</p>
+        <div class="mjx-social-links"><a href="https://www.instagram.com/malgorzata_juszkiewicz" target="_blank" rel="noopener">Instagram ↗</a><a href="https://www.facebook.com/malgorzatajuszkiewicz.architektwnetrz" target="_blank" rel="noopener">Facebook ↗</a></div>
       </div>
 
-      <div class="contact-page-form reveal delay-1">
-        <form class="contact-form" action="https://formsubmit.co/mgjuszkiewicz@gmail.com" method="POST">
-          <input type="hidden" name="_subject" value="Nowe zapytanie ze strony Małgorzata Juszkiewicz">
-          <input type="hidden" name="_template" value="table">
-          <div class="form-grid">
-            <label><span>Imię i nazwisko</span><input type="text" name="imie" autocomplete="name" required></label>
-            <label><span>E-mail</span><input type="email" name="email" autocomplete="email" required></label>
-            <label><span>Telefon</span><input type="tel" name="telefon" autocomplete="tel"></label>
-            <label><span>Rodzaj inwestycji</span><input type="text" name="inwestycja" placeholder="mieszkanie / dom / apartament"></label>
-            <label class="form-wide"><span>Wiadomość</span><textarea name="wiadomosc" rows="6" required></textarea></label>
-          </div>
-          <label class="consent">
-            <input type="checkbox" name="zgoda_rodo" required>
-            <span>Wyrażam zgodę na kontakt w odpowiedzi na zapytanie i zapoznałem/am się z <a href="polityka-prywatnosci.html">polityką prywatności</a>.</span>
-          </label>
-          <button class="contact-submit" type="submit">Wyślij zapytanie</button>
-        </form>
-      </div>
+      <form class="mjx-contact-form reveal delay-1" action="https://formsubmit.co/mgjuszkiewicz@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="Nowe zapytanie ze strony Małgorzata Juszkiewicz"><input type="hidden" name="_template" value="table">
+        <label><span>01 · Imię i nazwisko</span><input type="text" name="imie" autocomplete="name" required placeholder="Jak się do Ciebie zwracać?"></label>
+        <label><span>02 · E-mail</span><input type="email" name="email" autocomplete="email" required placeholder="Twój adres e-mail"></label>
+        <label><span>03 · Telefon</span><input type="tel" name="telefon" autocomplete="tel" placeholder="+48"></label>
+        <label><span>04 · Rodzaj inwestycji</span><input type="text" name="inwestycja" placeholder="mieszkanie / dom / apartament"></label>
+        <label><span>05 · Opowiedz krótko o projekcie</span><textarea name="wiadomosc" rows="6" required placeholder="Lokalizacja, metraż, etap inwestycji, termin..."></textarea></label>
+        <label class="mjx-consent"><input type="checkbox" name="zgoda_rodo" required><span>Wyrażam zgodę na kontakt w odpowiedzi na zapytanie i zapoznałem/am się z <a href="polityka-prywatnosci.html">polityką prywatności</a>.</span></label>
+        <button type="submit">Wyślij zapytanie <span>↗</span></button>
+      </form>
     </div>
   </section>
 
-  <section class="subpage-section base-cta">
-    <div class="base-cta-inner reveal">
-      <div><p class="eyebrow light">SOCIAL MEDIA</p><h2>Więcej realizacji i kulis pracy.</h2><p>Aktualne materiały z pracowni są również publikowane na Instagramie i Facebooku.</p></div>
-      <a href="https://www.instagram.com/malgorzata_juszkiewicz" target="_blank" rel="noopener">Instagram</a>
-    </div>
-  </section>
+  <section class="mjx-contact-quote"><div class="mjx-shell reveal"><span>MJ / Warszawa</span><p>„Dobre wnętrze powinno być spokojne w odbiorze i bardzo przemyślane w środku.”</p></div></section>
 </main>
 <footer class="site-footer">
   <div class="footer-grid">
@@ -116,6 +110,5 @@
     <div><a href="polityka-prywatnosci.html">Polityka prywatności</a><a href="index.html">Strona główna</a></div>
   </div>
 </footer>
-<script src="script.js"></script>
-</body>
-</html>
+<script src="script.js?v=20260927-rework"></script>
+</body></html>
