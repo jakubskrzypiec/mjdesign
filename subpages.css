@@ -1219,3 +1219,198 @@
     transition: none;
   }
 }
+
+
+/* =========================================================
+   NOTATNIK V2 — bardziej fizyczny notes i mocniejszy page-turn
+   ========================================================= */
+@media (min-width: 761px) {
+  .notebook-scroll {
+    background:
+      radial-gradient(circle at 18% 14%, rgba(255,255,255,.62), transparent 22%),
+      radial-gradient(circle at 82% 78%, rgba(118,105,91,.12), transparent 24%),
+      linear-gradient(135deg, #e5ddd2 0%, #f3eee6 46%, #ddd3c6 100%);
+  }
+
+  .notebook-sticky {
+    padding-top: calc(var(--header-h) + 18px);
+  }
+
+  .notebook-stage {
+    width: min(1360px, 92vw);
+    gap: 20px;
+  }
+
+  .notebook-book {
+    height: min(720px, 72svh);
+    border: 0;
+    border-radius: 18px;
+    background: #9f8b78;
+    box-shadow:
+      0 54px 120px rgba(46,37,31,.24),
+      0 13px 30px rgba(46,37,31,.17),
+      0 2px 0 rgba(255,255,255,.25) inset;
+    transform: rotate(.22deg);
+    perspective: 2400px;
+    overflow: visible;
+    isolation: isolate;
+  }
+
+  /* tylna okładka / grubość notesu */
+  .notebook-book::before {
+    content: "";
+    position: absolute;
+    z-index: -2;
+    inset: 12px -9px -12px 10px;
+    border-radius: 20px;
+    background: #7f6d5d;
+    box-shadow:
+      0 14px 24px rgba(48,39,32,.22),
+      0 2px 0 rgba(255,255,255,.15) inset;
+    transform: rotate(.35deg);
+  }
+
+  /* metalowa spirala na środku */
+  .notebook-book::after {
+    content: "";
+    position: absolute;
+    z-index: 60;
+    top: 18px;
+    bottom: 18px;
+    left: 50%;
+    width: 46px;
+    transform: translateX(-50%);
+    background:
+      radial-gradient(ellipse at center,
+        transparent 0 38%,
+        rgba(71,64,57,.92) 40% 47%,
+        rgba(196,187,177,.96) 49% 55%,
+        rgba(78,70,63,.92) 57% 63%,
+        transparent 65% 100%)
+      center 0 / 38px 58px repeat-y;
+    filter: drop-shadow(0 2px 2px rgba(42,36,31,.28));
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  .notebook-left,
+  .notebook-page {
+    background-color: #f5efe5;
+    background-image:
+      linear-gradient(90deg, rgba(255,255,255,.48), transparent 8%, transparent 92%, rgba(96,78,63,.05)),
+      repeating-linear-gradient(
+        to bottom,
+        rgba(91,79,68,0) 0,
+        rgba(91,79,68,0) 35px,
+        rgba(91,79,68,.075) 36px
+      );
+  }
+
+  .notebook-left {
+    border-radius: 13px 2px 2px 13px;
+    box-shadow:
+      inset -14px 0 24px rgba(70,56,45,.08),
+      0 0 0 1px rgba(70,56,45,.08);
+  }
+
+  .notebook-left::after {
+    content: "";
+    position: absolute;
+    z-index: 8;
+    top: 18px;
+    bottom: 18px;
+    right: 7px;
+    width: 17px;
+    background:
+      radial-gradient(circle at center, rgba(83,73,65,.28) 0 3px, rgba(255,255,255,.86) 3.4px 5.3px, transparent 5.7px)
+      center 0 / 17px 58px repeat-y;
+    pointer-events: none;
+  }
+
+  .notebook-right {
+    overflow: visible;
+    border-radius: 2px 13px 13px 2px;
+  }
+
+  .notebook-page,
+  .notebook-page.is-future,
+  .notebook-page.is-active,
+  .notebook-page.is-past {
+    --turn: 0;
+    --turn-shadow: 0;
+    --page-lift: 0px;
+    z-index: var(--page-z, 10);
+    border-radius: 2px 13px 13px 2px;
+    opacity: 1;
+    pointer-events: auto;
+    transition: none;
+    backface-visibility: hidden;
+    transform-origin: 0% 50%;
+    transform:
+      translateY(calc(var(--page-lift) * -0.12))
+      translateZ(calc(5px + (var(--page-depth, 0) * -1.2px)))
+      rotateY(calc(var(--turn) * -179deg))
+      skewY(calc(var(--turn-shadow) * -.7deg));
+    box-shadow:
+      inset 15px 0 24px rgba(70,56,45,.07),
+      -4px 0 0 rgba(255,255,255,.52),
+      calc(var(--turn-shadow) * 18px) 18px 38px rgba(47,38,31, calc(var(--turn-shadow) * .2));
+    will-change: transform, box-shadow;
+  }
+
+  /* otwory kartki przy spirali */
+  .notebook-page::before {
+    top: 18px;
+    bottom: 18px;
+    left: 5px;
+    width: 18px;
+    height: auto;
+    background:
+      radial-gradient(circle at center,
+        rgba(90,78,68,.26) 0 3px,
+        #f5efe5 3.4px 5.4px,
+        transparent 5.8px)
+      center 0 / 18px 58px repeat-y;
+  }
+
+  /* ruchomy cień na kartce podczas przewracania */
+  .notebook-page::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    border-radius: inherit;
+    background:
+      linear-gradient(90deg,
+        rgba(46,37,31, calc(var(--turn-shadow) * .16)) 0%,
+        rgba(255,255,255, calc(var(--turn-shadow) * .42)) 38%,
+        rgba(46,37,31, calc(var(--turn-shadow) * .18)) 100%);
+    opacity: var(--turn-shadow);
+    pointer-events: none;
+  }
+
+  .notebook-page > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  .notebook-toolbar {
+    padding: 0 8px;
+  }
+
+  .notebook-progress {
+    height: 2px;
+    border-radius: 99px;
+  }
+
+  .notebook-progress span {
+    transition: none;
+  }
+
+  .notebook-book.is-turning {
+    box-shadow:
+      0 64px 140px rgba(46,37,31,.29),
+      0 16px 34px rgba(46,37,31,.2),
+      0 2px 0 rgba(255,255,255,.25) inset;
+  }
+}
