@@ -2093,3 +2093,88 @@
     animation: none;
   }
 }
+
+
+/* =========================================================
+   CLEAN ARTICLE FALLBACK — bez spirali i zdjęcia
+   ========================================================= */
+.notebook-book::after,
+.notebook-left::after,
+.notebook-left-media,
+.notebook-page::before,
+.notebook-page-mark {
+  display: none !important;
+}
+
+.notebook-book {
+  grid-template-columns: .96fr 1.04fr !important;
+  overflow: hidden !important;
+  background: #f8f4ed !important;
+  border: 1px solid rgba(43,43,41,.07) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 28px 72px rgba(49,42,36,.12) !important;
+}
+
+.notebook-left {
+  padding: clamp(60px, 5vw, 84px) clamp(44px, 4vw, 70px) !important;
+  border-right: 1px solid rgba(43,43,41,.08) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: #f8f4ed !important;
+}
+
+.notebook-left::before {
+  left: 30px !important;
+  background: rgba(149,91,76,.09) !important;
+}
+
+.notebook-left .eyebrow,
+.notebook-left h2,
+.notebook-left > p:not(.eyebrow) {
+  margin-left: 0 !important;
+}
+
+.notebook-left h2 {
+  max-width: 510px !important;
+  margin-bottom: 28px !important;
+  font-size: clamp(46px, 4.3vw, 70px) !important;
+  line-height: .96 !important;
+}
+
+.notebook-left > p:not(.eyebrow) {
+  max-width: 520px !important;
+  font-size: 14px !important;
+  line-height: 1.9 !important;
+}
+
+.notebook-page {
+  padding: clamp(60px, 5vw, 84px) clamp(44px, 4vw, 70px) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: #f8f4ed !important;
+}
+
+.notebook-page-number,
+.notebook-page h3,
+.notebook-page p,
+.notebook-page ul {
+  margin-left: 0 !important;
+}
+
+.notebook-page-number {
+  margin-bottom: clamp(40px, 5vh, 62px) !important;
+}
+
+.notebook-page h3 {
+  max-width: 560px !important;
+  margin-bottom: 30px !important;
+  font-size: clamp(42px, 4vw, 62px) !important;
+  line-height: .98 !important;
+}
+
+.notebook-page p,
+.notebook-page ul {
+  max-width: 590px !important;
+  font-size: 14px !important;
+  line-height: 1.95 !important;
+}
