@@ -562,12 +562,13 @@ if ('IntersectionObserver' in window) {
 })();
 
 
-// Artykuły — notes sterowany scrollem.
+// Artykuły — fizyczny notes sterowany scrollem.
 (() => {
   const notebook = document.querySelector('[data-notebook]');
   if (!notebook) return;
 
   const pages = [...notebook.querySelectorAll('.notebook-page')];
+  const book = notebook.querySelector('.notebook-book');
   const current = notebook.querySelector('[data-notebook-current]');
   const total = notebook.querySelector('[data-notebook-total]');
   const meter = notebook.querySelector('.notebook-progress span');
@@ -582,45 +583,80 @@ if ('IntersectionObserver' in window) {
     page.style.setProperty('--page-depth', String(index));
   });
 
-  let activeIndex = -1;
   let ticking = false;
 
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const smooth = value => value * value * (3 - 2 * value);
+
+  const resetMobile = () => {
+    pages.forEach((page, index) => {
+      page.classList.remove('is-past', 'is-future');
+      page.classList.add('is-active');
+      page.style.removeProperty('--turn');
+      page.style.removeProperty('--turn-shadow');
+      page.style.removeProperty('--page-lift');
+      page.style.removeProperty('--page-z');
+      page.style.removeProperty('z-index');
+    });
+    book?.classList.remove('is-turning');
+    if (current) current.textContent = '01';
+    notebook.style.setProperty('--book-progress', 1);
+  };
 
   const render = () => {
     ticking = false;
 
     if (mobile.matches || reducedMotion) {
-      pages.forEach(page => {
-        page.classList.remove('is-past', 'is-future');
-        page.classList.add('is-active');
-      });
-      if (current) current.textContent = '01';
-      if (meter) meter.style.setProperty('--book-progress', 1);
-      notebook.style.setProperty('--book-progress', 1);
+      resetMobile();
       return;
     }
 
     const rect = notebook.getBoundingClientRect();
     const distance = Math.max(1, notebook.offsetHeight - window.innerHeight);
     const progress = clamp(-rect.top / distance);
-    const nextIndex = Math.min(
-      pages.length - 1,
-      Math.max(0, Math.floor(progress * pages.length))
-    );
+    const turnCount = Math.max(1, pages.length - 1);
+    const pagePosition = progress * turnCount;
 
     notebook.style.setProperty('--book-progress', progress.toFixed(4));
 
-    if (nextIndex === activeIndex) return;
-    activeIndex = nextIndex;
+    let strongestTurn = 0;
 
     pages.forEach((page, index) => {
-      page.classList.toggle('is-past', index < activeIndex);
-      page.classList.toggle('is-active', index === activeIndex);
-      page.classList.toggle('is-future', index > activeIndex);
+      let turn = 0;
+
+      if (index < pages.length - 1) {
+        const local = pagePosition - index;
+        // Każda kartka chwilę leży płasko, potem wyraźnie przewraca się przez większość segmentu.
+        turn = smooth(clamp((local - 0.12) / 0.76));
+      }
+
+      const shadow = Math.sin(Math.PI * turn);
+      const lift = shadow * 34;
+      strongestTurn = Math.max(strongestTurn, shadow);
+
+      page.style.setProperty('--turn', turn.toFixed(4));
+      page.style.setProperty('--turn-shadow', shadow.toFixed(4));
+      page.style.setProperty('--page-lift', `${lift.toFixed(2)}px`);
+
+      // Niezaczęte kartki leżą kolejno pod aktywną. Po przewróceniu schodzą pod cały stos.
+      const z = turn >= .999
+        ? index + 1
+        : (pages.length - index) + 20;
+      page.style.setProperty('--page-z', String(z));
+      page.style.zIndex = String(z);
+
+      page.classList.toggle('is-past', turn >= .999);
+      page.classList.toggle('is-active', turn < .999 && (index === pages.length - 1 || pagePosition >= index - .5));
+      page.classList.toggle('is-future', turn <= .001 && pagePosition < index);
     });
 
-    if (current) current.textContent = String(activeIndex + 1).padStart(2, '0');
+    book?.classList.toggle('is-turning', strongestTurn > .08);
+
+    const visibleIndex = Math.min(
+      pages.length - 1,
+      Math.max(0, Math.floor(pagePosition + .5))
+    );
+    if (current) current.textContent = String(visibleIndex + 1).padStart(2, '0');
   };
 
   const requestRender = () => {
