@@ -36,17 +36,17 @@
 }
 
 .subpage-hero--offer .subpage-hero-bg {
-  background-image: url('desk.webp');
+  background-image: url('hero-oferta.webp');
   background-position: center 54%;
 }
 
 .subpage-hero--projects .subpage-hero-bg {
-  background-image: url('elegancja-2.webp');
+  background-image: url('hero-projekty.webp');
   background-position: 50% 54%;
 }
 
 .subpage-hero--articles .subpage-hero-bg {
-  background-image: url('blog-pracownia.webp');
+  background-image: url('hero-artykuly.webp');
   background-position: center 48%;
 }
 
