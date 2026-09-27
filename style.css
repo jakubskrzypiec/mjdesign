@@ -2740,3 +2740,596 @@ h3 {
     line-height: 1.5;
   }
 }
+
+
+/* =========================================================
+   HOME ELEPHANT REWORK — O mnie / Proces / Opinie / Oferta
+   ========================================================= */
+
+/* O MNIE */
+.home-about-elephant {
+  padding-top: clamp(98px, 9vw, 150px);
+  padding-bottom: clamp(110px, 10vw, 165px);
+  background: #f8f5ef;
+}
+
+.home-about-heading {
+  width: var(--page);
+  margin: 0 auto clamp(64px, 7vw, 106px);
+  text-align: center;
+}
+
+.home-about-heading .eyebrow {
+  margin-bottom: 16px;
+  color: rgba(43,43,41,.46);
+}
+
+.home-about-heading h2 {
+  margin: 0;
+  font-size: clamp(62px, 6.6vw, 102px);
+  font-weight: 300 !important;
+  line-height: .92 !important;
+  letter-spacing: -.01em !important;
+}
+
+.home-about-grid {
+  width: min(1180px, calc(100vw - 12vw));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0,.92fr) minmax(0,1.08fr);
+  gap: clamp(70px, 9vw, 150px);
+  align-items: center;
+}
+
+.home-about-placeholder {
+  position: relative;
+  aspect-ratio: 1.02;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(43,43,41,.07);
+  background:
+    linear-gradient(145deg, #f3eee7, #e8e0d6);
+  color: rgba(43,43,41,.32);
+}
+
+.home-about-placeholder::before,
+.home-about-placeholder::after {
+  content: "";
+  position: absolute;
+  left: -10%;
+  top: 50%;
+  width: 120%;
+  height: 1px;
+  background: rgba(255,255,255,.82);
+  transform-origin: center;
+}
+
+.home-about-placeholder::before {
+  transform: rotate(-32deg);
+}
+
+.home-about-placeholder::after {
+  transform: rotate(52deg);
+}
+
+.home-about-placeholder span {
+  position: relative;
+  z-index: 2;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(43,43,41,.28);
+}
+
+.home-about-copy {
+  display: grid;
+  grid-template-columns: 1px 1fr;
+  gap: 36px;
+  align-items: stretch;
+}
+
+.home-about-copy-line {
+  width: 1px;
+  background: #9b8d78;
+}
+
+.home-about-kicker {
+  margin: 3px 0 30px;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #aa9d88;
+}
+
+.home-about-lead {
+  margin: 0 0 24px;
+  max-width: 620px;
+  font-size: clamp(20px, 1.65vw, 27px);
+  line-height: 1.75;
+  color: #4a4540;
+}
+
+.home-about-copy p:not(.home-about-kicker):not(.home-about-lead) {
+  max-width: 620px;
+  margin: 0;
+  color: #6d675f;
+  font-size: 14px;
+  line-height: 1.95;
+}
+
+/* PROCES */
+.home-process-elephant {
+  padding-top: clamp(106px, 9vw, 148px);
+  padding-bottom: clamp(102px, 9vw, 145px);
+  background: #fbf9f5;
+}
+
+.home-process-heading {
+  width: var(--page);
+  margin: 0 auto clamp(74px, 7vw, 110px);
+  text-align: center;
+}
+
+.home-process-heading .eyebrow {
+  margin-bottom: 14px;
+  color: #b2a692;
+}
+
+.home-process-heading h2 {
+  margin: 0;
+  font-size: clamp(64px, 6.5vw, 100px);
+  font-weight: 300 !important;
+  line-height: .92 !important;
+  letter-spacing: -.01em !important;
+}
+
+.home-process-grid {
+  width: var(--page);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: clamp(24px, 3.2vw, 54px);
+}
+
+.home-process-step {
+  position: relative;
+  min-height: 360px;
+  padding: 114px 16px 18px;
+  text-align: center;
+}
+
+.home-process-roman {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: -6px;
+  transform: translateX(-50%);
+  font-family: var(--serif);
+  font-size: clamp(130px, 13vw, 220px);
+  font-weight: 300;
+  line-height: .78;
+  letter-spacing: -.02em;
+  color: rgba(155,141,120,.26);
+  user-select: none;
+  pointer-events: none;
+}
+
+.home-process-step h3 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(30px, 2.5vw, 42px);
+  font-weight: 300 !important;
+}
+
+.home-process-step i {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 42px;
+  height: 1px;
+  margin: 21px auto 24px;
+  background: #a99a84;
+}
+
+.home-process-step p {
+  position: relative;
+  z-index: 1;
+  max-width: 270px;
+  margin: 0 auto;
+  color: #817a72;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.home-process-foot {
+  width: var(--page);
+  margin: clamp(54px, 5vw, 78px) auto 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(43,43,41,.13);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.home-process-foot span {
+  color: #a1998e;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.home-process-foot a {
+  padding-bottom: 6px;
+  border-bottom: 1px solid #9d8f7b;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #8f816d;
+}
+
+/* OPINIE — ciemny blok */
+.home-reviews-dark {
+  padding-top: clamp(105px, 9vw, 150px);
+  padding-bottom: clamp(110px, 10vw, 165px);
+  color: #f5efe7;
+  background: #5e554f;
+}
+
+.home-reviews-head {
+  width: var(--page);
+  margin: 0 auto clamp(66px, 7vw, 104px);
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  gap: 30px 60px;
+  align-items: end;
+}
+
+.home-reviews-head .eyebrow {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+  color: rgba(255,255,255,.48);
+}
+
+.home-reviews-head h2 {
+  max-width: 960px;
+  margin: 0;
+  color: #fffaf4;
+  font-size: clamp(54px, 5.6vw, 88px);
+  font-weight: 300 !important;
+  line-height: .95 !important;
+}
+
+.home-reviews-head > a {
+  white-space: nowrap;
+  padding-bottom: 7px;
+  border-bottom: 1px solid rgba(255,255,255,.38);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.72);
+}
+
+.home-reviews-grid {
+  width: var(--page);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  border-top: 1px solid rgba(255,255,255,.16);
+}
+
+.home-review-card {
+  min-height: 330px;
+  padding: 30px clamp(24px, 2.8vw, 46px) 28px;
+  border-right: 1px solid rgba(255,255,255,.14);
+  display: flex;
+  flex-direction: column;
+}
+
+.home-review-card:first-child {
+  padding-left: 0;
+}
+
+.home-review-card:last-child {
+  padding-right: 0;
+  border-right: 0;
+}
+
+.home-review-stars {
+  margin-bottom: 56px;
+  font-size: 10px;
+  letter-spacing: .18em;
+  color: #d9ccba;
+}
+
+.home-review-card blockquote {
+  margin: 0;
+  max-width: 420px;
+  font-family: var(--serif);
+  font-size: clamp(28px, 2.35vw, 40px);
+  font-weight: 300;
+  line-height: 1.16;
+  color: #fff9f2;
+}
+
+.home-review-card > div {
+  margin-top: auto;
+  padding-top: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.home-review-card strong {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.home-review-card div span {
+  font-size: 8px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.42);
+}
+
+/* OFERTA — białe karty jak Elephant */
+.home-offer-elephant {
+  padding-top: clamp(100px, 9vw, 150px);
+  padding-bottom: clamp(110px, 10vw, 160px);
+  background: #f3eee7;
+}
+
+.home-offer-heading {
+  width: var(--page);
+  margin: 0 auto clamp(58px, 6vw, 90px);
+  text-align: center;
+}
+
+.home-offer-heading .eyebrow {
+  margin-bottom: 12px;
+  color: #9e917d;
+}
+
+.home-offer-heading h2 {
+  margin: 0;
+  font-size: clamp(66px, 6.8vw, 104px);
+  font-weight: 300 !important;
+  line-height: .9 !important;
+  letter-spacing: -.01em !important;
+}
+
+.home-offer-cards {
+  width: var(--page);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 14px;
+}
+
+.home-offer-card {
+  min-height: 520px;
+  padding: 34px 30px 34px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(43,43,41,.08);
+  background: #fffdfa;
+  box-shadow: 0 18px 44px rgba(50,43,37,.045);
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+
+.home-offer-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 30px 68px rgba(50,43,37,.085);
+}
+
+.home-offer-no {
+  display: block;
+  font-family: var(--serif);
+  font-size: 68px;
+  font-weight: 300;
+  line-height: .9;
+  color: #b8aa95;
+}
+
+.home-offer-card-copy {
+  margin-top: auto;
+}
+
+.home-offer-card small {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #9b8f7d;
+}
+
+.home-offer-card h3 {
+  margin: 0;
+  min-height: 78px;
+  font-size: clamp(29px, 2.3vw, 39px);
+  font-weight: 300 !important;
+  line-height: 1 !important;
+}
+
+.home-offer-card i {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin: 18px 0 20px;
+  background: rgba(43,43,41,.15);
+}
+
+.home-offer-card p {
+  margin: 0;
+  color: #746e67;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.home-offer-action {
+  width: var(--page);
+  margin: 52px auto 0;
+  display: flex;
+  justify-content: center;
+}
+
+.home-offer-action a {
+  min-width: 190px;
+  min-height: 50px;
+  padding: 0 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #9d8f7b;
+  background: #9d8f7b;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* responsive */
+@media (max-width: 1050px) {
+  .home-about-grid {
+    gap: 60px;
+  }
+
+  .home-process-grid {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 48px;
+  }
+
+  .home-reviews-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-review-card,
+  .home-review-card:first-child,
+  .home-review-card:last-child {
+    min-height: 0;
+    padding: 34px 0;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255,255,255,.14);
+  }
+
+  .home-review-card:last-child {
+    border-bottom: 0;
+  }
+
+  .home-review-stars {
+    margin-bottom: 28px;
+  }
+
+  .home-offer-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .home-about-elephant,
+  .home-process-elephant,
+  .home-reviews-dark,
+  .home-offer-elephant {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .home-about-heading,
+  .home-about-grid,
+  .home-process-heading,
+  .home-process-grid,
+  .home-process-foot,
+  .home-reviews-head,
+  .home-reviews-grid,
+  .home-offer-heading,
+  .home-offer-cards,
+  .home-offer-action {
+    width: 100%;
+  }
+
+  .home-about-grid {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+
+  .home-about-heading {
+    margin-bottom: 46px;
+  }
+
+  .home-about-heading h2,
+  .home-process-heading h2,
+  .home-offer-heading h2 {
+    font-size: clamp(56px, 16vw, 76px);
+  }
+
+  .home-about-copy {
+    gap: 24px;
+  }
+
+  .home-about-lead {
+    font-size: 18px;
+  }
+
+  .home-process-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .home-process-step {
+    min-height: 285px;
+    padding-top: 94px;
+  }
+
+  .home-process-roman {
+    font-size: 150px;
+  }
+
+  .home-process-foot {
+    display: grid;
+    gap: 18px;
+  }
+
+  .home-process-foot a {
+    justify-self: start;
+  }
+
+  .home-reviews-head {
+    grid-template-columns: 1fr;
+  }
+
+  .home-reviews-head .eyebrow {
+    grid-column: auto;
+  }
+
+  .home-reviews-head h2 {
+    font-size: clamp(48px, 13vw, 66px);
+  }
+
+  .home-reviews-head > a {
+    justify-self: start;
+  }
+
+  .home-review-card blockquote {
+    font-size: 30px;
+  }
+
+  .home-offer-cards {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .home-offer-card {
+    min-height: 450px;
+  }
+}
