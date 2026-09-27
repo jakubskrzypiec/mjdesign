@@ -4132,3 +4132,33 @@
     font-size: 23px;
   }
 }
+
+
+/* Oferta — uproszczone hero i jednostronny manifest */
+.mjx-offer .mjx-offer-hero-minimal {
+  padding-bottom: clamp(64px, 7vw, 108px);
+}
+
+.mjx-offer .mjx-offer-hero-minimal h1 {
+  margin: 0;
+}
+
+.mjx-offer .mjx-manifest-grid--solo {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 1180px;
+  margin-left: 0;
+}
+
+.mjx-offer .mjx-manifest-grid--solo > div {
+  max-width: 980px;
+}
+
+.mjx-offer .mjx-manifest-grid--solo h2 {
+  max-width: 980px;
+}
+
+@media (max-width: 720px) {
+  .mjx-offer .mjx-manifest-grid--solo {
+    max-width: none;
+  }
+}
