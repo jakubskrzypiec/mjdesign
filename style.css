@@ -2681,3 +2681,62 @@ h3 {
     object-position: center;
   }
 }
+
+
+/* Tekst na statycznym banerze — bez karty */
+.image-break-banner-copy {
+  position: absolute;
+  z-index: 3;
+  left: 6vw;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 680px;
+  color: #2a2421;
+  pointer-events: none;
+}
+
+.image-break-banner-copy > span {
+  display: block;
+  margin-bottom: 15px;
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: .23em;
+  text-transform: uppercase;
+  color: rgba(42,36,33,.58);
+}
+
+.image-break-banner-copy p {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(46px, 4.8vw, 76px);
+  font-weight: 300;
+  line-height: .92;
+  letter-spacing: -.01em;
+  color: #2a2421;
+}
+
+.image-break-banner-copy small {
+  display: block;
+  margin-top: 18px;
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: .12em;
+  color: rgba(42,36,33,.64);
+}
+
+@media (max-width: 780px) {
+  .image-break-banner-copy {
+    left: 22px;
+    right: 22px;
+    max-width: 76%;
+  }
+
+  .image-break-banner-copy p {
+    font-size: clamp(38px, 10vw, 54px);
+  }
+
+  .image-break-banner-copy small {
+    max-width: 260px;
+    line-height: 1.5;
+  }
+}
