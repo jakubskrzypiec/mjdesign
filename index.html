@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="preload" as="image" href="hero.webp" fetchpriority="high">
-  <link rel="stylesheet" href="style.css?v=banner-static-2">
+  <link rel="stylesheet" href="style.css?v=home-elephant-rework-1">
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -26,7 +26,7 @@
     </button>
 
     <nav class="main-nav" aria-label="Nawigacja główna">
-      <a href="#pracownia">Pracownia</a>
+      <a href="#pracownia">O mnie</a>
       <a href="oferta.html">Oferta</a>
       <a href="projekty.html">Realizacje</a>
       <a href="artykuly.html">Blog</a>
@@ -50,37 +50,66 @@
         <a href="#pracownia" class="scroll-cue" data-krok="0" aria-label="Przewiń niżej"><span>SCROLL</span><i></i></a>
       </div>
     </section>
-    <section class="about-intro section" id="pracownia">
-      <div class="about-intro-grid">
-        <div class="portrait-placeholder portrait-image reveal" aria-label="Pracownia Małgorzaty Juszkiewicz">
-          <img src="studio.webp" alt="Materiały projektowe i wnętrze pracowni z monogramem MJ" loading="lazy" decoding="async">
+    <section class="home-about-elephant section" id="pracownia">
+      <div class="home-about-heading reveal">
+        <p class="eyebrow">MAŁGORZATA JUSZKIEWICZ</p>
+        <h2>O mnie</h2>
+      </div>
+
+      <div class="home-about-grid">
+        <div class="home-about-placeholder reveal" aria-label="Miejsce na zdjęcie Małgorzaty Juszkiewicz">
+          <span>MIEJSCE NA ZDJĘCIE</span>
         </div>
-        <div class="about-intro-copy reveal delay-1">
-          <p class="eyebrow">MAŁGORZATA JUSZKIEWICZ · ARCHITEKTURA WNĘTRZ</p>
-          <h2>Pracownia.</h2>
-          <p class="lead-copy">Każdy projekt zaczyna się od rozmowy — o sposobie życia, potrzebach, estetyce i możliwościach konkretnej przestrzeni.</p>
-          <p>Na początku porządkujemy funkcję, budżet i kierunek wnętrza. Później krok po kroku przechodzimy przez koncepcję, materiały, wyposażenie i dokumentację potrzebną do realizacji. Dzięki temu projekt pozostaje indywidualny, ale cały proces jest czytelny i uporządkowany.</p>
-          <div class="award-note" aria-label="Podejście do projektowania"><span>Funkcja · estetyka · detal · realizacja</span></div>
+
+        <div class="home-about-copy reveal delay-1">
+          <div class="home-about-copy-line" aria-hidden="true"></div>
+          <div>
+            <p class="home-about-kicker">MAŁGORZATA / PRACOWNIA</p>
+            <p class="home-about-lead">Tworzę wnętrza, które łączą funkcję, estetykę i spokój codziennego życia. Każdy projekt zaczynam od rozmowy i poznania potrzeb, bo dopiero wtedy przestrzeń może być naprawdę dopasowana do człowieka.</p>
+            <p>Najważniejsze są dla mnie proporcje, światło i decyzje, które porządkują wnętrze. Szukam rozwiązań ponadczasowych, wygodnych i spójnych — takich, które zostają na dłużej i dobrze funkcjonują w codziennym życiu.</p>
+          </div>
         </div>
       </div>
     </section>
-    <section class="philosophy section">
-      <div class="philosophy-grid">
-        <div class="philosophy-media reveal">
-          <img src="detail.webp" alt="Detal wnętrza z monogramem MJ" loading="lazy" decoding="async">
-        </div>
-        <div class="philosophy-copy reveal delay-1">
-          <p class="eyebrow">OD KONCEPCJI DO REALIZACJI</p>
-          <h2>Projekt, który porządkuje decyzje.</h2>
-          <p>Dobry projekt wnętrza nie kończy się na atrakcyjnym obrazie. Ma prowadzić przez kolejne decyzje — od układu i materiałów po światło, zabudowy oraz szczegóły wykonawcze.</p>
-          <ul>
-            <li>czytelny układ funkcjonalny</li>
-            <li>spójny kierunek materiałowy</li>
-            <li>dokumentacja dla wykonawców</li>
-            <li>wsparcie na etapie realizacji</li>
-          </ul>
-          <a class="outline-link" href="#oferta">Poznaj zakres współpracy</a>
-        </div>
+    <section class="home-process-elephant section" id="proces">
+      <div class="home-process-heading reveal">
+        <p class="eyebrow">IV / WSPÓŁPRACA</p>
+        <h2>Proces</h2>
+      </div>
+
+      <div class="home-process-grid">
+        <article class="home-process-step reveal">
+          <span class="home-process-roman">I</span>
+          <h3>Rozmowa</h3>
+          <i></i>
+          <p>Poznanie potrzeb, stylu życia i tego, jak przestrzeń ma działać na co dzień.</p>
+        </article>
+
+        <article class="home-process-step reveal delay-1">
+          <span class="home-process-roman">II</span>
+          <h3>Kierunek</h3>
+          <i></i>
+          <p>Układ, proporcje i decyzje, które porządkują projekt i nadają mu właściwy ton.</p>
+        </article>
+
+        <article class="home-process-step reveal delay-2">
+          <span class="home-process-roman">III</span>
+          <h3>Projekt</h3>
+          <i></i>
+          <p>Rozwinięcie koncepcji w materiały, konkretne rozwiązania i czytelny plan działania.</p>
+        </article>
+
+        <article class="home-process-step reveal">
+          <span class="home-process-roman">IV</span>
+          <h3>Realizacja</h3>
+          <i></i>
+          <p>Dopilnowanie, aby końcowy efekt zachował jakość i charakter założony na początku.</p>
+        </article>
+      </div>
+
+      <div class="home-process-foot reveal">
+        <span>Czas trwania każdego etapu ustalamy wspólnie — zależy od metrażu i zakresu prac.</span>
+        <a href="#kontakt">Umów pierwszą rozmowę</a>
       </div>
     </section>
     <section class="projects projects-triple-scroll section" id="realizacje" data-project-scroll>
@@ -137,34 +166,30 @@
         <div class="project-hint">Kliknij wybraną realizację, żeby otworzyć pełną galerię.</div>
       </div>
     </section>
-    <section class="google-reviews section" id="opinie">
-      <div class="google-card reveal">
-        <div class="google-mark">
-          <span>OPINIE KLIENTÓW</span>
-          <strong>Google</strong>
-        </div>
-        <div class="google-copy">
-          <h2>Zobacz, jak klienci oceniają współpracę z pracownią.</h2>
-          <p>Aktualne opinie są dostępne bezpośrednio w profilu Google.</p>
-        </div>
-        <a class="google-link" href="https://www.google.pl/search?q=ma%C5%82gorzata+juszkiewicz+opinie+google" target="_blank" rel="noopener">Zobacz opinie</a>
+    <section class="home-reviews-dark section" id="opinie">
+      <div class="home-reviews-head reveal">
+        <p class="eyebrow light">OPINIE KLIENTÓW</p>
+        <h2>Jak wygląda współpraca<br>z perspektywy klientów.</h2>
+        <a href="https://www.google.pl/search?q=ma%C5%82gorzata+juszkiewicz+opinie+google" target="_blank" rel="noopener">Zobacz wszystkie opinie ↗</a>
       </div>
 
-      <div class="review-grid" aria-label="Wybrane opinie klientów z Google">
-        <article class="review-card reveal">
-          <div class="review-stars" aria-label="5 na 5">★★★★★</div>
+      <div class="home-reviews-grid" aria-label="Wybrane opinie klientów z Google">
+        <article class="home-review-card reveal">
+          <span class="home-review-stars">★★★★★</span>
           <blockquote>„Profesjonalizm, cierpliwość… zrozumienie potrzeb klienta.”</blockquote>
-          <div class="review-author"><strong>Edyta S.</strong><span>Opinia Google</span></div>
+          <div><strong>Edyta S.</strong><span>Opinia Google</span></div>
         </article>
-        <article class="review-card reveal delay-1">
-          <div class="review-stars" aria-label="5 na 5">★★★★★</div>
+
+        <article class="home-review-card reveal delay-1">
+          <span class="home-review-stars">★★★★★</span>
           <blockquote>„Realizacja zgodna z oczekiwaniami.”</blockquote>
-          <div class="review-author"><strong>Kamilla W.</strong><span>Opinia Google</span></div>
+          <div><strong>Kamilla W.</strong><span>Opinia Google</span></div>
         </article>
-        <article class="review-card reveal delay-2">
-          <div class="review-stars" aria-label="5 na 5">★★★★★</div>
+
+        <article class="home-review-card reveal delay-2">
+          <span class="home-review-stars">★★★★★</span>
           <blockquote>„Współpraca na wysokim poziomie.”</blockquote>
-          <div class="review-author"><strong>Agnieszka</strong><span>Opinia Google</span></div>
+          <div><strong>Agnieszka</strong><span>Opinia Google</span></div>
         </article>
       </div>
     </section>
@@ -209,40 +234,56 @@
         </article>
       </div>
     </section>
-    <section class="offer section" id="oferta">
-      <div class="simple-head reveal">
+    <section class="home-offer-elephant section" id="oferta">
+      <div class="home-offer-heading reveal">
         <p class="eyebrow">ZAKRES WSPÓŁPRACY</p>
-        <h2>Oferta.</h2>
+        <h2>Oferta</h2>
       </div>
 
-      <div class="offer-list">
-        <article class="offer-row reveal">
-          <span class="offer-index">01</span>
-          <div class="offer-title"><h3>Projekt funkcjonalny</h3></div>
-          <p>Planowanie układu wnętrza w formie rzutów 2D. Powstają warianty funkcjonalne, które porządkują komunikację, ergonomię, wyposażenie i — kiedy jest to możliwe — układ ścian.</p>
-          <a href="#kontakt">Zapytaj o zakres</a>
+      <div class="home-offer-cards">
+        <article class="home-offer-card reveal">
+          <span class="home-offer-no">I</span>
+          <div class="home-offer-card-copy">
+            <small>ETAP I · PLANOWANIE</small>
+            <h3>Projekt funkcjonalny</h3>
+            <i></i>
+            <p>2–3 warianty układu wnętrza w formie rzutów 2D, z naciskiem na ergonomię, wygodny rozkład wyposażenia i finalny układ funkcjonalny. Możliwe także rozszerzenie o zmiany lokatorskie.</p>
+          </div>
         </article>
 
-        <article class="offer-row reveal delay-1">
-          <span class="offer-index">02</span>
-          <div class="offer-title"><h3>Projekt koncepcyjny</h3></div>
-          <p>Rozwinięcie funkcji o kierunek wizualny: materiały, meble, kolorystykę, wyposażenie i moodboard. W zależności od potrzeb zakres może zostać uzupełniony o wizualizacje wybranych pomieszczeń.</p>
-          <a href="#kontakt">Poznaj możliwości</a>
+        <article class="home-offer-card reveal delay-1">
+          <span class="home-offer-no">II</span>
+          <div class="home-offer-card-copy">
+            <small>ETAP I + II · ARANŻACJA</small>
+            <h3>Projekt koncepcyjny</h3>
+            <i></i>
+            <p>Moodboard, dobór mebli, materiałów i wyposażenia oraz wspólne budowanie charakteru wnętrza. W razie potrzeby zakres może zostać uzupełniony o wizualizacje wybranych pomieszczeń.</p>
+          </div>
         </article>
 
-        <article class="offer-row reveal delay-2">
-          <span class="offer-index">03</span>
-          <div class="offer-title"><h3>Projekt kompleksowy</h3></div>
-          <p>Pełne opracowanie wnętrza od funkcji i koncepcji po dokumentację wykonawczą: rzuty, widoki ścian, projekty zabudów, zestawienia materiałowe i elementy potrzebne do wycen.</p>
-          <a href="#kontakt">Kontakt</a>
+        <article class="home-offer-card reveal delay-2">
+          <span class="home-offer-no">III</span>
+          <div class="home-offer-card-copy">
+            <small>ETAP I + II + III · PEŁNY PROJEKT</small>
+            <h3>Projekt kompleksowy</h3>
+            <i></i>
+            <p>Pełne opracowanie wnętrza: koncepcja funkcjonalno-aranżacyjna, dokumentacja techniczna, projekty zabudów, zestawienia materiałowe oraz elementy potrzebne do wycen i realizacji.</p>
+          </div>
         </article>
 
-        <article class="offer-row reveal">
-          <span class="offer-index">04</span>
-          <div class="offer-title"><h3>Nadzór autorski</h3></div>
-          <p>Wsparcie na etapie realizacji: spotkania z wykonawcami, kontrola zgodności prac z projektem, konsultowanie zmian wynikających z warunków technicznych oraz pomoc przy koordynacji dostaw.</p>
-          <a href="#kontakt">Zapytaj o nadzór</a>
+        <article class="home-offer-card reveal">
+          <span class="home-offer-no">IV</span>
+          <div class="home-offer-card-copy">
+            <small>ETAP IV · REALIZACJA</small>
+            <h3>Nadzór autorski</h3>
+            <i></i>
+            <p>Wsparcie w trakcie realizacji: spotkania z wykonawcami, kontrola przebiegu prac, konsultowanie zmian technicznych oraz pomoc przy logistyce dostaw materiałów i wyposażenia.</p>
+          </div>
         </article>
+      </div>
+
+      <div class="home-offer-action reveal">
+        <a href="oferta.html">Poznaj pełny zakres ↗</a>
       </div>
     </section>
     <section class="image-break image-break-banner" aria-label="Pracownia Małgorzaty Juszkiewicz">
