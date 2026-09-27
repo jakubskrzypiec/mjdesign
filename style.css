@@ -3773,3 +3773,173 @@ h3 {
     min-height: 0;
   }
 }
+
+
+/* =========================================================
+   HOME REVIEWS V4 — Google card jako główny element
+   ========================================================= */
+.home-reviews-dark {
+  min-height: 0 !important;
+  padding-top: clamp(52px, 4.5vw, 72px) !important;
+  padding-bottom: clamp(54px, 4.8vw, 78px) !important;
+}
+
+.home-reviews-head {
+  width: var(--page);
+  margin: 0 auto 26px !important;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px 34px;
+  align-items: end;
+}
+
+.home-reviews-head .eyebrow {
+  grid-column: 1 / -1;
+  margin: 0 !important;
+  font-size: 8px;
+}
+
+.home-reviews-head h2 {
+  max-width: 650px !important;
+  margin: 0 !important;
+  font-size: clamp(34px, 3vw, 50px) !important;
+  line-height: .98 !important;
+  letter-spacing: -.01em !important;
+}
+
+.home-reviews-head > a {
+  align-self: end;
+  margin-bottom: 5px;
+  font-size: 7px !important;
+}
+
+/* główny akcent sekcji */
+.home-google-card-old {
+  width: var(--page);
+  margin: 0 auto 28px !important;
+  padding: 30px 30px !important;
+  grid-template-columns: 210px minmax(0,1fr) 140px !important;
+  gap: 34px !important;
+  align-items: center;
+  background: #f8f5ef !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.home-google-card-old .google-mark {
+  min-height: 104px !important;
+  padding-right: 30px;
+  border-right: 1px solid rgba(43,38,34,.14) !important;
+}
+
+.home-google-card-old .google-mark span {
+  font-size: 8px !important;
+  color: #8d8174 !important;
+}
+
+.home-google-card-old .google-mark strong {
+  margin-top: 7px !important;
+  font-family: var(--serif) !important;
+  font-size: clamp(36px, 3.2vw, 52px) !important;
+  font-weight: 400 !important;
+  line-height: .95 !important;
+  color: #332b26 !important;
+}
+
+.home-google-card-old .google-copy h2 {
+  max-width: 760px !important;
+  margin: 0 0 8px !important;
+  font-family: var(--serif) !important;
+  font-size: clamp(32px, 2.8vw, 48px) !important;
+  font-weight: 400 !important;
+  line-height: .96 !important;
+  letter-spacing: -.012em !important;
+  color: #211c18 !important;
+}
+
+.home-google-card-old .google-copy p {
+  font-size: 11px !important;
+  line-height: 1.65 !important;
+  color: #7b7168 !important;
+}
+
+.home-google-card-old .google-link {
+  justify-self: end;
+  font-size: 8px !important;
+  color: #65584d !important;
+  border-bottom-color: #7d6f63 !important;
+}
+
+/* opinie są tylko uzupełnieniem */
+.home-reviews-grid {
+  margin-top: 0 !important;
+}
+
+.home-review-card {
+  min-height: 180px !important;
+  padding-top: 18px !important;
+  padding-bottom: 14px !important;
+}
+
+.home-review-stars {
+  margin-bottom: 18px !important;
+  font-size: 7px !important;
+}
+
+.home-review-card blockquote {
+  max-width: 330px !important;
+  font-size: clamp(17px, 1.35vw, 23px) !important;
+  line-height: 1.2 !important;
+}
+
+.home-review-card > div {
+  padding-top: 16px !important;
+}
+
+.home-review-card strong {
+  font-size: 7px !important;
+}
+
+.home-review-card div span {
+  font-size: 6px !important;
+}
+
+@media (max-width: 980px) {
+  .home-google-card-old {
+    grid-template-columns: 170px 1fr !important;
+  }
+
+  .home-google-card-old .google-link {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 760px) {
+  .home-reviews-head {
+    grid-template-columns: 1fr;
+  }
+
+  .home-reviews-head > a {
+    justify-self: start;
+  }
+
+  .home-google-card-old {
+    width: 100%;
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    padding: 24px 22px !important;
+  }
+
+  .home-google-card-old .google-mark {
+    min-height: 0 !important;
+    padding-right: 0;
+    padding-bottom: 16px;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(43,38,34,.14);
+  }
+
+  .home-google-card-old .google-link {
+    grid-column: auto;
+  }
+}
