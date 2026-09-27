@@ -861,10 +861,10 @@ if ('IntersectionObserver' in window) {
     const vh = window.innerHeight || document.documentElement.clientHeight;
     const headerH = headerHeight();
 
-    // Hero: pełny ekran + krótki tor scrolla tylko na desktopie.
+    // Hero: pełny ekran + pełna narracja projekt -> wnętrze.
     if (hero) {
       if (isDesktop) {
-        hero.style.height = Math.round(vh * 1.36) + 'px';
+        hero.style.height = Math.round(vh * 1.75) + 'px';
         hero.style.minHeight = hero.style.height;
       } else {
         hero.style.removeProperty('height');
