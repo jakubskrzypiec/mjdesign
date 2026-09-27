@@ -861,10 +861,15 @@ if ('IntersectionObserver' in window) {
     const vh = window.innerHeight || document.documentElement.clientHeight;
     const headerH = headerHeight();
 
-    // Hero ma naturalna wysokosc — zadnego sztucznego dodatkowego scrolla.
+    // Hero: pełny ekran + krótki tor scrolla tylko na desktopie.
     if (hero) {
-      hero.style.removeProperty('height');
-      hero.style.removeProperty('min-height');
+      if (isDesktop) {
+        hero.style.height = Math.round(vh * 1.36) + 'px';
+        hero.style.minHeight = hero.style.height;
+      } else {
+        hero.style.removeProperty('height');
+        hero.style.removeProperty('min-height');
+      }
     }
 
     // Proces nadal jest jedna przypieta scena, ale scroll jest krotki i konkretny.
@@ -902,10 +907,10 @@ if ('IntersectionObserver' in window) {
     const vh = window.innerHeight || document.documentElement.clientHeight;
     const headerH = headerHeight();
 
-    // Hero: tylko subtelny parallax i zmiana swiatla, bez sticky.
+    // Hero: sticky progress przez krótki, widoczny odcinek przewijania.
     if (hero) {
-      const rect = hero.getBoundingClientRect();
-      const p = isDesktop ? clamp((-rect.top) / Math.max(1, hero.offsetHeight * .56)) : 0;
+      const stage = hero.querySelector('.hero-stage');
+      const p = isDesktop ? stickyProgress(hero, stage, 0) : 0;
       hero.style.setProperty('--hero-p', smoother(p).toFixed(4));
     }
 
