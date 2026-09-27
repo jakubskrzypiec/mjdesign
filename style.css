@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap');
+
 :root {
   --green: #343432;
   --green-deep: #1f1f1d;
@@ -12,7 +14,7 @@
   --muted: #77736e;
   --white: #ffffff;
   --line: rgba(31,31,29,.13);
-  --serif: "Instrument Sans", Arial, sans-serif;
+  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --sans: "Manrope", Arial, sans-serif;
   --header-h: 86px;
   --page: min(1500px, calc(100vw - 12vw));
@@ -2565,4 +2567,25 @@ body { background: #f7f5f1; }
   }
   .projects.projects-triple-scroll .project-card-media { aspect-ratio: 1.16 / .9; }
   .projects.projects-triple-scroll .project-shot:not(.project-shot-base) { display: none; }
+}
+
+
+/* =========================================================
+   TYPOGRAFIA NAGŁÓWKÓW — 1:1 kierunek z ELEPHANT
+   ========================================================= */
+h1,
+h2,
+h3 {
+  font-family: var(--serif) !important;
+  font-weight: 300 !important;
+  line-height: .95 !important;
+  letter-spacing: -.01em !important;
+}
+
+.project-meta b,
+.project-sheet span,
+.google-mark strong {
+  font-family: var(--serif) !important;
+  font-weight: 300 !important;
+  letter-spacing: -.01em !important;
 }
