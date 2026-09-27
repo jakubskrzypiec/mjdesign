@@ -3943,3 +3943,412 @@ h3 {
     grid-column: auto;
   }
 }
+
+
+/* =========================================================
+   SCROLL STORY V1 — cinematic hero / process story / horizontal projects
+   ========================================================= */
+
+/* HERO — tekst stoi, pracuje tylko kadr i światło. */
+.hero.hero-cinematic {
+  --hero-p: 0;
+  position: relative;
+  height: 145svh;
+  min-height: 145svh;
+  max-height: none;
+  display: block;
+  overflow: visible;
+  background: #171310;
+}
+
+.hero.hero-cinematic .hero-stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100svh;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.hero.hero-cinematic .hero-bg,
+.page-loaded .hero.hero-cinematic .hero-bg {
+  transform:
+    translate3d(0, calc(var(--hero-p) * -1.6vh), 0)
+    scale(calc(1.055 - var(--hero-p) * .055)) !important;
+  transform-origin: 52% 46%;
+  animation: none !important;
+  will-change: transform;
+}
+
+.hero.hero-cinematic .hero-shade,
+.page-loaded .hero.hero-cinematic .hero-shade {
+  opacity: calc(.78 + var(--hero-p) * .18) !important;
+  transition: none !important;
+}
+
+.hero.hero-cinematic .hero-content,
+.page-loaded .hero.hero-cinematic .hero-content {
+  opacity: calc(1 - var(--hero-p) * .32) !important;
+  transform: translate3d(0, calc(var(--hero-p) * -18px), 0) !important;
+  transition: none !important;
+  will-change: transform, opacity;
+}
+
+.hero.hero-cinematic .scroll-cue {
+  opacity: calc(1 - var(--hero-p) * 3);
+}
+
+/* delikatne zamknięcie sceny od dołu */
+.hero.hero-cinematic .hero-stage::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 24vh;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(23,19,16,calc(var(--hero-p) * .32)));
+}
+
+/* PROCES — przypięta scena, kolejne etapy aktywowane scrollem. */
+@media (min-width: 1001px) {
+  .home-process-story {
+    --process-p: 0;
+    height: 300svh;
+    min-height: 300svh;
+    padding: 0 !important;
+    display: block !important;
+    overflow: visible;
+    background: #fbf9f5;
+  }
+
+  .home-process-story .home-process-sticky {
+    position: sticky;
+    top: var(--header-h, 92px);
+    height: calc(100svh - var(--header-h, 92px));
+    min-height: 650px;
+    padding: clamp(42px, 4.2vh, 62px) 0 clamp(30px, 3.4vh, 48px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .home-process-story .home-process-heading {
+    margin-bottom: clamp(38px, 4.2vh, 58px);
+    flex: 0 0 auto;
+  }
+
+  .home-process-story .home-process-grid {
+    flex: 0 0 auto;
+  }
+
+  .home-process-story .home-process-step {
+    min-height: 300px;
+    padding-top: 98px;
+    opacity: .32;
+    transform: translateY(10px) scale(.985);
+    transition:
+      opacity .35s ease,
+      transform .45s cubic-bezier(.2,.75,.2,1);
+  }
+
+  .home-process-story .home-process-step.is-scroll-active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .home-process-story .home-process-roman {
+    color: rgba(23,19,16,.085);
+    transition:
+      color .45s ease,
+      transform .45s cubic-bezier(.2,.75,.2,1);
+  }
+
+  .home-process-story .home-process-step.is-scroll-active .home-process-roman {
+    color: rgba(23,19,16,.72);
+    transform: translateX(-50%) scale(1.035);
+  }
+
+  .home-process-story .home-process-step h3,
+  .home-process-story .home-process-step p,
+  .home-process-story .home-process-step i {
+    transition: color .35s ease, background .35s ease, opacity .35s ease;
+  }
+
+  .home-process-story .home-process-step:not(.is-scroll-active) h3 {
+    color: rgba(43,43,41,.48);
+  }
+
+  .home-process-story .home-process-step:not(.is-scroll-active) p {
+    color: rgba(129,122,114,.54);
+  }
+
+  .home-process-story .home-process-foot {
+    margin-top: clamp(24px, 2.8vh, 38px);
+  }
+
+  .home-process-progress {
+    width: var(--page);
+    height: 1px;
+    margin: 18px auto 0;
+    overflow: hidden;
+    background: rgba(23,19,16,.11);
+  }
+
+  .home-process-progress > i {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background: #171310;
+    transform: scaleX(var(--process-p));
+    transform-origin: left center;
+    will-change: transform;
+  }
+
+  /* REALIZACJE — pionowy scroll przesuwa poziomy magazyn. */
+  .projects.home-projects-story {
+    --projects-x: 0px;
+    --projects-p: 0;
+    height: 330svh;
+    min-height: 330svh;
+    padding: 0 !important;
+    display: block;
+    overflow: visible;
+    background: var(--cream-2);
+  }
+
+  .projects.home-projects-story .projects-stage {
+    position: sticky;
+    top: var(--header-h, 92px);
+    width: 100%;
+    height: calc(100svh - var(--header-h, 92px));
+    min-height: 650px;
+    padding: clamp(30px, 3.6vh, 48px) 0 clamp(22px, 2.8vh, 38px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .projects.home-projects-story .projects-head {
+    width: var(--page);
+    margin: 0 auto clamp(24px, 3vh, 38px);
+    flex: 0 0 auto;
+  }
+
+  .projects.home-projects-story .projects-head h2 {
+    max-width: 900px;
+    font-size: clamp(48px, 4.8vw, 76px) !important;
+  }
+
+  .projects.home-projects-story .project-grid {
+    width: max-content;
+    margin: 0;
+    padding-left: max(6vw, calc((100vw - 1500px) / 2));
+    padding-right: 6vw;
+    display: flex;
+    grid-template-columns: none;
+    gap: clamp(20px, 2vw, 34px);
+    align-items: stretch;
+    transform: translate3d(var(--projects-x),0,0);
+    will-change: transform;
+    perspective: none;
+  }
+
+  .projects.home-projects-story .project-card,
+  .projects.home-projects-story .project-card:hover,
+  .projects.home-projects-story .project-card.is-tilting {
+    flex: 0 0 min(66vw, 980px);
+    width: min(66vw, 980px);
+    min-width: 720px;
+    transform: none !important;
+    box-shadow: 0 18px 46px rgba(32,30,27,.08);
+    border-color: rgba(74,60,53,.12);
+    transition: box-shadow .35s ease, border-color .35s ease;
+  }
+
+  .projects.home-projects-story .project-card:hover {
+    box-shadow: 0 28px 64px rgba(32,30,27,.13);
+    border-color: rgba(74,60,53,.24);
+  }
+
+  .projects.home-projects-story .project-card::after {
+    display: none;
+  }
+
+  .projects.home-projects-story .project-card-media {
+    position: relative;
+    aspect-ratio: 1.62 / .92;
+    overflow: hidden;
+    background: #d7d0c6;
+  }
+
+  .projects.home-projects-story .project-shot-base {
+    position: relative !important;
+    inset: auto !important;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.015) !important;
+    transition: transform .8s cubic-bezier(.2,.75,.2,1) !important;
+  }
+
+  .projects.home-projects-story .project-card:hover .project-shot-base {
+    transform: scale(1.035) !important;
+  }
+
+  .projects.home-projects-story .project-card-body {
+    min-height: 92px;
+    padding: 18px 22px 20px;
+  }
+
+  .projects.home-projects-story .projects-scroll-meta {
+    width: var(--page);
+    margin: clamp(18px, 2vh, 26px) auto 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .projects.home-projects-story .projects-scroll-meta > span {
+    font-size: 8px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgba(47,52,47,.48);
+    white-space: nowrap;
+  }
+
+  .projects.home-projects-story .projects-scroll-meta > i {
+    position: relative;
+    height: 1px;
+    overflow: hidden;
+    background: rgba(74,60,53,.17);
+  }
+
+  .projects.home-projects-story .projects-scroll-meta > i > b {
+    position: absolute;
+    inset: 0;
+    display: block;
+    background: #171310;
+    transform: scaleX(var(--projects-p));
+    transform-origin: left center;
+    will-change: transform;
+  }
+
+  .projects.home-projects-story .project-hint {
+    width: var(--page);
+    margin: 9px auto 0;
+    opacity: .42;
+    font-size: 8px;
+  }
+}
+
+/* Tablet / mobile: zero sticky i zero scroll hijackingu. */
+@media (max-width: 1000px) {
+  .hero.hero-cinematic {
+    height: auto;
+    min-height: 100svh;
+  }
+
+  .hero.hero-cinematic .hero-stage {
+    position: relative;
+    height: 100svh;
+    min-height: 100svh;
+  }
+
+  .hero.hero-cinematic .hero-bg,
+  .page-loaded .hero.hero-cinematic .hero-bg,
+  .hero.hero-cinematic .hero-content,
+  .page-loaded .hero.hero-cinematic .hero-content {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .home-process-story {
+    height: auto;
+    min-height: 0;
+  }
+
+  .home-process-story .home-process-sticky {
+    position: static;
+    height: auto;
+  }
+
+  .home-process-progress {
+    display: none;
+  }
+
+  .projects.home-projects-story {
+    height: auto;
+    min-height: 0;
+    padding-top: 76px !important;
+    padding-bottom: 76px !important;
+    overflow: hidden;
+  }
+
+  .projects.home-projects-story .projects-stage {
+    position: static;
+    height: auto;
+    padding: 0;
+  }
+
+  .projects.home-projects-story .projects-head,
+  .projects.home-projects-story .project-hint {
+    width: var(--page);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .projects.home-projects-story .project-grid {
+    width: var(--page);
+    margin: 0 auto;
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    transform: none !important;
+    padding: 0 0 12px;
+  }
+
+  .projects.home-projects-story .project-card {
+    flex: 0 0 min(82vw, 620px);
+    width: auto;
+    min-width: 0;
+    scroll-snap-align: start;
+    transform: none !important;
+  }
+
+  .projects.home-projects-story .project-card-media {
+    aspect-ratio: 1.15 / .9;
+  }
+
+  .projects.home-projects-story .projects-scroll-meta {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero.hero-cinematic,
+  .home-process-story,
+  .projects.home-projects-story {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  .hero.hero-cinematic .hero-stage,
+  .home-process-story .home-process-sticky,
+  .projects.home-projects-story .projects-stage {
+    position: static !important;
+    height: auto !important;
+  }
+
+  .projects.home-projects-story .project-grid {
+    transform: none !important;
+  }
+}
