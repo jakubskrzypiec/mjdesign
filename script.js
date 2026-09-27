@@ -905,7 +905,7 @@ if ('IntersectionObserver' in window) {
     // Hero: tylko subtelny parallax i zmiana swiatla, bez sticky.
     if (hero) {
       const rect = hero.getBoundingClientRect();
-      const p = isDesktop ? clamp((-rect.top) / Math.max(1, hero.offsetHeight * .78)) : 0;
+      const p = isDesktop ? clamp((-rect.top) / Math.max(1, hero.offsetHeight * .56)) : 0;
       hero.style.setProperty('--hero-p', smoother(p).toFixed(4));
     }
 
