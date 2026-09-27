@@ -3866,3 +3866,74 @@
     font-size: 54px;
   }
 }
+
+
+/* Oferta — lżejsza numeracja 01–04 */
+.cos-offer-row {
+  grid-template-columns: minmax(0,1fr) 130px;
+}
+
+.cos-offer-number {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  padding-top: 8px;
+  color: rgba(36,33,31,.48);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .14em;
+}
+
+.cos-offer-number::before {
+  content: "";
+  width: 48px;
+  height: 1px;
+  background: rgba(36,33,31,.28);
+  transition: width .35s ease, background .35s ease;
+}
+
+.cos-offer-row:hover .cos-offer-number {
+  color: rgba(36,33,31,.76);
+}
+
+.cos-offer-row:hover .cos-offer-number::before {
+  width: 66px;
+  background: rgba(36,33,31,.52);
+}
+
+.cos-offer-main > p {
+  margin-bottom: clamp(22px, 2.8vw, 38px);
+  color: rgba(36,33,31,.52);
+}
+
+.cos-offer-main h2 {
+  max-width: 920px;
+  font-size: clamp(50px, 5.6vw, 92px);
+}
+
+.cos-offer-row:hover {
+  padding-left: 18px;
+  padding-right: 18px;
+  background: rgba(255,255,255,.2);
+}
+
+@media (max-width: 680px) {
+  .cos-offer-row {
+    grid-template-columns: minmax(0,1fr) 48px;
+  }
+
+  .cos-offer-number {
+    gap: 8px;
+    font-size: 10px;
+  }
+
+  .cos-offer-number::before {
+    width: 18px;
+  }
+
+  .cos-offer-row:hover .cos-offer-number::before {
+    width: 18px;
+  }
+}
