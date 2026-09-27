@@ -3937,3 +3937,198 @@
     width: 18px;
   }
 }
+
+
+/* =========================================================
+   OFERTA V3 — plansze z boczną numeracją
+   ========================================================= */
+.offer-board-v3 {
+  padding: clamp(44px, 5vw, 78px) 6vw clamp(120px, 11vw, 180px);
+  background: #ece7df;
+}
+
+.offer-board-v3-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid rgba(38,33,30,.16);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: rgba(36,33,31,.48);
+}
+
+.offer-card-v3 {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 116px;
+  margin-top: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(38,33,30,.11);
+  background: #f7f3ed;
+  box-shadow: 0 18px 42px rgba(50,43,37,.055);
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
+}
+
+.offer-card-v3:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 28px 62px rgba(50,43,37,.1);
+}
+
+.offer-card-v3-main {
+  padding: clamp(34px, 4.2vw, 64px) clamp(30px, 4.4vw, 70px) clamp(38px, 4.7vw, 72px);
+}
+
+.offer-card-v3-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+  padding-bottom: 17px;
+  margin-bottom: clamp(42px, 5.2vw, 78px);
+  border-bottom: 1px solid rgba(38,33,30,.12);
+}
+
+.offer-card-v3-top span {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(36,33,31,.48);
+}
+
+.offer-card-v3 h2 {
+  max-width: 1020px;
+  margin: 0;
+  font-size: clamp(54px, 6vw, 98px);
+  font-weight: 400;
+  line-height: .88;
+  letter-spacing: -.06em;
+}
+
+.offer-card-v3-lower {
+  display: grid;
+  grid-template-columns: minmax(260px,.9fr) minmax(300px,1.1fr);
+  gap: clamp(42px, 7vw, 110px);
+  margin-top: clamp(52px, 6vw, 88px);
+  align-items: start;
+}
+
+.offer-card-v3-lower > p {
+  max-width: 620px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.offer-card-v3-points {
+  border-top: 1px solid rgba(38,33,30,.12);
+}
+
+.offer-card-v3-points span {
+  display: block;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(38,33,30,.12);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--mjx-graphite);
+}
+
+.offer-card-v3-rail {
+  position: relative;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 0 26px;
+  border-left: 1px solid rgba(38,33,30,.12);
+  background: rgba(231,225,216,.62);
+  transition: background .35s ease;
+}
+
+.offer-card-v3:hover .offer-card-v3-rail {
+  background: #ded6cb;
+}
+
+.offer-card-v3-rail b {
+  font-family: var(--serif);
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.04em;
+  color: rgba(36,33,31,.72);
+}
+
+.offer-card-v3-rail i {
+  flex: 1;
+  width: 1px;
+  min-height: 120px;
+  margin-top: 24px;
+  background: rgba(38,33,30,.16);
+}
+
+@media (max-width: 920px) {
+  .offer-card-v3 {
+    grid-template-columns: minmax(0,1fr) 82px;
+  }
+
+  .offer-card-v3-lower {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 680px) {
+  .offer-board-v3 {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .offer-card-v3 {
+    grid-template-columns: minmax(0,1fr) 52px;
+  }
+
+  .offer-card-v3-main {
+    padding: 28px 22px 34px;
+  }
+
+  .offer-card-v3-top {
+    display: block;
+    margin-bottom: 34px;
+  }
+
+  .offer-card-v3-top span {
+    display: block;
+  }
+
+  .offer-card-v3-top span + span {
+    margin-top: 8px;
+    opacity: .65;
+  }
+
+  .offer-card-v3 h2 {
+    font-size: clamp(40px, 12.8vw, 58px);
+  }
+
+  .offer-card-v3-lower {
+    margin-top: 34px;
+  }
+
+  .offer-card-v3-lower > p {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .offer-card-v3-rail {
+    padding-top: 24px;
+  }
+
+  .offer-card-v3-rail b {
+    font-size: 23px;
+  }
+}
