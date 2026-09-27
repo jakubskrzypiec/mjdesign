@@ -246,7 +246,7 @@ if (finePointer && !reducedMotion) {
 
 // Realizacje — subtelne prowadzenie wzroku scrollem przy zachowaniu 3 kafli naraz.
 (() => {
-  const section = document.querySelector('.projects:not(.projects-scroll):not(.projects-triple-scroll):not(.home-projects-story)');
+  const section = document.querySelector('.projects:not(.projects-scroll):not(.projects-triple-scroll):not(.home-projects-story):not(.home-projects-stack)');
   if (!section || reducedMotion) return;
 
   const cards = [...section.querySelectorAll('.project-card')];
@@ -822,13 +822,13 @@ if ('IntersectionObserver' in window) {
 
 
 // ============================================================
-// HOMEPAGE SCROLL STORY V2
-// Jeden kontroler, dynamiczne dlugosci sekcji i zero martwego scrolla.
+// HOMEPAGE SCROLL STORY V3
+// Hero bez martwego scrolla, Proces z finalem, Projekty jako sticky stack.
 // ============================================================
 (() => {
-  const hero = document.querySelector('[data-hero-cinematic]');
+  const hero = document.querySelector('[data-hero-editorial]');
   const process = document.querySelector('[data-process-story]');
-  const projects = document.querySelector('[data-projects-story]');
+  const projects = document.querySelector('[data-project-stack]');
   const about = document.querySelector('.home-about-elephant');
   const offerCards = [...document.querySelectorAll('.home-offer-card')];
 
@@ -861,21 +861,18 @@ if ('IntersectionObserver' in window) {
     const vh = window.innerHeight || document.documentElement.clientHeight;
     const headerH = headerHeight();
 
+    // Hero ma naturalna wysokosc — zadnego sztucznego dodatkowego scrolla.
     if (hero) {
-      if (isDesktop) {
-        hero.style.height = Math.round(vh * 1.24) + 'px';
-        hero.style.minHeight = hero.style.height;
-      } else {
-        hero.style.removeProperty('height');
-        hero.style.removeProperty('min-height');
-      }
+      hero.style.removeProperty('height');
+      hero.style.removeProperty('min-height');
     }
 
+    // Proces nadal jest jedna przypieta scena, ale scroll jest krotki i konkretny.
     if (process) {
       const stage = process.querySelector('.home-process-sticky');
       if (isDesktop && stage) {
         const stageH = Math.max(520, vh - headerH);
-        const scrollBudget = Math.max(vh * 1.14, 900);
+        const scrollBudget = Math.max(vh * 1.05, 820);
         process.style.height = Math.round(stageH + scrollBudget) + 'px';
         process.style.minHeight = process.style.height;
       } else {
@@ -884,26 +881,10 @@ if ('IntersectionObserver' in window) {
       }
     }
 
+    // Projekty maja naturalna wysokosc wynikajaca z kart — bez sztucznego budzetu.
     if (projects) {
-      const stage = projects.querySelector('.projects-stage');
-      const track = projects.querySelector('.project-grid');
-
-      if (isDesktop && stage && track) {
-        // Po zmianie rozmiaru najpierw zerujemy przesuniecie, by scrollWidth byl prawdziwy.
-        projects.style.setProperty('--projects-x', '0px');
-        const stageH = Math.max(520, vh - headerH);
-        const endPadding = Math.max(28, window.innerWidth * .045);
-        const maxShift = Math.max(0, track.scrollWidth - window.innerWidth + endPadding);
-        const scrollBudget = Math.max(vh * .9, maxShift * .88);
-        projects.dataset.maxShift = maxShift.toFixed(2);
-        projects.style.height = Math.round(stageH + scrollBudget) + 'px';
-        projects.style.minHeight = projects.style.height;
-      } else {
-        projects.style.removeProperty('height');
-        projects.style.removeProperty('min-height');
-        projects.style.removeProperty('--projects-x');
-        delete projects.dataset.maxShift;
-      }
+      projects.style.removeProperty('height');
+      projects.style.removeProperty('min-height');
     }
 
     requestRender();
@@ -921,10 +902,11 @@ if ('IntersectionObserver' in window) {
     const vh = window.innerHeight || document.documentElement.clientHeight;
     const headerH = headerHeight();
 
+    // Hero: tylko subtelny parallax i zmiana swiatla, bez sticky.
     if (hero) {
-      const stage = hero.querySelector('.hero-stage');
-      const p = isDesktop ? stickyProgress(hero, stage, 0) : 0;
-      hero.style.setProperty('--hero-p', p.toFixed(4));
+      const rect = hero.getBoundingClientRect();
+      const p = isDesktop ? clamp((-rect.top) / Math.max(1, hero.offsetHeight * .78)) : 0;
+      hero.style.setProperty('--hero-p', smoother(p).toFixed(4));
     }
 
     if (about) {
@@ -933,6 +915,7 @@ if ('IntersectionObserver' in window) {
       about.style.setProperty('--about-line', p.toFixed(4));
     }
 
+    // Proces: aktywny etap jest najmocniejszy, a na finale wszystkie 4 sa podswietlone.
     if (process) {
       const stage = process.querySelector('.home-process-sticky');
       const p = isDesktop ? stickyProgress(process, stage, headerH) : 1;
@@ -940,29 +923,28 @@ if ('IntersectionObserver' in window) {
 
       const steps = [...process.querySelectorAll('.home-process-step')];
       const position = p * Math.max(0, steps.length - 1);
+      const finale = isDesktop ? smoother(clamp((p - .86) / .14)) : 1;
 
       steps.forEach((step, i) => {
         const distance = Math.abs(position - i);
-        const focus = isDesktop ? smoother(1 - clamp(distance / .92)) : 1;
+        const local = isDesktop ? smoother(1 - clamp(distance / .92)) : 1;
+        const focus = Math.max(local, finale);
         step.style.setProperty('--step-focus', focus.toFixed(4));
         step.classList.toggle('is-scroll-active', focus > .72);
       });
     }
 
+    // Projekty: lekka glebię dostaje karta najblizej gornego punktu sticky.
     if (projects) {
-      const stage = projects.querySelector('.projects-stage');
-      const track = projects.querySelector('.project-grid');
+      const cards = [...projects.querySelectorAll('.project-card')];
+      const target = headerH + Math.min(72, vh * .08);
 
-      if (track && stage && isDesktop) {
-        const p = stickyProgress(projects, stage, headerH);
-        const maxShift = Number(projects.dataset.maxShift || 0);
-        const eased = smoother(p);
-        projects.style.setProperty('--projects-x', (-maxShift * eased).toFixed(2) + 'px');
-        projects.style.setProperty('--projects-p', p.toFixed(4));
-      } else {
-        projects.style.setProperty('--projects-x', '0px');
-        projects.style.setProperty('--projects-p', '0');
-      }
+      cards.forEach(card => {
+        const r = card.getBoundingClientRect();
+        const delta = Math.abs(r.top - target);
+        const focus = isDesktop ? smoother(1 - clamp(delta / (vh * .72))) : 1;
+        card.style.setProperty('--stack-focus', focus.toFixed(4));
+      });
     }
 
     offerCards.forEach(card => {
