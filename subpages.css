@@ -4561,3 +4561,33 @@
   .project-side-label--left { left: 12px; }
   .project-side-label--right { right: 12px; }
 }
+
+
+/* =========================================================
+   ELEPHANT HEADING SYSTEM — podstrony
+   ========================================================= */
+.subpage h1,
+.subpage h2,
+.subpage h3,
+.article-reader-page h1,
+.article-reader-page h2,
+.article-reader-page h3 {
+  font-family: var(--serif) !important;
+  font-weight: 300 !important;
+  line-height: .95 !important;
+  letter-spacing: -.01em !important;
+}
+
+.mjx-project-meta strong,
+.project-side-label,
+.reader-end-mark,
+.reader-cover h1,
+.reader-book-page h2,
+.article-paper-card h3,
+.mjx-paper h3,
+.offer-card-v3 h2,
+.mjx-contact-card > strong {
+  font-family: var(--serif) !important;
+  font-weight: 300 !important;
+  letter-spacing: -.01em !important;
+}
