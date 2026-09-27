@@ -4971,3 +4971,72 @@ h3 {
     grid-template-columns: 52px 1fr;
   }
 }
+
+
+/* =========================================================
+   HERO V4 — pełny ekran + wyraźniejsza reakcja na scroll
+   ========================================================= */
+.hero.hero-editorial {
+  height: calc(100svh - var(--header-h, 92px)) !important;
+  min-height: calc(100svh - var(--header-h, 92px)) !important;
+  max-height: none !important;
+}
+
+.hero.hero-editorial .hero-stage {
+  height: 100% !important;
+  min-height: 100% !important;
+}
+
+.hero.hero-editorial .hero-bg,
+.page-loaded .hero.hero-editorial .hero-bg {
+  transform:
+    translate3d(0, calc(var(--hero-p) * -5vh), 0)
+    scale(calc(1.07 - var(--hero-p) * .05)) !important;
+  transform-origin: 56% 48%;
+}
+
+.hero.hero-editorial .hero-shade,
+.page-loaded .hero.hero-editorial .hero-shade {
+  opacity: 1 !important;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(18,14,12,calc(.62 + var(--hero-p) * .14)) 0%,
+      rgba(18,14,12,calc(.44 + var(--hero-p) * .10)) 28%,
+      rgba(18,14,12,calc(.15 + var(--hero-p) * .06)) 58%,
+      rgba(18,14,12,.03) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(18,14,12,.05) 0%,
+      rgba(18,14,12,.03) 50%,
+      rgba(18,14,12,calc(.30 + var(--hero-p) * .12)) 100%
+    );
+}
+
+.hero.hero-editorial .hero-content,
+.page-loaded .hero.hero-editorial .hero-content {
+  opacity: calc(1 - var(--hero-p) * .22) !important;
+  transform:
+    translate3d(0, calc(var(--hero-p) * -28px), 0)
+    scale(calc(1 - var(--hero-p) * .012)) !important;
+}
+
+.hero.hero-editorial .scroll-cue {
+  opacity: calc(1 - var(--hero-p) * 2.4) !important;
+  transform: translateY(calc(var(--hero-p) * 16px));
+}
+
+@media (max-width: 1000px) {
+  .hero.hero-editorial {
+    height: calc(100svh - var(--header-h, 78px)) !important;
+    min-height: calc(100svh - var(--header-h, 78px)) !important;
+  }
+}
+
+@media (max-width: 680px) {
+  .hero.hero-editorial {
+    height: calc(100svh - var(--header-h, 72px)) !important;
+    min-height: calc(100svh - var(--header-h, 72px)) !important;
+  }
+}
