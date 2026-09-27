@@ -819,3 +819,103 @@ if ('IntersectionObserver' in window) {
   setActiveSpread(0);
   render();
 })();
+
+
+// ============================================================
+// HOMEPAGE SCROLL STORY V1
+// Jedna spokojna choreografia zamiast osobnych "wjezdzajacych" efektow.
+// ============================================================
+(() => {
+  const hero = document.querySelector('[data-hero-cinematic]');
+  const process = document.querySelector('[data-process-story]');
+  const projects = document.querySelector('[data-projects-story]');
+  const about = document.querySelector('.home-about-elephant');
+  const offerCards = [...document.querySelectorAll('.home-offer-card')];
+
+  if (!hero && !process && !projects && !about && !offerCards.length) return;
+
+  const desktop = window.matchMedia('(min-width: 1001px)');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const smooth = t => t * t * (3 - 2 * t);
+  let ticking = false;
+
+  const progressThrough = el => {
+    const r = el.getBoundingClientRect();
+    const travel = Math.max(1, r.height - window.innerHeight);
+    return clamp(-r.top / travel);
+  };
+
+  const render = () => {
+    ticking = false;
+    const isDesktop = desktop.matches && !reduced.matches;
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+
+    // Hero: obraz osiada, tekst tylko delikatnie odchodzi.
+    if (hero) {
+      const p = isDesktop ? progressThrough(hero) : 0;
+      hero.style.setProperty('--hero-p', p.toFixed(4));
+    }
+
+    // O mnie: pionowa kreska rysuje sie w momencie wejscia sekcji.
+    if (about) {
+      const r = about.getBoundingClientRect();
+      const p = smooth(clamp((vh * .88 - r.top) / Math.max(1, vh * .72)));
+      about.style.setProperty('--about-line', p.toFixed(4));
+    }
+
+    // Proces: cztery etapy aktywuja sie kolejno.
+    if (process) {
+      const p = isDesktop ? progressThrough(process) : 0;
+      process.style.setProperty('--process-p', (isDesktop ? p : 1).toFixed(4));
+
+      const steps = [...process.querySelectorAll('.home-process-step')];
+      let active = 0;
+      if (isDesktop) active = Math.min(steps.length - 1, Math.floor(p * steps.length));
+      steps.forEach((step, i) => step.classList.toggle('is-scroll-active', !isDesktop || i === active));
+    }
+
+    // Realizacje: scroll pionowy przesuwa szeroki tor w poziomie.
+    if (projects) {
+      const track = projects.querySelector('.project-grid');
+      if (track) {
+        if (isDesktop) {
+          const p = progressThrough(projects);
+          const maxShift = Math.max(0, track.scrollWidth - window.innerWidth + window.innerWidth * .035);
+          const x = -maxShift * smooth(p);
+          projects.style.setProperty('--projects-x', x.toFixed(2) + 'px');
+          projects.style.setProperty('--projects-p', p.toFixed(4));
+        } else {
+          projects.style.setProperty('--projects-x', '0px');
+          projects.style.setProperty('--projects-p', '0');
+        }
+      }
+    }
+
+    // Oferta: bez sticky. Tylko karta najblizej srodka ekranu lekko "lapie ostrosc".
+    offerCards.forEach(card => {
+      if (!isDesktop) {
+        card.style.setProperty('--offer-focus', '0');
+        return;
+      }
+      const r = card.getBoundingClientRect();
+      const center = r.top + r.height / 2;
+      const distance = Math.abs(center - vh / 2);
+      const focus = smooth(1 - clamp(distance / (vh * .72)));
+      card.style.setProperty('--offer-focus', focus.toFixed(4));
+    });
+  };
+
+  const requestRender = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(render);
+  };
+
+  window.addEventListener('scroll', requestRender, { passive: true });
+  window.addEventListener('resize', requestRender, { passive: true });
+  desktop.addEventListener?.('change', requestRender);
+  reduced.addEventListener?.('change', requestRender);
+
+  render();
+})();
