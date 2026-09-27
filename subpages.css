@@ -4517,3 +4517,47 @@
   .project-side-label--left { left: 11px; }
   .project-side-label--right { right: 11px; }
 }
+
+
+/* Projekty V4.1 — bez logo, mocniejsze pionowe podpisy */
+.project-hover-logo {
+  display: none !important;
+}
+
+.project-side-label {
+  top: 50%;
+  font-family: var(--serif);
+  font-size: clamp(34px, 4.2vw, 72px);
+  font-weight: 400;
+  line-height: .9;
+  letter-spacing: -.035em;
+  text-transform: none;
+  color: rgba(36,33,31,.14);
+  opacity: .72;
+}
+
+.project-side-label--left {
+  left: clamp(18px, 2.2vw, 36px);
+}
+
+.project-side-label--right {
+  right: clamp(18px, 2.2vw, 36px);
+}
+
+.project-placeholder:hover .project-side-label {
+  color: rgba(255,255,255,.84);
+  opacity: 1;
+}
+
+.project-placeholder:hover .project-waiting {
+  opacity: .18;
+}
+
+@media (max-width: 680px) {
+  .project-side-label {
+    font-size: clamp(28px, 9vw, 44px);
+  }
+
+  .project-side-label--left { left: 12px; }
+  .project-side-label--right { right: 12px; }
+}
