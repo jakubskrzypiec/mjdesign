@@ -3596,3 +3596,180 @@ h3 {
     grid-column: auto;
   }
 }
+
+
+/* =========================================================
+   HOME REWORK V3 — kompaktowe sekcje + większy tekst O mnie
+   ========================================================= */
+
+/* O mnie: całość mieści się w jednym ekranie, ale tekst jest większy. */
+.home-about-elephant {
+  min-height: calc(100svh - var(--header-h));
+  padding-top: clamp(66px, 6vw, 92px);
+  padding-bottom: clamp(68px, 6vw, 96px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.home-about-heading {
+  margin-bottom: clamp(42px, 4vw, 62px);
+}
+
+.home-about-grid {
+  grid-template-columns: minmax(0,.82fr) minmax(0,1.18fr);
+  gap: clamp(70px, 8vw, 140px);
+  align-items: center;
+}
+
+.home-about-placeholder {
+  min-height: 0;
+  height: clamp(390px, 38vw, 520px);
+  aspect-ratio: auto;
+}
+
+.home-about-copy {
+  gap: 34px;
+}
+
+.home-about-kicker {
+  margin-bottom: 24px;
+}
+
+.home-about-lead,
+.home-about-copy p:not(.home-about-kicker):not(.home-about-lead) {
+  max-width: 690px;
+  color: #615b55;
+  font-size: clamp(16px, 1.05vw, 18px);
+  line-height: 1.82;
+}
+
+.home-about-lead {
+  margin-bottom: 24px;
+}
+
+/* Opinie: niższa sekcja, mniejsze cytaty i zwarta karta Google. */
+.home-reviews-dark {
+  padding-top: clamp(68px, 6vw, 96px);
+  padding-bottom: clamp(68px, 6vw, 96px);
+}
+
+.home-reviews-head {
+  margin-bottom: clamp(34px, 3vw, 46px);
+}
+
+.home-google-card-old {
+  width: var(--page);
+  margin: 0 auto clamp(28px, 3vw, 40px);
+  grid-template-columns: 190px 1fr 150px;
+  gap: 34px;
+  padding: 24px 28px;
+  background: #f8f5ef;
+  border-color: rgba(255,255,255,.08);
+}
+
+.home-google-card-old .google-mark {
+  min-height: 70px;
+}
+
+.home-google-card-old .google-mark strong {
+  font-size: 30px;
+}
+
+.home-google-card-old .google-copy h2 {
+  margin-bottom: 5px;
+  font-size: clamp(24px, 2.1vw, 34px) !important;
+  line-height: 1 !important;
+}
+
+.home-google-card-old .google-copy p {
+  font-size: 10px;
+}
+
+.home-google-card-old .google-link {
+  font-size: 8px;
+}
+
+.home-reviews-grid {
+  min-height: 0;
+}
+
+.home-review-card {
+  min-height: 225px;
+  padding-top: 22px;
+  padding-bottom: 18px;
+}
+
+.home-review-stars {
+  margin-bottom: 28px;
+  font-size: 8px;
+}
+
+.home-review-card blockquote {
+  max-width: 380px;
+  font-size: clamp(23px, 1.75vw, 30px);
+  line-height: 1.14;
+}
+
+.home-review-card > div {
+  padding-top: 22px;
+}
+
+.home-review-card strong,
+.home-review-card div span {
+  font-size: 7px;
+}
+
+/* Oferta: rzymskie numery wyraźnie czarne. */
+.home-offer-no {
+  color: #171310 !important;
+  opacity: 1;
+}
+
+/* Na desktopie obie sekcje celują w jeden viewport. */
+@media (min-width: 900px) {
+  .home-reviews-dark {
+    min-height: calc(100svh - var(--header-h));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 760px) {
+  .home-about-elephant,
+  .home-reviews-dark {
+    min-height: 0;
+  }
+
+  .home-about-placeholder {
+    height: 420px;
+  }
+
+  .home-about-lead,
+  .home-about-copy p:not(.home-about-kicker):not(.home-about-lead) {
+    font-size: 16px;
+  }
+
+  .home-google-card-old {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 22px;
+  }
+
+  .home-google-card-old .google-mark {
+    min-height: 0;
+    padding-bottom: 16px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .home-google-card-old .google-link {
+    justify-self: start;
+  }
+
+  .home-review-card {
+    min-height: 0;
+  }
+}
