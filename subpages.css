@@ -4162,3 +4162,105 @@
     max-width: none;
   }
 }
+
+
+/* =========================================================
+   COMPACT SUBPAGE HERO — wspólny dla Oferta / Projekty / Artykuły / Kontakt
+   ========================================================= */
+.mjx-page .mjx-hero {
+  min-height: 0 !important;
+  height: clamp(430px, 58svh, 610px);
+}
+
+.mjx-page .mjx-hero .subpage-hero-bg {
+  transform: scale(1.018);
+}
+
+.mjx-page .mjx-hero .subpage-hero-shade {
+  background:
+    linear-gradient(90deg, rgba(19,17,15,.64) 0%, rgba(19,17,15,.28) 42%, rgba(19,17,15,.06) 78%),
+    linear-gradient(180deg, rgba(19,17,15,.03), rgba(19,17,15,.08) 55%, rgba(19,17,15,.52));
+}
+
+.mjx-page .mjx-hero .mjx-hero-minimal,
+.mjx-page .mjx-hero .mjx-offer-hero-minimal {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: clamp(42px, 4vw, 64px);
+}
+
+.mjx-page .mjx-hero .mjx-hero-minimal h1,
+.mjx-page .mjx-hero .mjx-offer-hero-minimal h1 {
+  margin: 0;
+  font-size: clamp(66px, 7vw, 112px);
+  line-height: .86;
+  letter-spacing: -.06em;
+}
+
+/* Oferta — lepszy rytm po skróceniu hero */
+.mjx-offer .mjx-manifest {
+  padding-top: clamp(76px, 7vw, 112px);
+  padding-bottom: clamp(72px, 6.5vw, 104px);
+}
+
+.mjx-offer .mjx-manifest-grid--solo .mjx-side-index {
+  margin-bottom: clamp(34px, 4.2vw, 58px);
+}
+
+.mjx-offer .mjx-manifest-grid--solo h2 {
+  max-width: 900px;
+  font-size: clamp(50px, 5.1vw, 82px);
+}
+
+.mjx-offer .offer-board-v3 {
+  padding-top: clamp(26px, 3vw, 46px);
+  padding-bottom: clamp(96px, 9vw, 145px);
+}
+
+.mjx-offer .offer-board-v3-head {
+  margin-bottom: 14px;
+}
+
+.mjx-offer .offer-card-v3 {
+  margin-top: 14px;
+}
+
+.mjx-offer .offer-card-v3-main {
+  padding-top: clamp(30px, 3.5vw, 52px);
+  padding-bottom: clamp(34px, 4vw, 60px);
+}
+
+.mjx-offer .offer-card-v3-top {
+  margin-bottom: clamp(32px, 4vw, 56px);
+}
+
+.mjx-offer .offer-card-v3-lower {
+  margin-top: clamp(38px, 4.6vw, 66px);
+}
+
+@media (max-width: 720px) {
+  .mjx-page .mjx-hero {
+    height: clamp(360px, 52svh, 480px);
+  }
+
+  .mjx-page .mjx-hero .mjx-hero-minimal,
+  .mjx-page .mjx-hero .mjx-offer-hero-minimal {
+    padding-bottom: 34px;
+  }
+
+  .mjx-page .mjx-hero .mjx-hero-minimal h1,
+  .mjx-page .mjx-hero .mjx-offer-hero-minimal h1 {
+    font-size: clamp(54px, 16vw, 76px);
+  }
+
+  .mjx-offer .mjx-manifest {
+    padding-top: 62px;
+    padding-bottom: 60px;
+  }
+
+  .mjx-offer .offer-board-v3 {
+    padding-top: 18px;
+    padding-bottom: 90px;
+  }
+}
