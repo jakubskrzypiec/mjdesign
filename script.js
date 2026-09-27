@@ -822,8 +822,8 @@ if ('IntersectionObserver' in window) {
 
 
 // ============================================================
-// HOMEPAGE SCROLL STORY V3
-// Hero bez martwego scrolla, Proces z finalem, Projekty jako sticky stack.
+// HOMEPAGE SCROLL STORY V4
+// Premium hero inertia + process finale + sticky project stack.
 // ============================================================
 (() => {
   const hero = document.querySelector('[data-hero-editorial]');
@@ -839,9 +839,17 @@ if ('IntersectionObserver' in window) {
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const smooth = t => t * t * (3 - 2 * t);
   const smoother = t => t * t * t * (t * (t * 6 - 15) + 10);
+  const bell = (t, a, b) => {
+    const x = clamp((t - a) / Math.max(.0001, b - a));
+    return Math.sin(Math.PI * x);
+  };
 
   let ticking = false;
   let layoutTicking = false;
+  let heroTarget = 0;
+  let heroCurrent = 0;
+  let heroFrame = 0;
+  let heroInitialized = false;
 
   const headerHeight = () => {
     const raw = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h'));
@@ -855,16 +863,82 @@ if ('IntersectionObserver' in window) {
     return clamp((topOffset - rect.top) / travel);
   };
 
+  const applyHero = raw => {
+    if (!hero) return;
+
+    const p = clamp(raw);
+    const materialReveal = smoother(clamp((p - .06) / .43));
+    const finalReveal = smoother(clamp((p - .46) / .48));
+
+    const planOut = smoother(clamp((p - .16) / .25));
+    const materialIn = smoother(clamp((p - .12) / .24));
+    const materialOut = smoother(clamp((p - .54) / .25));
+    const finalIn = smoother(clamp((p - .57) / .25));
+
+    const planO = 1 - planOut;
+    const materialO = materialIn * (1 - materialOut);
+    const finalO = finalIn;
+
+    const cutMaterial = 103 - materialReveal * 113;
+    const cutFinal = 103 - finalReveal * 113;
+
+    const scan1 = bell(p, .05, .50);
+    const scan2 = bell(p, .45, .96);
+    const scanO = Math.max(scan1, scan2) * .72;
+    const scanX = p < .51 ? cutMaterial : cutFinal;
+
+    hero.style.setProperty('--hero-p', p.toFixed(5));
+    hero.style.setProperty('--hero-cut-material', cutMaterial.toFixed(2) + '%');
+    hero.style.setProperty('--hero-cut-final', cutFinal.toFixed(2) + '%');
+    hero.style.setProperty('--hero-plan-o', planO.toFixed(4));
+    hero.style.setProperty('--hero-material-o', materialO.toFixed(4));
+    hero.style.setProperty('--hero-final-o', finalO.toFixed(4));
+    hero.style.setProperty('--hero-plan-blur', ((1 - planO) * 7).toFixed(2) + 'px');
+    hero.style.setProperty('--hero-material-blur', ((1 - materialO) * 7).toFixed(2) + 'px');
+    hero.style.setProperty('--hero-final-blur', ((1 - finalO) * 7).toFixed(2) + 'px');
+    hero.style.setProperty('--hero-scan-x', clamp(scanX, 0, 100).toFixed(2) + '%');
+    hero.style.setProperty('--hero-scan-o', scanO.toFixed(4));
+    hero.classList.toggle('is-final', finalO > .64);
+  };
+
+  const animateHero = () => {
+    heroFrame = 0;
+    const delta = heroTarget - heroCurrent;
+
+    if (Math.abs(delta) < .00035) {
+      heroCurrent = heroTarget;
+      applyHero(heroCurrent);
+      return;
+    }
+
+    heroCurrent += delta * .105;
+    applyHero(heroCurrent);
+    heroFrame = requestAnimationFrame(animateHero);
+  };
+
+  const setHeroTarget = (p, immediate = false) => {
+    heroTarget = clamp(p);
+
+    if (immediate || reduced.matches || !desktop.matches) {
+      if (heroFrame) cancelAnimationFrame(heroFrame);
+      heroFrame = 0;
+      heroCurrent = heroTarget;
+      applyHero(heroCurrent);
+      return;
+    }
+
+    if (!heroFrame) heroFrame = requestAnimationFrame(animateHero);
+  };
+
   const layoutStories = () => {
     layoutTicking = false;
     const isDesktop = desktop.matches && !reduced.matches;
     const vh = window.innerHeight || document.documentElement.clientHeight;
     const headerH = headerHeight();
 
-    // Hero: pełny ekran + pełna narracja projekt -> wnętrze.
     if (hero) {
       if (isDesktop) {
-        hero.style.height = Math.round(vh * 1.75) + 'px';
+        hero.style.height = Math.round(vh * 2.15) + 'px';
         hero.style.minHeight = hero.style.height;
       } else {
         hero.style.removeProperty('height');
@@ -872,7 +946,6 @@ if ('IntersectionObserver' in window) {
       }
     }
 
-    // Proces nadal jest jedna przypieta scena, ale scroll jest krotki i konkretny.
     if (process) {
       const stage = process.querySelector('.home-process-sticky');
       if (isDesktop && stage) {
@@ -886,7 +959,6 @@ if ('IntersectionObserver' in window) {
       }
     }
 
-    // Projekty maja naturalna wysokosc wynikajaca z kart — bez sztucznego budzetu.
     if (projects) {
       projects.style.removeProperty('height');
       projects.style.removeProperty('min-height');
@@ -907,11 +979,11 @@ if ('IntersectionObserver' in window) {
     const vh = window.innerHeight || document.documentElement.clientHeight;
     const headerH = headerHeight();
 
-    // Hero: sticky progress przez krótki, widoczny odcinek przewijania.
     if (hero) {
       const stage = hero.querySelector('.hero-stage');
-      const p = isDesktop ? stickyProgress(hero, stage, 0) : 0;
-      hero.style.setProperty('--hero-p', smoother(p).toFixed(4));
+      const p = isDesktop ? stickyProgress(hero, stage, 0) : 1;
+      setHeroTarget(p, !heroInitialized);
+      heroInitialized = true;
     }
 
     if (about) {
@@ -920,7 +992,6 @@ if ('IntersectionObserver' in window) {
       about.style.setProperty('--about-line', p.toFixed(4));
     }
 
-    // Proces: aktywny etap jest najmocniejszy, a na finale wszystkie 4 sa podswietlone.
     if (process) {
       const stage = process.querySelector('.home-process-sticky');
       const p = isDesktop ? stickyProgress(process, stage, headerH) : 1;
@@ -939,7 +1010,6 @@ if ('IntersectionObserver' in window) {
       });
     }
 
-    // Projekty: lekka glebię dostaje karta najblizej gornego punktu sticky.
     if (projects) {
       const cards = [...projects.querySelectorAll('.project-card')];
       const target = headerH + Math.min(72, vh * .08);
@@ -957,6 +1027,7 @@ if ('IntersectionObserver' in window) {
         card.style.setProperty('--offer-focus', '0');
         return;
       }
+
       const r = card.getBoundingClientRect();
       const center = r.top + r.height / 2;
       const distance = Math.abs(center - vh / 2);
@@ -974,8 +1045,14 @@ if ('IntersectionObserver' in window) {
   window.addEventListener('scroll', requestRender, { passive: true });
   window.addEventListener('resize', requestLayout, { passive: true });
   window.addEventListener('load', requestLayout, { once: true });
-  desktop.addEventListener?.('change', requestLayout);
-  reduced.addEventListener?.('change', requestLayout);
+  desktop.addEventListener?.('change', () => {
+    heroInitialized = false;
+    requestLayout();
+  });
+  reduced.addEventListener?.('change', () => {
+    heroInitialized = false;
+    requestLayout();
+  });
 
   layoutStories();
 })();
