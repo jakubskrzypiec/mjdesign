@@ -246,7 +246,7 @@ if (finePointer && !reducedMotion) {
 
 // Realizacje — subtelne prowadzenie wzroku scrollem przy zachowaniu 3 kafli naraz.
 (() => {
-  const section = document.querySelector('.projects:not(.projects-scroll):not(.projects-triple-scroll)');
+  const section = document.querySelector('.projects:not(.projects-scroll):not(.projects-triple-scroll):not(.home-projects-story)');
   if (!section || reducedMotion) return;
 
   const cards = [...section.querySelectorAll('.project-card')];
@@ -822,8 +822,8 @@ if ('IntersectionObserver' in window) {
 
 
 // ============================================================
-// HOMEPAGE SCROLL STORY V1
-// Jedna spokojna choreografia zamiast osobnych "wjezdzajacych" efektow.
+// HOMEPAGE SCROLL STORY V2
+// Jeden kontroler, dynamiczne dlugosci sekcji i zero martwego scrolla.
 // ============================================================
 (() => {
   const hero = document.querySelector('[data-hero-cinematic]');
@@ -838,61 +838,133 @@ if ('IntersectionObserver' in window) {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const smooth = t => t * t * (3 - 2 * t);
-  let ticking = false;
+  const smoother = t => t * t * t * (t * (t * 6 - 15) + 10);
 
-  const progressThrough = el => {
-    const r = el.getBoundingClientRect();
-    const travel = Math.max(1, r.height - window.innerHeight);
-    return clamp(-r.top / travel);
+  let ticking = false;
+  let layoutTicking = false;
+
+  const headerHeight = () => {
+    const raw = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h'));
+    return Number.isFinite(raw) ? raw : 92;
+  };
+
+  const stickyProgress = (section, stage, topOffset = 0) => {
+    if (!section || !stage) return 0;
+    const rect = section.getBoundingClientRect();
+    const travel = Math.max(1, section.offsetHeight - stage.offsetHeight);
+    return clamp((topOffset - rect.top) / travel);
+  };
+
+  const layoutStories = () => {
+    layoutTicking = false;
+    const isDesktop = desktop.matches && !reduced.matches;
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const headerH = headerHeight();
+
+    if (hero) {
+      if (isDesktop) {
+        hero.style.height = Math.round(vh * 1.24) + 'px';
+        hero.style.minHeight = hero.style.height;
+      } else {
+        hero.style.removeProperty('height');
+        hero.style.removeProperty('min-height');
+      }
+    }
+
+    if (process) {
+      const stage = process.querySelector('.home-process-sticky');
+      if (isDesktop && stage) {
+        const stageH = Math.max(520, vh - headerH);
+        const scrollBudget = Math.max(vh * 1.14, 900);
+        process.style.height = Math.round(stageH + scrollBudget) + 'px';
+        process.style.minHeight = process.style.height;
+      } else {
+        process.style.removeProperty('height');
+        process.style.removeProperty('min-height');
+      }
+    }
+
+    if (projects) {
+      const stage = projects.querySelector('.projects-stage');
+      const track = projects.querySelector('.project-grid');
+
+      if (isDesktop && stage && track) {
+        // Po zmianie rozmiaru najpierw zerujemy przesuniecie, by scrollWidth byl prawdziwy.
+        projects.style.setProperty('--projects-x', '0px');
+        const stageH = Math.max(520, vh - headerH);
+        const endPadding = Math.max(28, window.innerWidth * .045);
+        const maxShift = Math.max(0, track.scrollWidth - window.innerWidth + endPadding);
+        const scrollBudget = Math.max(vh * .9, maxShift * .88);
+        projects.dataset.maxShift = maxShift.toFixed(2);
+        projects.style.height = Math.round(stageH + scrollBudget) + 'px';
+        projects.style.minHeight = projects.style.height;
+      } else {
+        projects.style.removeProperty('height');
+        projects.style.removeProperty('min-height');
+        projects.style.removeProperty('--projects-x');
+        delete projects.dataset.maxShift;
+      }
+    }
+
+    requestRender();
+  };
+
+  const requestLayout = () => {
+    if (layoutTicking) return;
+    layoutTicking = true;
+    requestAnimationFrame(layoutStories);
   };
 
   const render = () => {
     ticking = false;
     const isDesktop = desktop.matches && !reduced.matches;
     const vh = window.innerHeight || document.documentElement.clientHeight;
+    const headerH = headerHeight();
 
-    // Hero: obraz osiada, tekst tylko delikatnie odchodzi.
     if (hero) {
-      const p = isDesktop ? progressThrough(hero) : 0;
+      const stage = hero.querySelector('.hero-stage');
+      const p = isDesktop ? stickyProgress(hero, stage, 0) : 0;
       hero.style.setProperty('--hero-p', p.toFixed(4));
     }
 
-    // O mnie: pionowa kreska rysuje sie w momencie wejscia sekcji.
     if (about) {
       const r = about.getBoundingClientRect();
-      const p = smooth(clamp((vh * .88 - r.top) / Math.max(1, vh * .72)));
+      const p = smooth(clamp((vh * .86 - r.top) / Math.max(1, vh * .68)));
       about.style.setProperty('--about-line', p.toFixed(4));
     }
 
-    // Proces: cztery etapy aktywuja sie kolejno.
     if (process) {
-      const p = isDesktop ? progressThrough(process) : 0;
-      process.style.setProperty('--process-p', (isDesktop ? p : 1).toFixed(4));
+      const stage = process.querySelector('.home-process-sticky');
+      const p = isDesktop ? stickyProgress(process, stage, headerH) : 1;
+      process.style.setProperty('--process-p', p.toFixed(4));
 
       const steps = [...process.querySelectorAll('.home-process-step')];
-      let active = 0;
-      if (isDesktop) active = Math.min(steps.length - 1, Math.floor(p * steps.length));
-      steps.forEach((step, i) => step.classList.toggle('is-scroll-active', !isDesktop || i === active));
+      const position = p * Math.max(0, steps.length - 1);
+
+      steps.forEach((step, i) => {
+        const distance = Math.abs(position - i);
+        const focus = isDesktop ? smoother(1 - clamp(distance / .92)) : 1;
+        step.style.setProperty('--step-focus', focus.toFixed(4));
+        step.classList.toggle('is-scroll-active', focus > .72);
+      });
     }
 
-    // Realizacje: scroll pionowy przesuwa szeroki tor w poziomie.
     if (projects) {
+      const stage = projects.querySelector('.projects-stage');
       const track = projects.querySelector('.project-grid');
-      if (track) {
-        if (isDesktop) {
-          const p = progressThrough(projects);
-          const maxShift = Math.max(0, track.scrollWidth - window.innerWidth + window.innerWidth * .035);
-          const x = -maxShift * smooth(p);
-          projects.style.setProperty('--projects-x', x.toFixed(2) + 'px');
-          projects.style.setProperty('--projects-p', p.toFixed(4));
-        } else {
-          projects.style.setProperty('--projects-x', '0px');
-          projects.style.setProperty('--projects-p', '0');
-        }
+
+      if (track && stage && isDesktop) {
+        const p = stickyProgress(projects, stage, headerH);
+        const maxShift = Number(projects.dataset.maxShift || 0);
+        const eased = smoother(p);
+        projects.style.setProperty('--projects-x', (-maxShift * eased).toFixed(2) + 'px');
+        projects.style.setProperty('--projects-p', p.toFixed(4));
+      } else {
+        projects.style.setProperty('--projects-x', '0px');
+        projects.style.setProperty('--projects-p', '0');
       }
     }
 
-    // Oferta: bez sticky. Tylko karta najblizej srodka ekranu lekko "lapie ostrosc".
     offerCards.forEach(card => {
       if (!isDesktop) {
         card.style.setProperty('--offer-focus', '0');
@@ -901,7 +973,7 @@ if ('IntersectionObserver' in window) {
       const r = card.getBoundingClientRect();
       const center = r.top + r.height / 2;
       const distance = Math.abs(center - vh / 2);
-      const focus = smooth(1 - clamp(distance / (vh * .72)));
+      const focus = smooth(1 - clamp(distance / (vh * .78)));
       card.style.setProperty('--offer-focus', focus.toFixed(4));
     });
   };
@@ -913,9 +985,10 @@ if ('IntersectionObserver' in window) {
   };
 
   window.addEventListener('scroll', requestRender, { passive: true });
-  window.addEventListener('resize', requestRender, { passive: true });
-  desktop.addEventListener?.('change', requestRender);
-  reduced.addEventListener?.('change', requestRender);
+  window.addEventListener('resize', requestLayout, { passive: true });
+  window.addEventListener('load', requestLayout, { once: true });
+  desktop.addEventListener?.('change', requestLayout);
+  reduced.addEventListener?.('change', requestLayout);
 
-  render();
+  layoutStories();
 })();
