@@ -3333,3 +3333,266 @@ h3 {
     min-height: 450px;
   }
 }
+
+
+/* =========================================================
+   HOME REWORK V2 — wspólna oś nagłówków + spacing + reviews/banner
+   ========================================================= */
+:root {
+  --home-title-size: clamp(64px, 6.2vw, 98px);
+}
+
+/* Złota zasada: główne nagłówki sekcji zawsze z tej samej lewej osi. */
+.home-about-heading,
+.home-process-heading,
+.home-offer-heading,
+.projects-head,
+.blog-new-head,
+.faq-heading,
+.home-reviews-head,
+.social-directory-copy {
+  text-align: left !important;
+}
+
+.home-about-heading h2,
+.home-process-heading h2,
+.home-offer-heading h2,
+.projects-head h2,
+.blog-new-head h2,
+.faq-heading h2,
+.home-reviews-head h2,
+.social-directory-copy h2,
+.contact-copy h2 {
+  font-size: var(--home-title-size) !important;
+  font-family: var(--serif) !important;
+  font-weight: 300 !important;
+  line-height: .94 !important;
+  letter-spacing: -.01em !important;
+}
+
+/* O mnie — więcej oddechu i większa, spokojniejsza kompozycja. */
+.home-about-elephant {
+  padding-top: clamp(128px, 11vw, 190px);
+  padding-bottom: clamp(140px, 12vw, 210px);
+}
+
+.home-about-heading {
+  width: var(--page);
+  margin: 0 auto clamp(86px, 8vw, 126px);
+}
+
+.home-about-grid {
+  width: var(--page);
+  grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr);
+  gap: clamp(82px, 10vw, 170px);
+}
+
+.home-about-placeholder {
+  min-height: clamp(500px, 38vw, 650px);
+  aspect-ratio: auto;
+}
+
+.home-about-copy {
+  grid-template-columns: 1px 1fr;
+  gap: clamp(30px, 3vw, 46px);
+}
+
+.home-about-copy-line {
+  background: #171310;
+}
+
+.home-about-lead,
+.home-about-copy p:not(.home-about-kicker):not(.home-about-lead) {
+  max-width: 650px;
+  margin: 0;
+  color: #6d675f;
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.95;
+}
+
+.home-about-lead {
+  margin-bottom: 24px;
+}
+
+/* Proces — układ bez zmian, tylko nagłówek na wspólnej osi. */
+.home-process-heading {
+  width: var(--page);
+  margin: 0 auto clamp(74px, 7vw, 110px);
+}
+
+/* Oferta — nagłówek na wspólnej osi. */
+.home-offer-heading {
+  width: var(--page);
+  margin: 0 auto clamp(58px, 6vw, 90px);
+}
+
+/* Opinie — dokładnie ciemny brąz jak stopka + karta Google. */
+.home-reviews-dark {
+  background: #15110f;
+}
+
+.home-reviews-head h2 {
+  color: #fffaf4;
+}
+
+.home-google-card {
+  width: var(--page);
+  margin: 0 auto clamp(42px, 5vw, 72px);
+  display: grid;
+  grid-template-columns: 220px 1fr auto;
+  gap: 36px;
+  align-items: center;
+  padding: 28px 32px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: #f8f5ef;
+  color: #2b2622;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.home-google-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 44px rgba(0,0,0,.16);
+}
+
+.home-google-mark {
+  min-height: 74px;
+  padding-right: 30px;
+  border-right: 1px solid rgba(43,38,34,.14);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.home-google-mark span {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #8d8174;
+}
+
+.home-google-mark strong {
+  margin-top: 5px;
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.01em;
+  color: #2d2925;
+}
+
+.home-google-copy p {
+  margin: 0;
+  max-width: 650px;
+  color: #746c64;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.home-google-arrow {
+  white-space: nowrap;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #817465;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #6e6256;
+}
+
+/* Baner — biały tekst + delikatne przyciemnienie zdjęcia. */
+.image-break-banner::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: block !important;
+  background:
+    linear-gradient(90deg, rgba(20,15,12,.48) 0%, rgba(20,15,12,.25) 34%, rgba(20,15,12,.06) 64%, rgba(20,15,12,0) 100%);
+  pointer-events: none;
+}
+
+.image-break-banner-copy {
+  color: #fff !important;
+}
+
+.image-break-banner-copy > span,
+.image-break-banner-copy p,
+.image-break-banner-copy small {
+  color: #fff !important;
+}
+
+.image-break-banner-copy > span {
+  opacity: .72;
+}
+
+.image-break-banner-copy small {
+  opacity: .82;
+}
+
+/* Pozostałe sekcje — wspólna lewa oś. */
+.projects-head,
+.blog-new-head,
+.faq-grid,
+.home-reviews-head,
+.social-directory-shell,
+.contact-inner {
+  width: var(--page);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 1050px) {
+  .home-google-card {
+    grid-template-columns: 180px 1fr;
+  }
+
+  .home-google-arrow {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --home-title-size: clamp(54px, 15vw, 74px);
+  }
+
+  .home-about-elephant {
+    padding-top: 92px;
+    padding-bottom: 110px;
+  }
+
+  .home-about-heading {
+    margin-bottom: 58px;
+  }
+
+  .home-about-grid {
+    width: 100%;
+    gap: 52px;
+  }
+
+  .home-about-placeholder {
+    min-height: 430px;
+  }
+
+  .home-google-card {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 24px 22px;
+  }
+
+  .home-google-mark {
+    min-height: 0;
+    padding-right: 0;
+    padding-bottom: 18px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(43,38,34,.14);
+  }
+
+  .home-google-arrow {
+    grid-column: auto;
+  }
+}
