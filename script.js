@@ -822,8 +822,8 @@ if ('IntersectionObserver' in window) {
 
 
 // ============================================================
-// HOMEPAGE SCROLL STORY V6
-// Jeden kadr hero + czysty editorial reveal z inercja.
+// HOMEPAGE SCROLL STORY V7
+// Klient-approved hero: headline od razu, CTA dochodza na scrollu.
 // ============================================================
 (() => {
   const hero = document.querySelector('[data-hero-editorial]');
@@ -861,24 +861,11 @@ if ('IntersectionObserver' in window) {
 
   const applyHero = raw => {
     if (!hero) return;
-
     const p = clamp(raw);
-    const veil = smoother(clamp((p - .01) / .30));
-    const lineA = smoother(clamp((p - .05) / .27));
-    const lineB = smoother(clamp((p - .22) / .28));
-    const rule = smoother(clamp((p - .43) / .18));
-    const meta = smoother(clamp((p - .57) / .24));
-    const kickerFade = smoother(clamp((p - .64) / .24));
-    const kicker = 1 - kickerFade * .30;
+    const actions = smoother(clamp((p - .10) / .56));
 
     hero.style.setProperty('--hero-p', p.toFixed(5));
-    hero.style.setProperty('--hero-veil', veil.toFixed(4));
-    hero.style.setProperty('--hero-a', lineA.toFixed(4));
-    hero.style.setProperty('--hero-b', lineB.toFixed(4));
-    hero.style.setProperty('--hero-rule', rule.toFixed(4));
-    hero.style.setProperty('--hero-meta', meta.toFixed(4));
-    hero.style.setProperty('--hero-kicker', kicker.toFixed(4));
-    hero.classList.toggle('is-ready', meta > .72);
+    hero.style.setProperty('--hero-actions', actions.toFixed(4));
   };
 
   const animateHero = () => {
@@ -891,7 +878,7 @@ if ('IntersectionObserver' in window) {
       return;
     }
 
-    heroCurrent += delta * .105;
+    heroCurrent += delta * .12;
     applyHero(heroCurrent);
     heroFrame = requestAnimationFrame(animateHero);
   };
@@ -918,7 +905,7 @@ if ('IntersectionObserver' in window) {
 
     if (hero) {
       if (isDesktop) {
-        hero.style.height = Math.round(vh * 1.72) + 'px';
+        hero.style.height = Math.round(vh * 1.26) + 'px';
         hero.style.minHeight = hero.style.height;
       } else {
         hero.style.removeProperty('height');
