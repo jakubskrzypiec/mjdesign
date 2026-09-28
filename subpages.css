@@ -4819,3 +4819,48 @@
     font-size: 19px;
   }
 }
+
+
+/* =========================================================
+   CLIENT FINAL V2 — realizacje hover: dark + logo
+   ========================================================= */
+.project-placeholder::before {
+  display: none !important;
+  content: none !important;
+}
+
+.project-placeholder {
+  transition:
+    background .4s ease,
+    border-color .4s ease,
+    filter .4s ease !important;
+}
+
+.project-placeholder:hover {
+  background:
+    linear-gradient(rgba(21,17,15,.78),rgba(21,17,15,.78)),
+    var(--mj-dark) !important;
+  border-color: rgba(21,17,15,.28) !important;
+}
+
+.project-hover-logo-final {
+  width: clamp(150px, 14vw, 230px);
+  max-width: 42%;
+  height: auto;
+  opacity: 0;
+  transform: scale(.93);
+  transition:
+    opacity .3s ease,
+    transform .45s cubic-bezier(.2,.8,.2,1);
+  pointer-events: none;
+}
+
+.project-placeholder:hover .project-hover-logo-final {
+  opacity: .96;
+  transform: scale(1);
+}
+
+.project-placeholder:hover .project-waiting {
+  opacity: 0 !important;
+  transform: translateY(6px);
+}
