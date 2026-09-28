@@ -7355,3 +7355,263 @@ h3 {
     top: calc(var(--header-h, 78px) + 34px);
   }
 }
+
+
+/* =========================================================
+   PROJECTS HORIZONTAL V1 — pionowy scroll steruje karuzelą
+   ========================================================= */
+@media (min-width: 1001px) {
+  .projects.home-projects-horizontal {
+    --projects-x: 0px;
+    position: relative;
+    height: 300svh;
+    min-height: 300svh;
+    padding: 0 !important;
+    overflow: visible;
+    background: var(--cream-2);
+  }
+
+  .projects.home-projects-horizontal .projects-stage {
+    position: sticky !important;
+    top: 0 !important;
+    width: 100%;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    padding:
+      calc(var(--header-h, 92px) + clamp(20px, 2.8vh, 34px))
+      0
+      clamp(22px, 3vh, 34px) !important;
+    display: grid !important;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: clamp(18px, 2.5vh, 30px);
+    overflow: hidden !important;
+    background: var(--cream-2);
+  }
+
+  .projects.home-projects-horizontal .projects-head {
+    width: var(--page);
+    margin: 0 auto !important;
+  }
+
+  .projects.home-projects-horizontal .projects-head h2 {
+    max-width: 850px;
+    font-size: clamp(48px, 4.7vw, 76px) !important;
+    line-height: .94 !important;
+  }
+
+  .projects.home-projects-horizontal .project-grid {
+    position: relative !important;
+    width: max-content !important;
+    height: 100% !important;
+    min-height: 0;
+    margin: 0 !important;
+    padding: 0 6vw !important;
+    display: flex !important;
+    align-items: center;
+    gap: clamp(24px, 2.4vw, 40px);
+    overflow: visible !important;
+    perspective: none !important;
+    transform: translate3d(var(--projects-x), 0, 0);
+    will-change: transform;
+  }
+
+  .projects.home-projects-horizontal .project-card,
+  .projects.home-projects-horizontal .project-card:hover,
+  .projects.home-projects-horizontal .project-card.is-tilting {
+    --stack-enter: 1 !important;
+    --stack-cover: 0 !important;
+    --stack-focus: 1 !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    z-index: auto !important;
+    flex: 0 0 min(
+      1080px,
+      70vw,
+      calc((100svh - var(--header-h, 92px) - 260px) * 1.72)
+    );
+    width: min(
+      1080px,
+      70vw,
+      calc((100svh - var(--header-h, 92px) - 260px) * 1.72)
+    ) !important;
+    min-width: 650px !important;
+    max-width: 1080px !important;
+    margin: 0 !important;
+    display: block;
+    opacity: 1 !important;
+    transform: none !important;
+    border: 1px solid rgba(74,60,53,.12);
+    background: #fffdfa;
+    box-shadow: 0 22px 54px rgba(32,30,27,.08);
+    transition:
+      transform .42s cubic-bezier(.2,.75,.2,1),
+      border-color .3s ease,
+      box-shadow .3s ease !important;
+    will-change: auto;
+  }
+
+  .projects.home-projects-horizontal .project-card:hover {
+    transform: translateY(-5px) !important;
+    border-color: rgba(74,60,53,.24);
+    box-shadow: 0 30px 68px rgba(32,30,27,.12);
+  }
+
+  .projects.home-projects-horizontal .project-card::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  .projects.home-projects-horizontal .project-card-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1.72 / 1;
+    overflow: hidden;
+    background: #d7d0c6;
+  }
+
+  .projects.home-projects-horizontal .project-shot-base,
+  .projects.home-projects-horizontal .project-card:hover .project-shot-base {
+    position: relative !important;
+    inset: auto !important;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.005) !important;
+    filter: none !important;
+    transition: transform .7s cubic-bezier(.2,.75,.2,1) !important;
+  }
+
+  .projects.home-projects-horizontal .project-card:hover .project-shot-base {
+    transform: scale(1.018) !important;
+  }
+
+  .projects.home-projects-horizontal .project-card-body {
+    min-height: 76px;
+    padding: 14px 18px 15px;
+    display: grid;
+    grid-template-columns: 68px 1fr;
+    gap: 18px;
+    align-items: end;
+    background: #fffdfa;
+  }
+
+  .projects.home-projects-horizontal .project-stack-index {
+    align-self: start;
+    padding-top: 3px;
+    font-size: 8px;
+    letter-spacing: .14em;
+    color: rgba(43,43,41,.43);
+  }
+
+  .projects.home-projects-horizontal .project-meta {
+    gap: 3px;
+  }
+
+  .projects.home-projects-horizontal .project-meta small {
+    font-size: 7px;
+    letter-spacing: .15em;
+  }
+
+  .projects.home-projects-horizontal .project-meta b {
+    font-size: clamp(29px, 2vw, 39px);
+    line-height: .94;
+  }
+
+  .projects.home-projects-horizontal .project-tag {
+    top: 14px;
+    left: 14px;
+    min-height: 27px;
+    padding-inline: 10px;
+    font-size: 7px;
+  }
+
+  .projects.home-projects-horizontal .project-hint {
+    width: var(--page);
+    margin: 0 auto !important;
+    padding: 0;
+    font-size: 7px;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    opacity: .42;
+  }
+}
+
+@media (min-width: 1001px) and (max-height: 760px) {
+  .projects.home-projects-horizontal .projects-stage {
+    padding-top: calc(var(--header-h, 78px) + 14px) !important;
+    padding-bottom: 14px !important;
+    gap: 12px;
+  }
+
+  .projects.home-projects-horizontal .projects-head h2 {
+    font-size: clamp(42px, 4vw, 60px) !important;
+  }
+
+  .projects.home-projects-horizontal .project-card,
+  .projects.home-projects-horizontal .project-card:hover,
+  .projects.home-projects-horizontal .project-card.is-tilting {
+    flex-basis: min(
+      900px,
+      66vw,
+      calc((100svh - var(--header-h, 78px) - 195px) * 1.72)
+    );
+    width: min(
+      900px,
+      66vw,
+      calc((100svh - var(--header-h, 78px) - 195px) * 1.72)
+    ) !important;
+    min-width: 560px !important;
+  }
+
+  .projects.home-projects-horizontal .project-card-body {
+    min-height: 62px;
+    padding: 10px 15px 11px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .projects.home-projects-horizontal {
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 82px 14px 92px !important;
+    overflow: hidden;
+  }
+
+  .projects.home-projects-horizontal .projects-stage {
+    position: static !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  .projects.home-projects-horizontal .projects-head,
+  .projects.home-projects-horizontal .project-hint {
+    width: 100%;
+  }
+
+  .projects.home-projects-horizontal .projects-head {
+    margin-bottom: 54px !important;
+  }
+
+  .projects.home-projects-horizontal .project-grid {
+    width: 100% !important;
+    transform: none !important;
+    display: grid !important;
+    gap: 18px;
+    padding: 0 !important;
+  }
+
+  .projects.home-projects-horizontal .project-card,
+  .projects.home-projects-horizontal .project-card:hover,
+  .projects.home-projects-horizontal .project-card.is-tilting {
+    position: relative !important;
+    top: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+}
