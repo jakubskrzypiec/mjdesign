@@ -7035,3 +7035,197 @@ h3 {
     padding-inline: 20px;
   }
 }
+
+
+/* =========================================================
+   HERO STATIC FINAL — bez scrolla, bez sticky, bez czarnych pasów
+   ========================================================= */
+.hero.hero-static-approved {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 100svh;
+  max-height: none;
+  display: block;
+  overflow: hidden;
+  margin: 0;
+  border: 0;
+  background: #171310;
+  color: #fff;
+}
+
+.hero.hero-static-approved .hero-stage {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  background: #171310;
+}
+
+.hero.hero-static-approved .hero-stage::after {
+  display: none !important;
+  content: none !important;
+}
+
+.hero.hero-static-approved .hero-approved-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  background: url('hero.webp') 54% center / cover no-repeat;
+  transform: none !important;
+  animation: none !important;
+  filter: saturate(.88) contrast(1.015);
+}
+
+.hero.hero-static-approved .hero-approved-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(20,16,13,.62) 0%, rgba(20,16,13,.42) 28%, rgba(20,16,13,.14) 58%, rgba(20,16,13,.02) 100%),
+    linear-gradient(180deg, rgba(20,16,13,.03) 0%, rgba(20,16,13,.01) 52%, rgba(20,16,13,.22) 100%);
+}
+
+.hero.hero-static-approved .hero-approved-content {
+  position: absolute;
+  z-index: 3;
+  left: 6vw;
+  bottom: clamp(72px, 8.5vh, 100px);
+  width: min(820px, 50vw);
+}
+
+.hero.hero-static-approved .hero-approved-eyebrow {
+  margin: 0 0 18px;
+  font-size: 8px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.72);
+}
+
+.hero.hero-static-approved h1 {
+  margin: 0;
+  max-width: 790px;
+  font-family: var(--serif) !important;
+  font-size: clamp(72px, 6.25vw, 108px) !important;
+  font-weight: 300 !important;
+  line-height: .89 !important;
+  letter-spacing: -.018em !important;
+  color: #fff !important;
+  text-wrap: balance;
+  text-shadow: 0 14px 34px rgba(0,0,0,.13);
+}
+
+.hero.hero-static-approved h1::after {
+  display: none !important;
+  content: none !important;
+}
+
+.hero.hero-static-approved .hero-approved-rule {
+  width: 72px;
+  height: 1px;
+  margin-top: 26px;
+  background: rgba(255,255,255,.58);
+}
+
+.hero.hero-static-approved .hero-approved-actions {
+  margin-top: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+.hero.hero-static-approved .hero-btn {
+  min-width: 142px;
+  min-height: 48px;
+  padding: 0 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  box-shadow: none;
+}
+
+.hero.hero-static-approved .hero-btn-primary {
+  background: rgba(250,247,241,.96);
+  border: 1px solid rgba(250,247,241,.96);
+  color: #2a231e;
+}
+
+.hero.hero-static-approved .hero-btn-secondary {
+  background: rgba(24,19,16,.12);
+  border: 1px solid rgba(255,255,255,.42);
+  color: #fff;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.hero.hero-static-approved .hero-btn:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 1180px) and (min-width: 1001px) {
+  .hero.hero-static-approved .hero-approved-content {
+    width: min(760px, 58vw);
+  }
+
+  .hero.hero-static-approved h1 {
+    font-size: clamp(66px, 6vw, 94px) !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  .hero.hero-static-approved {
+    height: 100svh;
+    min-height: 100svh;
+  }
+
+  .hero.hero-static-approved .hero-approved-content {
+    left: 22px;
+    right: 22px;
+    bottom: 54px;
+    width: auto;
+  }
+
+  .hero.hero-static-approved h1 {
+    font-size: clamp(58px, 12vw, 82px) !important;
+    line-height: .91 !important;
+  }
+}
+
+@media (max-width: 680px) {
+  .hero.hero-static-approved .hero-approved-content {
+    left: 16px;
+    right: 16px;
+    bottom: 42px;
+  }
+
+  .hero.hero-static-approved h1 {
+    font-size: clamp(52px, 14vw, 70px) !important;
+  }
+
+  .hero.hero-static-approved .hero-approved-actions {
+    flex-wrap: wrap;
+  }
+
+  .hero.hero-static-approved .hero-btn {
+    min-width: 128px;
+    min-height: 46px;
+    padding-inline: 20px;
+  }
+}
