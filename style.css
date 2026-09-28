@@ -7615,3 +7615,124 @@ h3 {
     transform: none !important;
   }
 }
+
+
+/* =========================================================
+   PROJECTS HORIZONTAL V2 — pełna scena pod headerem
+   ========================================================= */
+@media (min-width: 1001px) {
+  .projects.home-projects-horizontal {
+    background: var(--cream-2) !important;
+    overflow: visible !important;
+  }
+
+  .projects.home-projects-horizontal .projects-stage {
+    position: sticky !important;
+    top: var(--header-h, 92px) !important;
+    height: calc(100svh - var(--header-h, 92px)) !important;
+    min-height: calc(100svh - var(--header-h, 92px)) !important;
+    padding:
+      clamp(22px, 2.6vh, 32px)
+      0
+      clamp(18px, 2.2vh, 26px) !important;
+    grid-template-rows: auto minmax(0, 1fr) auto !important;
+    gap: clamp(14px, 1.8vh, 22px) !important;
+    background: var(--cream-2) !important;
+    overflow: hidden !important;
+  }
+
+  .projects.home-projects-horizontal .projects-head {
+    width: var(--page) !important;
+    margin: 0 auto !important;
+  }
+
+  .projects.home-projects-horizontal .projects-head .eyebrow {
+    margin-bottom: 10px;
+  }
+
+  .projects.home-projects-horizontal .projects-head h2 {
+    max-width: 820px;
+    font-size: clamp(44px, 4vw, 66px) !important;
+    line-height: .92 !important;
+  }
+
+  .projects.home-projects-horizontal .project-grid {
+    align-self: stretch;
+    height: 100% !important;
+    min-height: 0 !important;
+    padding: 0 6vw !important;
+    gap: clamp(26px, 2.5vw, 42px) !important;
+  }
+
+  .projects.home-projects-horizontal .project-card,
+  .projects.home-projects-horizontal .project-card:hover,
+  .projects.home-projects-horizontal .project-card.is-tilting {
+    flex-basis: min(
+      1080px,
+      68vw,
+      calc((100svh - var(--header-h, 92px) - 235px) * 1.72)
+    ) !important;
+    width: min(
+      1080px,
+      68vw,
+      calc((100svh - var(--header-h, 92px) - 235px) * 1.72)
+    ) !important;
+    min-width: 620px !important;
+    max-width: 1080px !important;
+  }
+
+  .projects.home-projects-horizontal .project-card-media {
+    aspect-ratio: 1.72 / 1 !important;
+  }
+
+  .projects.home-projects-horizontal .project-card-body {
+    min-height: 68px;
+    padding: 12px 18px 13px;
+  }
+
+  .projects.home-projects-horizontal .project-hint {
+    width: var(--page) !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    line-height: 1.2;
+  }
+}
+
+@media (min-width: 1001px) and (max-height: 760px) {
+  .projects.home-projects-horizontal .projects-stage {
+    top: var(--header-h, 78px) !important;
+    height: calc(100svh - var(--header-h, 78px)) !important;
+    min-height: calc(100svh - var(--header-h, 78px)) !important;
+    padding: 14px 0 12px !important;
+    gap: 10px !important;
+  }
+
+  .projects.home-projects-horizontal .projects-head .eyebrow {
+    margin-bottom: 6px;
+  }
+
+  .projects.home-projects-horizontal .projects-head h2 {
+    font-size: clamp(38px, 3.7vw, 54px) !important;
+  }
+
+  .projects.home-projects-horizontal .project-card,
+  .projects.home-projects-horizontal .project-card:hover,
+  .projects.home-projects-horizontal .project-card.is-tilting {
+    flex-basis: min(
+      900px,
+      64vw,
+      calc((100svh - var(--header-h, 78px) - 165px) * 1.72)
+    ) !important;
+    width: min(
+      900px,
+      64vw,
+      calc((100svh - var(--header-h, 78px) - 165px) * 1.72)
+    ) !important;
+    min-width: 540px !important;
+  }
+
+  .projects.home-projects-horizontal .project-card-body {
+    min-height: 58px;
+    padding: 9px 15px 10px;
+  }
+}
