@@ -822,8 +822,8 @@ if ('IntersectionObserver' in window) {
 
 
 // ============================================================
-// HOMEPAGE SCROLL STORY V5
-// Jeden kadr hero + kinetyczna typografia z inercja.
+// HOMEPAGE SCROLL STORY V6
+// Jeden kadr hero + czysty editorial reveal z inercja.
 // ============================================================
 (() => {
   const hero = document.querySelector('[data-hero-editorial]');
@@ -863,22 +863,22 @@ if ('IntersectionObserver' in window) {
     if (!hero) return;
 
     const p = clamp(raw);
-    const lineA = smoother(clamp((p - .04) / .29));
-    const lineB = smoother(clamp((p - .21) / .31));
-    const rule = smoother(clamp((p - .39) / .22));
-    const side = smoother(clamp((p - .47) / .24));
-    const bottom = smoother(clamp((p - .57) / .27));
-    const kickerFade = smoother(clamp((p - .60) / .28));
-    const kicker = 1 - kickerFade * .42;
+    const veil = smoother(clamp((p - .01) / .30));
+    const lineA = smoother(clamp((p - .05) / .27));
+    const lineB = smoother(clamp((p - .22) / .28));
+    const rule = smoother(clamp((p - .43) / .18));
+    const meta = smoother(clamp((p - .57) / .24));
+    const kickerFade = smoother(clamp((p - .64) / .24));
+    const kicker = 1 - kickerFade * .30;
 
     hero.style.setProperty('--hero-p', p.toFixed(5));
-    hero.style.setProperty('--hero-line-a', lineA.toFixed(4));
-    hero.style.setProperty('--hero-line-b', lineB.toFixed(4));
+    hero.style.setProperty('--hero-veil', veil.toFixed(4));
+    hero.style.setProperty('--hero-a', lineA.toFixed(4));
+    hero.style.setProperty('--hero-b', lineB.toFixed(4));
     hero.style.setProperty('--hero-rule', rule.toFixed(4));
-    hero.style.setProperty('--hero-bottom', bottom.toFixed(4));
-    hero.style.setProperty('--hero-side', side.toFixed(4));
+    hero.style.setProperty('--hero-meta', meta.toFixed(4));
     hero.style.setProperty('--hero-kicker', kicker.toFixed(4));
-    hero.classList.toggle('is-ready', bottom > .74);
+    hero.classList.toggle('is-ready', meta > .72);
   };
 
   const animateHero = () => {
@@ -918,7 +918,7 @@ if ('IntersectionObserver' in window) {
 
     if (hero) {
       if (isDesktop) {
-        hero.style.height = Math.round(vh * 1.85) + 'px';
+        hero.style.height = Math.round(vh * 1.72) + 'px';
         hero.style.minHeight = hero.style.height;
       } else {
         hero.style.removeProperty('height');
