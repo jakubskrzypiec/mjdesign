@@ -4652,3 +4652,170 @@
   font-weight: 300 !important;
   letter-spacing: -.01em !important;
 }
+
+
+/* =========================================================
+   CLIENT FINAL SYSTEM — podstrony / 3 kolory / wspólny display
+   ========================================================= */
+:root {
+  --mj-cream: #f3eee7;
+  --mj-paper: #fffdfa;
+  --mj-dark: #15110f;
+  --site-title-size: clamp(64px, 6.2vw, 98px);
+}
+
+.subpage-main,
+.projects-v4,
+.project-index,
+.notes-index-section,
+.contact-page,
+.mjx-manifest,
+.offer-board-v3 {
+  background: var(--mj-cream) !important;
+  color: var(--mj-dark);
+}
+
+.project-index-card,
+.note-card,
+.contact-page-form,
+.offer-card-v3 {
+  background-color: var(--mj-paper) !important;
+}
+
+.base-cta,
+.mjx-cta,
+.mjx-process {
+  background: var(--mj-dark) !important;
+}
+
+/* Jeden rozmiar dla dużych nagłówków ekranowych/sekcyjnych.
+   Nagłówki kart i nazw usług zostają mniejsze jako drugi poziom hierarchii. */
+.subpage-hero-inner h1,
+.mjx-page .mjx-hero .mjx-hero-minimal h1,
+.mjx-page .mjx-hero .mjx-offer-hero-minimal h1,
+.subpage-intro h2,
+.process-head h2,
+.project-index-head h2,
+.notes-index-head h2,
+.contact-page-copy h2,
+.base-cta h2,
+.mjx-manifest h2,
+.mjx-process-head h2,
+.projects-v4 .project-screen h2,
+.mjx-cta h2 {
+  font-family: var(--serif) !important;
+  font-size: var(--site-title-size) !important;
+  font-weight: 300 !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.018em !important;
+}
+
+/* Realizacje — spokojny hover bez wielkich pionowych napisów */
+.project-side-label {
+  display: none !important;
+}
+
+.project-placeholder {
+  border-color: rgba(21,17,15,.14) !important;
+  background:
+    linear-gradient(45deg,
+      transparent calc(50% - .5px),
+      rgba(21,17,15,.10) calc(50% - .5px),
+      rgba(21,17,15,.10) calc(50% + .5px),
+      transparent calc(50% + .5px)),
+    linear-gradient(-45deg,
+      transparent calc(50% - .5px),
+      rgba(21,17,15,.10) calc(50% - .5px),
+      rgba(21,17,15,.10) calc(50% + .5px),
+      transparent calc(50% + .5px)),
+    var(--mj-paper) !important;
+  transition: background .4s ease, border-color .4s ease;
+}
+
+.project-placeholder::after {
+  background:
+    linear-gradient(90deg, rgba(255,253,250,.26), transparent 32%),
+    repeating-linear-gradient(0deg, rgba(21,17,15,.012) 0 1px, transparent 1px 5px) !important;
+}
+
+.project-placeholder::before {
+  content: "↗";
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  top: 50%;
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,253,250,.72);
+  border-radius: 50%;
+  color: var(--mj-paper);
+  font-family: var(--sans);
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1;
+  opacity: 0;
+  transform: translate(-50%,-50%) scale(.82);
+  transition:
+    opacity .3s ease,
+    transform .45s cubic-bezier(.2,.8,.2,1),
+    background .3s ease;
+  pointer-events: none;
+}
+
+.project-placeholder:hover {
+  border-color: rgba(21,17,15,.28) !important;
+  background:
+    linear-gradient(rgba(21,17,15,.66),rgba(21,17,15,.66)),
+    var(--mj-dark) !important;
+}
+
+.project-placeholder:hover::before {
+  opacity: 1;
+  transform: translate(-50%,-50%) scale(1);
+  background: rgba(255,253,250,.04);
+}
+
+.project-placeholder:hover .project-waiting {
+  opacity: 0 !important;
+  transform: translateY(6px);
+}
+
+.project-waiting {
+  color: rgba(21,17,15,.46) !important;
+}
+
+/* Linie, teksty pomocnicze i stany tylko jako alpha głównego dark */
+.projects-v4-topline,
+.project-screen-index,
+.project-screen-state,
+.project-index-head > p,
+.notes-index-head > p,
+.contact-page-copy > p:not(.eyebrow) {
+  color: rgba(21,17,15,.50) !important;
+}
+
+.projects-v4-topline,
+.project-screen {
+  border-color: rgba(21,17,15,.14) !important;
+}
+
+@media (max-width: 680px) {
+  :root {
+    --site-title-size: clamp(48px, 13vw, 66px);
+  }
+
+  .subpage-hero-inner h1,
+  .projects-v4 .project-screen h2,
+  .mjx-cta h2 {
+    line-height: 1.04 !important;
+    letter-spacing: -.014em !important;
+  }
+
+  .project-placeholder::before {
+    width: 58px;
+    height: 58px;
+    font-size: 19px;
+  }
+}
