@@ -822,7 +822,7 @@ if ('IntersectionObserver' in window) {
 
 
 // ============================================================
-// HOMEPAGE SCROLL STORY V9
+// HOMEPAGE SCROLL STORY V10
 // Klient-approved hero: headline od razu, CTA dochodza na scrollu.
 // ============================================================
 (() => {
@@ -933,18 +933,24 @@ if ('IntersectionObserver' in window) {
     }
 
     if (projects) {
+      const run = projects.querySelector('[data-project-run]');
       const stage = projects.querySelector('.projects-stage');
       const track = projects.querySelector('.project-grid');
 
-      if (isDesktop && stage && track) {
+      // Tylko "run" dostaje dodatkową wysokość potrzebną do poziomego ruchu.
+      // Nagłówek zostaje normalnie w flow, więc po animacji nie ma pustego ogona.
+      projects.style.removeProperty('height');
+      projects.style.removeProperty('min-height');
+
+      if (isDesktop && run && stage && track) {
         const viewportW = window.innerWidth || document.documentElement.clientWidth;
         const travel = Math.max(0, track.scrollWidth - viewportW);
-        const scrollBudget = Math.max(vh * 1.45, travel);
-        projects.style.height = Math.round(stage.offsetHeight + scrollBudget) + 'px';
-        projects.style.minHeight = projects.style.height;
-      } else {
-        projects.style.removeProperty('height');
-        projects.style.removeProperty('min-height');
+        const scrollBudget = Math.max(vh * 1.15, travel * .92);
+        run.style.height = Math.round(stage.offsetHeight + scrollBudget) + 'px';
+        run.style.minHeight = run.style.height;
+      } else if (run) {
+        run.style.removeProperty('height');
+        run.style.removeProperty('min-height');
         projects.style.removeProperty('--projects-x');
       }
     }
@@ -996,19 +1002,22 @@ if ('IntersectionObserver' in window) {
     }
 
     if (projects) {
+      const run = projects.querySelector('[data-project-run]');
       const stage = projects.querySelector('.projects-stage');
       const track = projects.querySelector('.project-grid');
       const cards = [...projects.querySelectorAll('.project-card')];
 
-      if (!isDesktop || !stage || !track) {
+      if (!isDesktop || !run || !stage || !track) {
         projects.style.setProperty('--projects-x', '0px');
         cards.forEach(card => card.classList.remove('is-horizontal-active'));
       } else {
         const viewportW = window.innerWidth || document.documentElement.clientWidth;
         const travel = Math.max(0, track.scrollWidth - viewportW);
-        // Start poziomego ruchu dopiero wtedy, gdy cala scena
-        // dojedzie pod fixed header.
-        const p = stickyProgress(projects, stage, headerH);
+
+        // Pierwsza karta jest wycentrowana już przy p=0.
+        // Dopiero gdy ten wycentrowany viewport dojedzie pod header,
+        // sticky zaczyna zamieniać dalszy pionowy scroll w ruch poziomy.
+        const p = stickyProgress(run, stage, headerH);
         const x = -travel * p;
 
         projects.style.setProperty('--projects-x', x.toFixed(2) + 'px');
