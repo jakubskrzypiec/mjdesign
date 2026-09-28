@@ -8149,3 +8149,18 @@ body {
     letter-spacing: -.014em !important;
   }
 }
+
+
+/* =========================================================
+   CLIENT FINAL V2 — reviews heading
+   ========================================================= */
+.home-reviews-head h2 {
+  max-width: 520px !important;
+  font-size: clamp(42px, 4.2vw, 68px) !important;
+  line-height: .98 !important;
+  letter-spacing: -.014em !important;
+}
+
+.home-reviews-head {
+  margin-bottom: clamp(44px, 5vw, 72px) !important;
+}
