@@ -822,8 +822,8 @@ if ('IntersectionObserver' in window) {
 
 
 // ============================================================
-// HOMEPAGE SCROLL STORY V4
-// Premium hero inertia + process finale + sticky project stack.
+// HOMEPAGE SCROLL STORY V5
+// Jeden kadr hero + kinetyczna typografia z inercja.
 // ============================================================
 (() => {
   const hero = document.querySelector('[data-hero-editorial]');
@@ -839,10 +839,6 @@ if ('IntersectionObserver' in window) {
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const smooth = t => t * t * (3 - 2 * t);
   const smoother = t => t * t * t * (t * (t * 6 - 15) + 10);
-  const bell = (t, a, b) => {
-    const x = clamp((t - a) / Math.max(.0001, b - a));
-    return Math.sin(Math.PI * x);
-  };
 
   let ticking = false;
   let layoutTicking = false;
@@ -867,38 +863,22 @@ if ('IntersectionObserver' in window) {
     if (!hero) return;
 
     const p = clamp(raw);
-    const materialReveal = smoother(clamp((p - .06) / .43));
-    const finalReveal = smoother(clamp((p - .46) / .48));
-
-    const planOut = smoother(clamp((p - .16) / .25));
-    const materialIn = smoother(clamp((p - .12) / .24));
-    const materialOut = smoother(clamp((p - .54) / .25));
-    const finalIn = smoother(clamp((p - .57) / .25));
-
-    const planO = 1 - planOut;
-    const materialO = materialIn * (1 - materialOut);
-    const finalO = finalIn;
-
-    const cutMaterial = 103 - materialReveal * 113;
-    const cutFinal = 103 - finalReveal * 113;
-
-    const scan1 = bell(p, .05, .50);
-    const scan2 = bell(p, .45, .96);
-    const scanO = Math.max(scan1, scan2) * .72;
-    const scanX = p < .51 ? cutMaterial : cutFinal;
+    const lineA = smoother(clamp((p - .04) / .29));
+    const lineB = smoother(clamp((p - .21) / .31));
+    const rule = smoother(clamp((p - .39) / .22));
+    const side = smoother(clamp((p - .47) / .24));
+    const bottom = smoother(clamp((p - .57) / .27));
+    const kickerFade = smoother(clamp((p - .60) / .28));
+    const kicker = 1 - kickerFade * .42;
 
     hero.style.setProperty('--hero-p', p.toFixed(5));
-    hero.style.setProperty('--hero-cut-material', cutMaterial.toFixed(2) + '%');
-    hero.style.setProperty('--hero-cut-final', cutFinal.toFixed(2) + '%');
-    hero.style.setProperty('--hero-plan-o', planO.toFixed(4));
-    hero.style.setProperty('--hero-material-o', materialO.toFixed(4));
-    hero.style.setProperty('--hero-final-o', finalO.toFixed(4));
-    hero.style.setProperty('--hero-plan-blur', ((1 - planO) * 7).toFixed(2) + 'px');
-    hero.style.setProperty('--hero-material-blur', ((1 - materialO) * 7).toFixed(2) + 'px');
-    hero.style.setProperty('--hero-final-blur', ((1 - finalO) * 7).toFixed(2) + 'px');
-    hero.style.setProperty('--hero-scan-x', clamp(scanX, 0, 100).toFixed(2) + '%');
-    hero.style.setProperty('--hero-scan-o', scanO.toFixed(4));
-    hero.classList.toggle('is-final', finalO > .64);
+    hero.style.setProperty('--hero-line-a', lineA.toFixed(4));
+    hero.style.setProperty('--hero-line-b', lineB.toFixed(4));
+    hero.style.setProperty('--hero-rule', rule.toFixed(4));
+    hero.style.setProperty('--hero-bottom', bottom.toFixed(4));
+    hero.style.setProperty('--hero-side', side.toFixed(4));
+    hero.style.setProperty('--hero-kicker', kicker.toFixed(4));
+    hero.classList.toggle('is-ready', bottom > .74);
   };
 
   const animateHero = () => {
@@ -938,7 +918,7 @@ if ('IntersectionObserver' in window) {
 
     if (hero) {
       if (isDesktop) {
-        hero.style.height = Math.round(vh * 2.15) + 'px';
+        hero.style.height = Math.round(vh * 1.85) + 'px';
         hero.style.minHeight = hero.style.height;
       } else {
         hero.style.removeProperty('height');
