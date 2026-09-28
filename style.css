@@ -7963,3 +7963,189 @@ h3 {
     margin-top: 28px !important;
   }
 }
+
+
+/* =========================================================
+   CLIENT FINAL SYSTEM — 3 kolory + jeden rytm dużych nagłówków
+   ========================================================= */
+:root {
+  --mj-cream: #f3eee7;
+  --mj-paper: #fffdfa;
+  --mj-dark: #15110f;
+  --site-title-size: clamp(64px, 6.2vw, 98px);
+
+  /* istniejące komponenty korzystają dalej ze swoich zmiennych,
+     ale finalnie zamykamy je w jednej 3-kolorowej palecie */
+  --cream: var(--mj-cream);
+  --cream-2: var(--mj-cream);
+  --cream-3: var(--mj-paper);
+  --green: var(--mj-dark);
+  --green-deep: var(--mj-dark);
+  --ink: var(--mj-dark);
+  --white: var(--mj-paper);
+  --rose: var(--mj-dark);
+  --rose-soft: var(--mj-cream);
+  --sage: var(--mj-cream);
+  --sand: var(--mj-cream);
+  --line: rgba(21,17,15,.14);
+}
+
+body {
+  background: var(--mj-cream);
+  color: var(--mj-dark);
+}
+
+/* główne nagłówki sekcji — zawsze ten sam rozmiar i bez kolizji glifów */
+.home-about-heading h2,
+.home-process-heading h2,
+.home-offer-heading h2,
+.projects-head h2,
+.blog-new-head h2,
+.faq-heading h2,
+.home-reviews-head h2,
+.social-directory-copy h2,
+.contact-copy h2,
+.image-break-banner-copy p {
+  font-family: var(--serif) !important;
+  font-size: var(--site-title-size) !important;
+  font-weight: 300 !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.018em !important;
+}
+
+/* przerywnik — więcej oddechu między liniami i od krawędzi */
+.image-break-banner-copy {
+  max-width: 820px;
+}
+
+.image-break-banner-copy p {
+  max-width: 820px;
+}
+
+.image-break-banner-copy small {
+  margin-top: 22px;
+}
+
+/* FAQ — usuwamy efekt nachodzenia liter w wielkim tytule */
+.faq-heading h2 {
+  max-width: 620px;
+  margin-bottom: 28px;
+  text-wrap: balance;
+}
+
+/* Opinie Google — jasne, dokładnie w kolorze sekcji Oferta */
+.home-reviews-dark {
+  background: var(--mj-cream) !important;
+  color: var(--mj-dark) !important;
+}
+
+.home-reviews-head .eyebrow {
+  color: rgba(21,17,15,.48) !important;
+}
+
+.home-reviews-head h2 {
+  color: var(--mj-dark) !important;
+}
+
+.home-reviews-head > a {
+  color: rgba(21,17,15,.70) !important;
+  border-bottom-color: rgba(21,17,15,.34) !important;
+}
+
+.home-google-card,
+.home-google-card-old {
+  background: var(--mj-paper) !important;
+  color: var(--mj-dark) !important;
+  border-color: rgba(21,17,15,.12) !important;
+  box-shadow: 0 18px 44px rgba(21,17,15,.05);
+}
+
+.home-google-card .google-mark,
+.home-google-card-old .google-mark {
+  border-color: rgba(21,17,15,.12) !important;
+}
+
+.home-google-card .google-mark span,
+.home-google-card-old .google-mark span,
+.home-google-card .google-copy p,
+.home-google-card-old .google-copy p {
+  color: rgba(21,17,15,.52) !important;
+}
+
+.home-google-card .google-mark strong,
+.home-google-card-old .google-mark strong,
+.home-google-card .google-copy h2,
+.home-google-card-old .google-copy h2,
+.home-google-card .google-link,
+.home-google-card-old .google-link {
+  color: var(--mj-dark) !important;
+}
+
+.home-google-card .google-link,
+.home-google-card-old .google-link {
+  border-bottom-color: rgba(21,17,15,.34) !important;
+}
+
+.home-reviews-grid {
+  border-top-color: rgba(21,17,15,.14) !important;
+}
+
+.home-review-card {
+  border-right-color: rgba(21,17,15,.12) !important;
+}
+
+.home-review-stars {
+  color: var(--mj-dark) !important;
+}
+
+.home-review-card blockquote,
+.home-review-card strong {
+  color: var(--mj-dark) !important;
+}
+
+.home-review-card div span {
+  color: rgba(21,17,15,.46) !important;
+}
+
+/* spójne główne powierzchnie */
+.home-about-elephant,
+.projects.home-projects-horizontal,
+.projects.home-projects-horizontal .projects-horizontal-run,
+.projects.home-projects-horizontal .projects-stage,
+.home-offer-elephant,
+.faq {
+  background: var(--mj-cream) !important;
+}
+
+.blog-new,
+.home-offer-card,
+.project-card,
+.contact-form {
+  background-color: var(--mj-paper) !important;
+}
+
+.contact,
+.site-footer {
+  background: var(--mj-dark) !important;
+}
+
+/* teksty pomocnicze są tylko transparentnym dark — bez dodatkowych barw */
+.eyebrow,
+.home-offer-heading .eyebrow,
+.home-about-heading .eyebrow,
+.home-review-card div span,
+.project-hint {
+  color: rgba(21,17,15,.48);
+}
+
+@media (max-width: 780px) {
+  :root {
+    --site-title-size: clamp(48px, 13vw, 66px);
+  }
+
+  .image-break-banner-copy p,
+  .faq-heading h2 {
+    line-height: 1.04 !important;
+    letter-spacing: -.014em !important;
+  }
+}
