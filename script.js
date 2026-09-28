@@ -939,7 +939,7 @@ if ('IntersectionObserver' in window) {
       if (isDesktop && stage && track) {
         const viewportW = window.innerWidth || document.documentElement.clientWidth;
         const travel = Math.max(0, track.scrollWidth - viewportW);
-        const scrollBudget = Math.max(vh * 1.55, travel * 1.05);
+        const scrollBudget = Math.max(vh * 1.45, travel);
         projects.style.height = Math.round(stage.offsetHeight + scrollBudget) + 'px';
         projects.style.minHeight = projects.style.height;
       } else {
@@ -1006,7 +1006,9 @@ if ('IntersectionObserver' in window) {
       } else {
         const viewportW = window.innerWidth || document.documentElement.clientWidth;
         const travel = Math.max(0, track.scrollWidth - viewportW);
-        const p = stickyProgress(projects, stage, 0);
+        // Start poziomego ruchu dopiero wtedy, gdy cala scena
+        // dojedzie pod fixed header.
+        const p = stickyProgress(projects, stage, headerH);
         const x = -travel * p;
 
         projects.style.setProperty('--projects-x', x.toFixed(2) + 'px');
