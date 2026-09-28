@@ -4940,3 +4940,40 @@
     font-size: clamp(54px, 16vw, 78px);
   }
 }
+
+
+/* =========================================================
+   CLIENT FINAL V4 — hover z pełnym starym logo
+   ========================================================= */
+.project-hover-mark {
+  display: none !important;
+}
+
+.project-hover-logo-final {
+  display: block !important;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  width: clamp(145px, 13vw, 220px);
+  max-width: 34%;
+  height: auto;
+  opacity: 0;
+  transform: translate(-50%,-50%) scale(.95);
+  transition:
+    opacity .28s ease,
+    transform .4s cubic-bezier(.2,.8,.2,1);
+  pointer-events: none;
+}
+
+.project-placeholder:hover .project-hover-logo-final {
+  opacity: .96;
+  transform: translate(-50%,-50%) scale(1);
+}
+
+@media (max-width: 680px) {
+  .project-hover-logo-final {
+    width: clamp(125px, 34vw, 175px);
+    max-width: 48%;
+  }
+}
