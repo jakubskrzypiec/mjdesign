@@ -822,13 +822,13 @@ if ('IntersectionObserver' in window) {
 
 
 // ============================================================
-// HOMEPAGE SCROLL STORY V8
+// HOMEPAGE SCROLL STORY V9
 // Klient-approved hero: headline od razu, CTA dochodza na scrollu.
 // ============================================================
 (() => {
   const hero = document.querySelector('[data-hero-editorial]');
   const process = document.querySelector('[data-process-story]');
-  const projects = document.querySelector('[data-project-stack]');
+  const projects = document.querySelector('[data-project-horizontal]');
   const about = document.querySelector('.home-about-elephant');
   const offerCards = [...document.querySelectorAll('.home-offer-card')];
 
@@ -933,8 +933,20 @@ if ('IntersectionObserver' in window) {
     }
 
     if (projects) {
-      projects.style.removeProperty('height');
-      projects.style.removeProperty('min-height');
+      const stage = projects.querySelector('.projects-stage');
+      const track = projects.querySelector('.project-grid');
+
+      if (isDesktop && stage && track) {
+        const viewportW = window.innerWidth || document.documentElement.clientWidth;
+        const travel = Math.max(0, track.scrollWidth - viewportW);
+        const scrollBudget = Math.max(vh * 1.55, travel * 1.05);
+        projects.style.height = Math.round(stage.offsetHeight + scrollBudget) + 'px';
+        projects.style.minHeight = projects.style.height;
+      } else {
+        projects.style.removeProperty('height');
+        projects.style.removeProperty('min-height');
+        projects.style.removeProperty('--projects-x');
+      }
     }
 
     requestRender();
@@ -984,32 +996,39 @@ if ('IntersectionObserver' in window) {
     }
 
     if (projects) {
+      const stage = projects.querySelector('.projects-stage');
+      const track = projects.querySelector('.project-grid');
       const cards = [...projects.querySelectorAll('.project-card')];
 
-      cards.forEach((card, i) => {
-        if (!isDesktop) {
-          card.style.setProperty('--stack-enter', '1');
-          card.style.setProperty('--stack-cover', '0');
-          return;
-        }
+      if (!isDesktop || !stage || !track) {
+        projects.style.setProperty('--projects-x', '0px');
+        cards.forEach(card => card.classList.remove('is-horizontal-active'));
+      } else {
+        const viewportW = window.innerWidth || document.documentElement.clientWidth;
+        const travel = Math.max(0, track.scrollWidth - viewportW);
+        const p = stickyProgress(projects, stage, 0);
+        const x = -travel * p;
 
-        const r = card.getBoundingClientRect();
-        const stickyTop = headerH + 22 + i * 12;
+        projects.style.setProperty('--projects-x', x.toFixed(2) + 'px');
 
-        const enter = smoother(clamp((vh * 1.03 - r.top) / Math.max(1, vh * .50)));
+        const viewportCenter = viewportW / 2;
+        let closest = 0;
+        let closestDistance = Infinity;
 
-        let cover = 0;
-        const next = cards[i + 1];
-        if (next) {
-          const nr = next.getBoundingClientRect();
-          const start = stickyTop + r.height * .92;
-          const end = stickyTop + r.height * .18;
-          cover = smoother(clamp((start - nr.top) / Math.max(1, start - end)));
-        }
+        cards.forEach((card, i) => {
+          const r = card.getBoundingClientRect();
+          const center = r.left + r.width / 2;
+          const distance = Math.abs(center - viewportCenter);
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closest = i;
+          }
+        });
 
-        card.style.setProperty('--stack-enter', enter.toFixed(4));
-        card.style.setProperty('--stack-cover', cover.toFixed(4));
-      });
+        cards.forEach((card, i) => {
+          card.classList.toggle('is-horizontal-active', i === closest);
+        });
+      }
     }
 
     offerCards.forEach(card => {
