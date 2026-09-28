@@ -985,13 +985,32 @@ if ('IntersectionObserver' in window) {
 
     if (projects) {
       const cards = [...projects.querySelectorAll('.project-card')];
-      const target = headerH + Math.min(72, vh * .08);
 
-      cards.forEach(card => {
+      cards.forEach((card, i) => {
+        if (!isDesktop) {
+          card.style.setProperty('--stack-enter', '1');
+          card.style.setProperty('--stack-cover', '0');
+          return;
+        }
+
         const r = card.getBoundingClientRect();
-        const delta = Math.abs(r.top - target);
-        const focus = isDesktop ? smoother(1 - clamp(delta / (vh * .72))) : 1;
-        card.style.setProperty('--stack-focus', focus.toFixed(4));
+        const stickyTop = headerH + 22 + i * 12;
+
+        // Karta wchodzi od dołu i dochodzi do pełnej skali zanim się przyklei.
+        const enter = smoother(clamp((vh * 1.03 - r.top) / Math.max(1, vh * .50)));
+
+        // Gdy następna karta podjeżdża pod bieżącą, bieżąca cofa się w głąb.
+        let cover = 0;
+        const next = cards[i + 1];
+        if (next) {
+          const nr = next.getBoundingClientRect();
+          const start = stickyTop + r.height * .92;
+          const end = stickyTop + r.height * .18;
+          cover = smoother(clamp((start - nr.top) / Math.max(1, start - end)));
+        }
+
+        card.style.setProperty('--stack-enter', enter.toFixed(4));
+        card.style.setProperty('--stack-cover', cover.toFixed(4));
       });
     }
 
