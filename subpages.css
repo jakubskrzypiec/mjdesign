@@ -4864,3 +4864,79 @@
   opacity: 0 !important;
   transform: translateY(6px);
 }
+
+
+/* =========================================================
+   CLIENT FINAL V3 — subtelny hover + sam sygnet M/J
+   ========================================================= */
+.project-hover-logo-final {
+  display: none !important;
+}
+
+.project-placeholder {
+  isolation: isolate;
+}
+
+/* Nie podmieniamy tła — dokładamy tylko lekkie przyciemnienie,
+   dzięki czemu kadr / placeholder pozostaje widoczny. */
+.project-placeholder::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: rgba(21,17,15,.34) !important;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+
+.project-placeholder:hover {
+  background: inherit !important;
+  border-color: rgba(21,17,15,.22) !important;
+}
+
+.project-placeholder:hover::after {
+  opacity: 1;
+}
+
+.project-placeholder-center {
+  z-index: 3 !important;
+}
+
+.project-hover-mark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  color: var(--mj-paper);
+  font-family: var(--serif);
+  font-size: clamp(64px, 6.4vw, 108px);
+  font-weight: 300;
+  line-height: .82;
+  letter-spacing: -.08em;
+  opacity: 0;
+  transform: translate(-50%,-50%) scale(.94);
+  text-shadow: 0 8px 30px rgba(0,0,0,.18);
+  transition:
+    opacity .28s ease,
+    transform .4s cubic-bezier(.2,.8,.2,1);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.project-placeholder:hover .project-hover-mark {
+  opacity: .96;
+  transform: translate(-50%,-50%) scale(1);
+}
+
+.project-placeholder:hover .project-waiting {
+  opacity: 0 !important;
+  transform: translateY(4px);
+}
+
+@media (max-width: 680px) {
+  .project-hover-mark {
+    font-size: clamp(54px, 16vw, 78px);
+  }
+}
