@@ -822,13 +822,13 @@ if ('IntersectionObserver' in window) {
 
 
 // ============================================================
-// HOMEPAGE SCROLL STORY V8
+// HOMEPAGE SCROLL STORY V9
 // Klient-approved hero: headline od razu, CTA dochodza na scrollu.
 // ============================================================
 (() => {
   const hero = document.querySelector('[data-hero-editorial]');
   const process = document.querySelector('[data-process-story]');
-  const projects = document.querySelector('[data-project-stack]');
+  const projects = document.querySelector('[data-project-deck]');
   const about = document.querySelector('.home-about-elephant');
   const offerCards = [...document.querySelectorAll('.home-offer-card')];
 
@@ -933,8 +933,16 @@ if ('IntersectionObserver' in window) {
     }
 
     if (projects) {
-      projects.style.removeProperty('height');
-      projects.style.removeProperty('min-height');
+      if (isDesktop) {
+        const stage = projects.querySelector('.projects-stage');
+        const stageH = stage ? stage.offsetHeight : vh;
+        const scrollBudget = Math.max(vh * 1.9, 1450);
+        projects.style.height = Math.round(stageH + scrollBudget) + 'px';
+        projects.style.minHeight = projects.style.height;
+      } else {
+        projects.style.removeProperty('height');
+        projects.style.removeProperty('min-height');
+      }
     }
 
     requestRender();
@@ -984,34 +992,86 @@ if ('IntersectionObserver' in window) {
     }
 
     if (projects) {
+      const stage = projects.querySelector('.projects-stage');
       const cards = [...projects.querySelectorAll('.project-card')];
 
-      cards.forEach((card, i) => {
-        if (!isDesktop) {
-          card.style.setProperty('--stack-enter', '1');
-          card.style.setProperty('--stack-cover', '0');
-          return;
+      if (!isDesktop || !stage) {
+        cards.forEach((card, i) => {
+          card.style.removeProperty('--deck-x');
+          card.style.removeProperty('--deck-y');
+          card.style.removeProperty('--deck-r');
+          card.style.removeProperty('--deck-s');
+          card.style.removeProperty('--deck-o');
+          card.style.removeProperty('--deck-lift');
+          card.classList.toggle('is-deck-active', i === 0);
+        });
+      } else {
+        const p = stickyProgress(projects, stage, 0);
+
+        // 01 odlatuje w lewo.
+        const out1 = smoother(clamp((p - .08) / .30));
+        // 02 prostuje się ze stosu, a później odlatuje w prawo.
+        const settle2 = smoother(clamp((p - .04) / .26));
+        const out2 = smoother(clamp((p - .48) / .30));
+        // 03 dopiero pod koniec staje się główną kartą.
+        const settle3 = smoother(clamp((p - .46) / .27));
+
+        const setDeck = (card, x, y, r, s, o, lift) => {
+          card.style.setProperty('--deck-x', x);
+          card.style.setProperty('--deck-y', y);
+          card.style.setProperty('--deck-r', r);
+          card.style.setProperty('--deck-s', s.toFixed(4));
+          card.style.setProperty('--deck-o', o.toFixed(4));
+          card.style.setProperty('--deck-lift', lift.toFixed(4));
+        };
+
+        if (cards[0]) {
+          const fade = smoother(clamp((out1 - .78) / .22));
+          setDeck(
+            cards[0],
+            (-116 * out1).toFixed(2) + 'vw',
+            (-10 * out1).toFixed(2) + 'px',
+            (-5.2 * out1).toFixed(2) + 'deg',
+            1 - out1 * .035,
+            1 - fade,
+            Math.sin(Math.PI * out1)
+          );
         }
 
-        const r = card.getBoundingClientRect();
-        const stickyTop = headerH + 22 + i * 12;
-
-        // Karta wchodzi od dołu i dochodzi do pełnej skali zanim się przyklei.
-        const enter = smoother(clamp((vh * 1.03 - r.top) / Math.max(1, vh * .50)));
-
-        // Gdy następna karta podjeżdża pod bieżącą, bieżąca cofa się w głąb.
-        let cover = 0;
-        const next = cards[i + 1];
-        if (next) {
-          const nr = next.getBoundingClientRect();
-          const start = stickyTop + r.height * .92;
-          const end = stickyTop + r.height * .18;
-          cover = smoother(clamp((start - nr.top) / Math.max(1, start - end)));
+        if (cards[1]) {
+          const xIn = 24 * (1 - settle2);
+          const yIn = 16 * (1 - settle2);
+          const rIn = 1.25 * (1 - settle2);
+          const fade = smoother(clamp((out2 - .78) / .22));
+          setDeck(
+            cards[1],
+            (xIn + 114 * out2).toFixed(2) + 'vw',
+            (yIn - 8 * out2).toFixed(2) + 'px',
+            (rIn + 5.0 * out2).toFixed(2) + 'deg',
+            .985 + settle2 * .015 - out2 * .035,
+            1 - fade,
+            Math.max(settle2 * .35, Math.sin(Math.PI * out2))
+          );
         }
 
-        card.style.setProperty('--stack-enter', enter.toFixed(4));
-        card.style.setProperty('--stack-cover', cover.toFixed(4));
-      });
+        if (cards[2]) {
+          const xIn = 48 * (1 - settle3);
+          const yIn = 30 * (1 - settle3);
+          const rIn = 2.35 * (1 - settle3);
+          setDeck(
+            cards[2],
+            xIn.toFixed(2) + 'px',
+            yIn.toFixed(2) + 'px',
+            rIn.toFixed(2) + 'deg',
+            .97 + settle3 * .03,
+            1,
+            settle3 * .28
+          );
+        }
+
+        const active = p < .35 ? 0 : (p < .76 ? 1 : 2);
+        cards.forEach((card, i) => card.classList.toggle('is-deck-active', i === active));
+      }
     }
 
     offerCards.forEach(card => {
