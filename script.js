@@ -822,7 +822,7 @@ if ('IntersectionObserver' in window) {
 
 
 // ============================================================
-// HOMEPAGE SCROLL STORY V7
+// HOMEPAGE SCROLL STORY V8
 // Klient-approved hero: headline od razu, CTA dochodza na scrollu.
 // ============================================================
 (() => {
@@ -862,10 +862,16 @@ if ('IntersectionObserver' in window) {
   const applyHero = raw => {
     if (!hero) return;
     const p = clamp(raw);
-    const actions = smoother(clamp((p - .10) / .56));
+    const actions = smoother(clamp((p - .22) / .48));
+    const lightIn = smoother(clamp((p - .04) / .28));
+    const lightOut = smoother(clamp((p - .72) / .24));
+    const lightO = lightIn * (1 - lightOut) * .92;
+    const lightX = -25 + p * 150;
 
     hero.style.setProperty('--hero-p', p.toFixed(5));
     hero.style.setProperty('--hero-actions', actions.toFixed(4));
+    hero.style.setProperty('--hero-light-o', lightO.toFixed(4));
+    hero.style.setProperty('--hero-light-x', lightX.toFixed(2) + '%');
   };
 
   const animateHero = () => {
@@ -905,7 +911,7 @@ if ('IntersectionObserver' in window) {
 
     if (hero) {
       if (isDesktop) {
-        hero.style.height = Math.round(vh * 1.26) + 'px';
+        hero.style.height = Math.round(vh * 1.34) + 'px';
         hero.style.minHeight = hero.style.height;
       } else {
         hero.style.removeProperty('height');
