@@ -16,7 +16,7 @@ body.light-direction .site-header:not(.scrolled):not(.menu-open) {color:#171717;
 body.light-direction .site-header:not(.scrolled):not(.menu-open) .brand-light {opacity:0}
 body.light-direction .site-header:not(.scrolled):not(.menu-open) .brand-dark {opacity:1}
 body.light-direction .site-header:not(.scrolled):not(.menu-open) .menu-toggle span {background:#171717}
-body.light-direction .hero.hero-static-approved .hero-approved-bg {background-image:url('proj2-3.jpg')!important;background-position:center!important;filter:none!important;transform:none!important}
+body.light-direction .hero.hero-static-approved .hero-approved-bg {background-image:url('neutral-classic-hero-v1.webp')!important;background-position:center!important;filter:none!important;transform:none!important}
 body.light-direction .hero.hero-static-approved .hero-approved-shade {background:linear-gradient(90deg,#f6f6f21f,transparent 75%)!important}
 body.light-direction .hero.hero-static-approved .hero-approved-content {z-index:4;color:#171717}
 body.light-direction .hero.hero-static-approved .hero-approved-content h1 {color:#171717!important;text-shadow:none!important}
@@ -39,14 +39,14 @@ body.light-direction .hero-stage>.light-motion-toggle {bottom:30px;right:4.5vw}
 .light-break--editorial>.light-shadow {right:46%;opacity:.16;mask-image:linear-gradient(90deg,#000 80%,transparent)}
 .light-break--editorial .light-break-copy {width:auto;max-width:none;padding:55px 6vw}
 .light-break--editorial .light-break-line {font-size:clamp(32px,3.8vw,54px)}
-body.light-direction .subpage-hero--offer .subpage-hero-bg {background-image:url('proj2-3.jpg')!important;background-position:center!important}
-body.light-direction .subpage-hero--projects .subpage-hero-bg {background-image:url('proj2-2.jpg')!important;background-position:center!important}
-body.light-direction .subpage-hero--articles .subpage-hero-bg {background-image:url('proj2-1.jpg')!important;background-position:50% 58%!important}
-body.light-direction .subpage-hero--contact .subpage-hero-bg {background-image:url('proj2-2.jpg')!important;background-position:center!important}
+body.light-direction .subpage-hero--offer .subpage-hero-bg {background-image:url('neutral-classic-hero-v1.webp')!important;background-position:center!important}
+body.light-direction .subpage-hero--projects .subpage-hero-bg {background-image:url('neutral-classic-panorama-v1.webp')!important;background-position:center!important}
+body.light-direction .subpage-hero--articles .subpage-hero-bg {background-image:url('neutral-classic-detail-v1.webp')!important;background-position:50% 58%!important}
+body.light-direction .subpage-hero--contact .subpage-hero-bg {background-image:url('neutral-classic-panorama-v1.webp')!important;background-position:center!important}
 body.light-direction .subpage-hero-shade {background:linear-gradient(90deg,#f6f6f240,transparent)!important}
 body.light-direction .subpage-hero-inner {position:relative;z-index:4}
 body.light-direction .subpage-hero-inner h1 {color:#171717!important;text-shadow:none!important}
-body.light-direction .contact {background-image:linear-gradient(90deg,#101010d9,#10101090),url('proj2-3.jpg')!important}
+body.light-direction .contact {background-image:linear-gradient(90deg,#101010d9,#10101090),url('neutral-classic-hero-v1.webp')!important}
 @media(max-width:1000px) {
  .light-direction .site-header:not(.menu-open) .main-nav {color:inherit}
  .light-break-copy {width:58%}

@@ -9,7 +9,7 @@ body.light-direction .site-header:not(.scrolled):not(.menu-open) .brand-light {o
 body.light-direction .site-header:not(.scrolled):not(.menu-open) .brand-dark {opacity:0}
 body.light-direction .site-header:not(.scrolled):not(.menu-open) .menu-toggle span {background:#fff}
 body.light-direction .hero.hero-static-approved {height:100svh!important;min-height:0!important}
-body.light-direction .hero.hero-static-approved .hero-approved-bg {background-image:url('proj2-3.jpg')!important;background-position:center!important}
+body.light-direction .hero.hero-static-approved .hero-approved-bg {background-image:url('neutral-classic-hero-v1.webp')!important;background-position:center!important}
 body.light-direction .hero.hero-static-approved .hero-approved-shade {background:linear-gradient(90deg,#05050585,#05050518 75%),linear-gradient(0deg,#05050555,transparent 70%)!important}
 body.light-direction .hero.hero-static-approved .hero-approved-content {width:min(760px,64vw);bottom:8vh;color:#fff}
 body.light-direction .hero.hero-static-approved .hero-approved-content h1 {color:#fff!important;font-size:clamp(46px,5.8vw,80px)!important;line-height:1.06!important;transform:none!important}
@@ -41,9 +41,9 @@ body.light-direction .hero.hero-static-approved .hero-btn-secondary {background:
 .light-scene--paper>.light-shadow {filter:invert(1);mix-blend-mode:screen;opacity:.035}
 body.light-direction .subpage-hero-shade {background:linear-gradient(90deg,#05050585,#05050525)!important}
 body.light-direction .subpage-hero-inner h1 {color:#fff!important;font-size:clamp(42px,5vw,68px)!important}
-body.light-direction .subpage-hero--offer .subpage-hero-bg {background-image:url('proj2-3.jpg')!important}
-body.light-direction .subpage-hero--projects .subpage-hero-bg,body.light-direction .subpage-hero--contact .subpage-hero-bg {background-image:url('proj2-2.jpg')!important}
-body.light-direction .subpage-hero--articles .subpage-hero-bg {background-image:url('proj2-1.jpg')!important}
+body.light-direction .subpage-hero--offer .subpage-hero-bg {background-image:url('neutral-classic-hero-v1.webp')!important}
+body.light-direction .subpage-hero--projects .subpage-hero-bg,body.light-direction .subpage-hero--contact .subpage-hero-bg {background-image:url('neutral-classic-panorama-v1.webp')!important}
+body.light-direction .subpage-hero--articles .subpage-hero-bg {background-image:url('neutral-classic-detail-v1.webp')!important}
 body.mjx-page .mjx-hero {height:clamp(280px,50svh,440px)!important;min-height:0!important}
 body.mjx-contact .mjx-hero {height:260px!important;min-height:0!important}
 .mj-section {padding:36px 5vw}
@@ -94,7 +94,7 @@ body .blog-new-media img {width:100%;height:100%;object-fit:cover}
 body .blog-new-body {padding:16px 0!important}
 body .blog-new-body h3 {font-size:23px!important;margin:8px 0!important}
 body .blog-new-body p {font-size:12px!important;margin-bottom:9px}
-body.light-direction .contact {padding:36px 5vw!important;background-image:linear-gradient(90deg,#101010d9,#10101090),url('proj2-3.jpg')!important}
+body.light-direction .contact {padding:36px 5vw!important;background-image:linear-gradient(90deg,#101010d9,#10101090),url('neutral-classic-hero-v1.webp')!important}
 body .contact-inner {gap:4vw}
 body .contact-copy h2 {font-size:clamp(34px,3.4vw,46px)!important;line-height:1.1!important;margin-bottom:20px}
 body .contact-copy>p {font-size:13px;line-height:1.7}
@@ -259,12 +259,12 @@ body .reader-after h2 {font-size:32px}
  body.mjx-page .mjx-hero {height:340px!important}
  body.mjx-contact .mjx-hero {height:240px!important}
 }
-/* Final art direction: the client's own blue/walnut/burgundy project. */
+/* Classic eclectic interiors in a neutral stone/graphite palette. */
 body.light-direction .hero.hero-static-approved .hero-approved-bg {background-position:50% center!important}
-body.light-direction .subpage-hero--offer .subpage-hero-bg {background-image:url('proj2-3.jpg')!important}
-body.light-direction .subpage-hero--projects .subpage-hero-bg {background-image:url('proj2-2.jpg')!important}
-body.light-direction .subpage-hero--articles .subpage-hero-bg {background-image:url('proj2-1.jpg')!important}
-body.light-direction .subpage-hero--contact .subpage-hero-bg {background-image:url('proj2-3.jpg')!important}
+body.light-direction .subpage-hero--offer .subpage-hero-bg {background-image:url('neutral-classic-hero-v1.webp')!important}
+body.light-direction .subpage-hero--projects .subpage-hero-bg {background-image:url('neutral-classic-panorama-v1.webp')!important}
+body.light-direction .subpage-hero--articles .subpage-hero-bg {background-image:url('neutral-classic-detail-v1.webp')!important}
+body.light-direction .subpage-hero--contact .subpage-hero-bg {background-image:url('neutral-classic-hero-v1.webp')!important}
 .mj-about-image img {object-position:45% center}
 .mj-workflow-image img {object-position:30% center}
 .light-break>img {object-position:50% 48%}
