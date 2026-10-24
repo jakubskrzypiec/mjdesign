@@ -287,3 +287,8 @@ body.light-direction .mj-home-contact-photo .contact-form {background:#f8f8f4!im
  body .mj-opening-about .home-portrait-placeholder {width:88%;height:290px}
  body.light-direction .contact.mj-home-contact-photo {background-position:65% center!important}
 }
+/* Equal breathing room around the photo quote between portfolio and offer. */
+body .mj-home-quote {height:360px;min-height:360px;margin:64px 0}
+@media(max-width:680px) {
+ body .mj-home-quote {height:320px;min-height:320px;margin-block:36px}
+}
