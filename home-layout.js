@@ -2,6 +2,7 @@
 (() => {
  const host=document.querySelector('.home-principles');if(!host)return;
  const items=[...host.querySelectorAll('.home-principles-item')];
+ items.forEach(item=>{const words=item.textContent.trim().split(/\s+/);item.textContent='';words.forEach((word,i)=>{const span=document.createElement('span');span.className='mj-principle-word';span.style.setProperty('--word-index',i);span.textContent=word;item.append(span);if(i<words.length-1)item.append(document.createTextNode(' '));});});
  const button=host.querySelector('.home-principles-pause');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  let index=0,timer=0,paused=false,visible=false;
@@ -11,7 +12,7 @@
   index=(next+items.length)%items.length;
   items[index].classList.remove('is-leaving');items[index].classList.add('is-current');items[index].removeAttribute('aria-hidden');
  };
- const sync=()=>{clearInterval(timer);button.hidden=reduced.matches;button.setAttribute('aria-pressed',String(paused));button.setAttribute('aria-label',paused?'Wznów zmianę tekstu':'Wstrzymaj zmianę tekstu');button.querySelector('span').textContent=paused?'▶':'Ⅱ';if(visible&&!document.hidden&&!paused&&!reduced.matches)timer=setInterval(()=>show(index+1),5000);};
+ const sync=()=>{clearInterval(timer);button.hidden=reduced.matches;button.setAttribute('aria-pressed',String(paused));button.setAttribute('aria-label',paused?'Wznów zmianę tekstu':'Wstrzymaj zmianę tekstu');button.querySelector('span').textContent=paused?'▶':'Ⅱ';if(visible&&!document.hidden&&!paused&&!reduced.matches)timer=setInterval(()=>show(index+1),6500);};
  button.addEventListener('click',()=>{paused=!paused;sync();});
  document.addEventListener('visibilitychange',sync);reduced.addEventListener('change',sync);
  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync();},{threshold:.3}).observe(host);
