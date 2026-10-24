@@ -12,8 +12,8 @@
   index=(next+items.length)%items.length;
   items[index].classList.remove('is-leaving');items[index].classList.add('is-current');items[index].removeAttribute('aria-hidden');
  };
- const sync=()=>{clearInterval(timer);button.hidden=reduced.matches;button.setAttribute('aria-pressed',String(paused));button.setAttribute('aria-label',paused?'Wznów zmianę tekstu':'Wstrzymaj zmianę tekstu');button.querySelector('span').textContent=paused?'▶':'Ⅱ';if(visible&&!document.hidden&&!paused&&!reduced.matches)timer=setInterval(()=>show(index+1),6500);};
- button.addEventListener('click',()=>{paused=!paused;sync();});
+ const sync=()=>{clearInterval(timer);if(button){button.hidden=reduced.matches;button.setAttribute('aria-pressed',String(paused));button.setAttribute('aria-label',paused?'Wznów zmianę tekstu':'Wstrzymaj zmianę tekstu');button.querySelector('span').textContent=paused?'▶':'Ⅱ';}if(visible&&!document.hidden&&!paused&&!reduced.matches)timer=setInterval(()=>show(index+1),6500);};
+ button?.addEventListener('click',()=>{paused=!paused;sync();});
  document.addEventListener('visibilitychange',sync);reduced.addEventListener('change',sync);
  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync();},{threshold:.3}).observe(host);
  sync();
