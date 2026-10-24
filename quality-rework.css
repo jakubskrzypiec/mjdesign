@@ -42,8 +42,8 @@ body.light-direction .hero.hero-static-approved .hero-btn-secondary {background:
 body.light-direction .subpage-hero-shade {background:linear-gradient(90deg,#05050585,#05050525)!important}
 body.light-direction .subpage-hero-inner h1 {color:#fff!important;font-size:clamp(42px,5vw,68px)!important}
 body.light-direction .subpage-hero--offer .subpage-hero-bg {background-image:url('quiet-hero-v1.webp')!important}
-body.light-direction .subpage-hero--projects .subpage-hero-bg,body.light-direction .subpage-hero--contact .subpage-hero-bg {background-image:url('quiet-kitchen-v1.webp')!important}
-body.light-direction .subpage-hero--articles .subpage-hero-bg {background-image:url('quiet-detail-v1.webp')!important}
+body.light-direction .subpage-hero--projects .subpage-hero-bg,body.light-direction .subpage-hero--contact .subpage-hero-bg {background-image:url('living-kitchen-v1.webp')!important}
+body.light-direction .subpage-hero--articles .subpage-hero-bg {background-image:url('living-detail-v1.webp')!important}
 body.mjx-page .mjx-hero {height:clamp(280px,50svh,440px)!important;min-height:0!important}
 body.mjx-contact .mjx-hero {height:260px!important;min-height:0!important}
 .mj-section {padding:36px 5vw}
@@ -262,8 +262,8 @@ body .reader-after h2 {font-size:32px}
 /* Classic eclectic interiors in a neutral stone/graphite palette. */
 body.light-direction .hero.hero-static-approved .hero-approved-bg {background-position:50% center!important}
 body.light-direction .subpage-hero--offer .subpage-hero-bg {background-image:url('quiet-hero-v1.webp')!important}
-body.light-direction .subpage-hero--projects .subpage-hero-bg {background-image:url('quiet-kitchen-v1.webp')!important}
-body.light-direction .subpage-hero--articles .subpage-hero-bg {background-image:url('quiet-detail-v1.webp')!important}
+body.light-direction .subpage-hero--projects .subpage-hero-bg {background-image:url('living-kitchen-v1.webp')!important}
+body.light-direction .subpage-hero--articles .subpage-hero-bg {background-image:url('living-detail-v1.webp')!important}
 body.light-direction .subpage-hero--contact .subpage-hero-bg {background-image:url('quiet-hero-v1.webp')!important}
 .mj-about-image img {object-position:45% center}
 .mj-workflow-image img {object-position:30% center}
@@ -322,8 +322,8 @@ body.menu-active {overflow:hidden!important}
 /* Quiet mid-century compositions: detail at the edge, clean wall behind copy. */
 body.light-direction .subpage-hero--projects .subpage-hero-bg,
 body.light-direction .subpage-hero--articles .subpage-hero-bg,
-body.light-direction .subpage-hero--contact .subpage-hero-bg {background-image:url('quiet-console-v1.webp')!important;background-position:center!important}
-body.light-direction .subpage-hero--offer .subpage-hero-bg {background-image:url('quiet-kitchen-v1.webp')!important;background-position:center!important}
+body.light-direction .subpage-hero--contact .subpage-hero-bg {background-image:url('living-console-v1.webp')!important;background-position:center!important}
+body.light-direction .subpage-hero--offer .subpage-hero-bg {background-image:url('living-kitchen-v1.webp')!important;background-position:center!important}
 body.light-direction .subpage-hero-shade {background:linear-gradient(90deg,#17171782,#17171745 60%,#17171712)!important}
 body.light-direction .hero.hero-static-approved .hero-approved-shade {background:linear-gradient(90deg,#10101070,#10101030 55%,#10101010)!important}
 .light-break::after {background:linear-gradient(90deg,#15151591,#15151566 55%,#15151514)}
