@@ -222,15 +222,6 @@ body .contact.mj-home-screen .contact-form textarea {height:110px;min-height:110
 .mj-home-offer-grid p {margin:0;font-size:16px;line-height:1.65;color:#50504a}
 .mj-home-offer-grid ul {list-style:none;padding:14px 0 0;margin:0;border-top:1px solid #17171720;display:grid;gap:7px;font:500 12px/1.5 var(--sans);color:#55554f}
 .mj-home-offer-number {font-size:32px}
-body.light-direction .contact.mj-home-contact-paper {background:#e4e4df!important;background-image:none!important;color:#171717;border-top:14px solid #fff}
-body .mj-home-contact-paper:before,body .mj-home-contact-paper:after {display:none!important}
-body .mj-home-contact-paper .contact-copy h2 {color:#171717!important}
-body .mj-home-contact-paper .contact-copy>p {color:#5c5c56}
-body .mj-home-contact-paper .contact-copy .eyebrow {color:#74746d!important}
-body .mj-home-contact-paper .contact-details span {color:#777770}
-body .mj-home-contact-paper .contact-details strong {color:#171717}
-body .mj-home-contact-paper .contact-details>a,body .mj-home-contact-paper .contact-details>div {border-color:#17171722}
-body.light-direction .mj-home-contact-paper .contact-form {background:#f8f8f4!important;border:1px solid #17171714}
 .mj-home-help {display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:8vw;padding:54px 5vw;background:#f6f6f2;align-items:start}
 .mj-home-help h2 {font:500 clamp(30px,3vw,44px)/1.12 var(--sans);letter-spacing:-.045em;margin:16px 0 28px}
 .mj-home-help .eyebrow {margin:0}
@@ -278,4 +269,21 @@ body.light-direction .mj-home-contact-paper .contact-form {background:#f8f8f4!im
  .mj-home-footer-grid>div:nth-child(2) {grid-column:1/-1}
  .mj-home-footer>.mj-home-footer-bottom {display:block;margin-top:30px}
  .mj-home-footer-bottom>div {margin-top:12px;gap:22px;flex-wrap:wrap}
+}
+/* Separate photo moments with the offer; reduce the future portrait slightly. */
+body .mj-opening-about .home-portrait-placeholder {width:86%;height:86%;min-height:0;max-height:600px;justify-self:center;align-self:center}
+body.light-direction .contact.mj-home-contact-photo {border:0!important;background-color:#171717!important;background-image:linear-gradient(90deg,#101010c7,#10101038),url('living-kitchen-v1.webp')!important;background-position:center!important;background-size:cover!important;color:#fff}
+body .mj-home-contact-photo .contact-copy h2 {color:#fff!important}
+body .mj-home-contact-photo .contact-copy>p {color:#f3f3edcf}
+body .mj-home-contact-photo .contact-copy .eyebrow {color:#ffffffa6!important}
+body .mj-home-contact-photo .contact-details span {color:#ffffffa6}
+body .mj-home-contact-photo .contact-details strong {color:#fff}
+body .mj-home-contact-photo .contact-details>a,body .mj-home-contact-photo .contact-details>div {border-color:#ffffff30}
+body.light-direction .mj-home-contact-photo .contact-form {background:#f8f8f4!important;border:0}
+@media(max-width:1000px) {
+ body .mj-opening-about .home-portrait-placeholder {height:360px}
+}
+@media(max-width:680px) {
+ body .mj-opening-about .home-portrait-placeholder {width:88%;height:290px}
+ body.light-direction .contact.mj-home-contact-photo {background-position:65% center!important}
 }
