@@ -5,18 +5,19 @@
  const vertex='attribute vec2 position;varying vec2 uv;void main(){uv=position*.5+.5;gl_Position=vec4(position,0.,1.);}';
  const fragment=`precision mediump float;
  varying vec2 uv;uniform sampler2D photo;uniform sampler2D light;
- uniform float time;uniform float aspect;uniform float imageAspect;uniform float positionX;uniform float wallEnd;
+ uniform float time;uniform float aspect;uniform float imageAspect;uniform float positionX;uniform float positionY;uniform vec4 wallBounds;
  float luma(vec3 c){return dot(c,vec3(.2126,.7152,.0722));}
  void main(){
   vec2 cover=aspect<imageAspect?vec2(aspect/imageAspect,1.):vec2(1.,imageAspect/aspect);
-  vec2 p=(uv-.5)*cover+.5;p.x+=(1.-cover.x)*(positionX-.5);
-  vec2 drift=vec2(.045*sin(time*.52),.015*sin(time*.43));
-  float wall=smoothstep(.01,.12,p.x)*(1.-smoothstep(wallEnd-.08,wallEnd,p.x))*smoothstep(.08,.15,p.y);
+  vec2 p=(uv-.5)*cover+.5;p.x+=(1.-cover.x)*(positionX-.5);p.y+=(1.-cover.y)*(positionY-.5);
+  vec2 drift=vec2(.018*sin(time*.28),.006*sin(time*.23));
+  float feather=.025;
+  float wall=smoothstep(wallBounds.x,wallBounds.x+feather,p.x)*(1.-smoothstep(wallBounds.z-feather,wallBounds.z,p.x))*smoothstep(wallBounds.y,wallBounds.y+feather,p.y)*(1.-smoothstep(wallBounds.w-feather,wallBounds.w,p.y));
   float original=luma(texture2D(light,p).rgb);
   float moved=luma(texture2D(light,clamp(p+drift,vec2(0.),vec2(1.))).rgb);
-  float ratio=clamp(moved/max(original,.08),.72,1.35);
+  float ratio=clamp(moved/max(original,.08),.88,1.12);
   vec3 detail=texture2D(photo,p).rgb;
-  gl_FragColor=vec4(detail*mix(1.,ratio,wall),1.);
+  gl_FragColor=vec4(detail*mix(1.,ratio,wall*.7),1.);
  }`;
  const compile=(gl,type,source)=>{const shader=gl.createShader(type);gl.shaderSource(shader,source);gl.compileShader(shader);if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS))throw Error('shader');return shader;};
  const create=async host=>{
@@ -35,11 +36,15 @@
    const position=gl.getAttribLocation(program,'position');gl.enableVertexAttribArray(position);gl.vertexAttribPointer(position,2,gl.FLOAT,false,0,0);
    const illumination=document.createElement('canvas');illumination.width=1086;illumination.height=Math.round(1086*img.height/img.width);const ctx=illumination.getContext('2d');ctx.filter='blur(5px)';ctx.drawImage(img,0,0,illumination.width,illumination.height);
    [img,illumination].forEach((texture,i)=>{gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_2D,gl.createTexture());gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,texture);gl.uniform1i(gl.getUniformLocation(program,i?'light':'photo'),i);});
-   const uTime=gl.getUniformLocation(program,'time'),uAspect=gl.getUniformLocation(program,'aspect'),uPosition=gl.getUniformLocation(program,'positionX');
-   gl.uniform1f(gl.getUniformLocation(program,'imageAspect'),img.width/img.height);gl.uniform1f(gl.getUniformLocation(program,'wallEnd'),img.src.includes('panorama')?.69:.61);
-   const render=()=>{const r=host.getBoundingClientRect();if(!r.width||!r.height)return;const dpr=Math.min(devicePixelRatio,1.5),w=Math.round(r.width*dpr),h=Math.round(r.height*dpr);if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);}gl.uniform1f(uAspect,r.width/r.height);gl.uniform1f(uPosition,parseFloat(isPhoto?getComputedStyle(source).objectPosition:getComputedStyle(source).backgroundPosition)/100||.5);gl.uniform1f(uTime,seconds);gl.drawArrays(gl.TRIANGLES,0,6);};
+   const uTime=gl.getUniformLocation(program,'time'),uAspect=gl.getUniformLocation(program,'aspect'),uPosition=gl.getUniformLocation(program,'positionX'),uPositionY=gl.getUniformLocation(program,'positionY');
+   gl.uniform1f(gl.getUniformLocation(program,'imageAspect'),img.width/img.height);// Bounds are in source-photo UV coordinates, not viewport coordinates.
+   // They exclude furniture, curtains, openings and floor even after responsive cropping.
+   const wall=img.src.includes('panorama')?[.10,.31,.55,.98]:img.src.includes('detail')?[.27,.54,.67,.98]:[.015,.49,.28,.98];
+   gl.uniform4fv(gl.getUniformLocation(program,'wallBounds'),wall);
+   host.dataset.shadowSurface=img.src.includes('panorama')?'dining-wall':img.src.includes('detail')?'reading-wall':'left-wall';
+   const render=()=>{const r=host.getBoundingClientRect();if(!r.width||!r.height)return;const dpr=Math.min(devicePixelRatio,1.5),w=Math.round(r.width*dpr),h=Math.round(r.height*dpr);if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);}gl.uniform1f(uAspect,r.width/r.height);const placement=(isPhoto?getComputedStyle(source).objectPosition:getComputedStyle(source).backgroundPosition).split(' ');const fraction=value=>value?.endsWith('%')?parseFloat(value)/100:.5;gl.uniform1f(uPosition,fraction(placement[0]));gl.uniform1f(uPositionY,fraction(placement[1]));gl.uniform1f(uTime,seconds);gl.drawArrays(gl.TRIANGLES,0,6);};
    const tick=now=>{if(last)seconds+=(now-last)/1000;last=now;if(now-drawn>=33){render();drawn=now;}frame=requestAnimationFrame(tick);};
-   const update=()=>{cancelAnimationFrame(frame);frame=0;last=0;const paused=reduced.matches||document.documentElement.classList.contains('light-paused');canvas.hidden=paused;host.classList.toggle('quiet-light-ready',!paused);if(visible&&!document.hidden&&!paused){render();frame=requestAnimationFrame(tick);}};
+   const update=()=>{cancelAnimationFrame(frame);frame=0;last=0;const paused=reduced.matches||document.hidden||document.documentElement.classList.contains('light-paused');canvas.hidden=paused;host.classList.toggle('quiet-light-ready',!paused);if(visible&&!document.hidden&&!paused){render();frame=requestAnimationFrame(tick);}};
    observer=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;update();},{rootMargin:'40px 0px',threshold:0});
    resize=new ResizeObserver(()=>{if(visible&&!canvas.hidden)render();});
    host.append(canvas);observer.observe(host);resize.observe(host);

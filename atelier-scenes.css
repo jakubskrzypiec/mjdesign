@@ -27,3 +27,6 @@ body .mj-home-contact-photo .contact-inner {position:relative;z-index:3}
  .light-break>img {object-position:65% center}
 }
 @media(prefers-reduced-motion:reduce) {.light-scene>.light-shadow {animation:none!important;transform:none!important}.quiet-light-canvas {display:none!important}}
+
+/* Only the calibrated photo-space wall mask animates. No broad overlay on furniture. */
+.light-scene--hero>.light-shadow,.subpage-hero>.light-shadow,.mj-workflow-image>.light-shadow,.light-break>.light-shadow,.mj-home-contact-photo>.light-shadow {display:none!important}
