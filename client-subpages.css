@@ -120,3 +120,7 @@ body.client-subpage .mj-contact-closing>.light-shadow {display:none}
  body.client-subpage .mj-contact-closing blockquote {font-size:20px}
 }
 @media(prefers-reduced-motion:reduce) {body.client-subpage .mj-project-row .mj-project-image img {transition:none!important;transform:none!important}}
+/* Consistent neutral rails and exactly mirrored contact / FAQ columns. */
+body.client-subpage .offer-card-v3 {box-shadow:none!important}
+body.client-subpage .offer-card-v3 .offer-card-v3-rail {background:#d7d7d0!important}
+@media(min-width:761px) {body.client-subpage .mj-contact-board {grid-template-columns:1fr 1fr}}
