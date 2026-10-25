@@ -1,0 +1,29 @@
+/* New neutral interior series. Images retain their natural material colours. */
+body.light-direction .hero.hero-static-approved .hero-approved-bg {background-image:url('atelier-hero-v2.webp')!important;background-position:50% center!important}
+body.light-direction .subpage-hero--offer .subpage-hero-bg {background-image:url('atelier-panorama-v2.webp')!important;background-position:50% center!important}
+body.light-direction .subpage-hero--projects .subpage-hero-bg {background-image:url('atelier-hero-v2.webp')!important;background-position:50% 55%!important}
+body.light-direction .subpage-hero--articles .subpage-hero-bg {background-image:url('atelier-detail-v2.webp')!important;background-position:50% 48%!important}
+body.light-direction .subpage-hero--contact .subpage-hero-bg {background-image:url('atelier-panorama-v2.webp')!important;background-position:60% center!important}
+body.client-subpage .mjx-hero {height:clamp(260px,35svh,360px)!important;min-height:0!important}
+body.client-subpage .subpage-hero-inner {padding-bottom:28px!important}
+body.client-subpage .subpage-hero-inner h1 {font-size:clamp(36px,4vw,54px)!important;color:#fff!important}
+body.light-direction .contact.mj-home-contact-photo {background-image:linear-gradient(90deg,#101010c7,#10101038),url('atelier-hero-v2.webp')!important}
+/* Shadow fallback; enhanced scenes animate only the actual illumination field. */
+.light-scene>.light-shadow {background:url('light-shadow.svg') left center/cover no-repeat;opacity:.24;filter:blur(3px);mask-image:linear-gradient(90deg,#000 15%,#000 55%,transparent 85%);animation:atelier-shadow-drift 18s ease-in-out infinite alternate;animation-play-state:paused}
+.light-scene.light-visible>.light-shadow {animation-play-state:running}
+.quiet-light-ready>.light-shadow {display:none}
+.light-scene .quiet-light-canvas {z-index:0}
+.hero-stage .quiet-light-canvas {z-index:0}
+.hero-stage .hero-approved-shade {z-index:1!important}
+body.light-direction .subpage-hero-shade {z-index:1;background:linear-gradient(90deg,#17171770,#17171720 70%,transparent)!important}
+.mj-home-contact-photo .quiet-light-canvas {z-index:0}
+body .mj-home-contact-photo .contact-inner {position:relative;z-index:3}
+.mj-home-contact-photo.quiet-light-ready::after {content:'';position:absolute;inset:0;background:linear-gradient(90deg,#101010c7,#10101038);z-index:1;pointer-events:none}
+@keyframes atelier-shadow-drift {from {transform:translate3d(-18px,-6px,0) rotate(-.6deg) scale(1.03)}to {transform:translate3d(22px,9px,0) rotate(.6deg) scale(1.05)}}
+@media(max-width:760px) {
+ body.client-subpage .mjx-hero {height:250px!important}
+ body.client-subpage .subpage-hero-inner h1 {font-size:36px!important}
+ body.light-direction .hero.hero-static-approved .hero-approved-bg {background-position:58% center!important}
+ .light-break>img {object-position:65% center}
+}
+@media(prefers-reduced-motion:reduce) {.light-scene>.light-shadow {animation:none!important;transform:none!important}.quiet-light-canvas {display:none!important}}
