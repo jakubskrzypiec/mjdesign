@@ -30,3 +30,4 @@ body .mj-home-contact-photo .contact-inner {position:relative;z-index:3}
 
 /* Only the calibrated photo-space wall mask animates. No broad overlay on furniture. */
 .light-scene--hero>.light-shadow,.subpage-hero>.light-shadow,.mj-workflow-image>.light-shadow,.light-break>.light-shadow,.mj-home-contact-photo>.light-shadow {display:none!important}
+.mj-home-contact-photo.quiet-light-ready::after {display:none}
