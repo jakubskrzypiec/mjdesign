@@ -20,8 +20,10 @@
  }`;
  const compile=(gl,type,source)=>{const shader=gl.createShader(type);gl.shaderSource(shader,source);gl.compileShader(shader);if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS))throw Error('shader');return shader;};
  const create=async host=>{
-  const source=host.querySelector(':scope > img');if(!source)return;
-  const img=new Image();img.src=source.currentSrc||source.src;
+  const source=host.querySelector(':scope > img')||host.querySelector('.hero-approved-bg,.subpage-hero-bg')||(host.matches('.mj-home-contact-photo')?host:null);if(!source)return;
+  const isPhoto=source.tagName==='IMG';
+  const url=isPhoto?(source.currentSrc||source.src):getComputedStyle(source).backgroundImage.match(/url\(["']?([^"')]+)["']?\)/)?.[1];if(!url)return;
+  const img=new Image();img.src=url;
   try{await img.decode();}catch{return;}
   const canvas=document.createElement('canvas');canvas.className='quiet-light-canvas';canvas.setAttribute('aria-hidden','true');
   const gl=canvas.getContext('webgl',{alpha:false,antialias:false,powerPreference:'low-power'});if(!gl)return;
@@ -34,8 +36,8 @@
    const illumination=document.createElement('canvas');illumination.width=1086;illumination.height=Math.round(1086*img.height/img.width);const ctx=illumination.getContext('2d');ctx.filter='blur(5px)';ctx.drawImage(img,0,0,illumination.width,illumination.height);
    [img,illumination].forEach((texture,i)=>{gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_2D,gl.createTexture());gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,texture);gl.uniform1i(gl.getUniformLocation(program,i?'light':'photo'),i);});
    const uTime=gl.getUniformLocation(program,'time'),uAspect=gl.getUniformLocation(program,'aspect'),uPosition=gl.getUniformLocation(program,'positionX');
-   gl.uniform1f(gl.getUniformLocation(program,'imageAspect'),img.width/img.height);gl.uniform1f(gl.getUniformLocation(program,'wallEnd'),img.src.includes('console')?.67:.53);
-   const render=()=>{const r=host.getBoundingClientRect();if(!r.width||!r.height)return;const dpr=Math.min(devicePixelRatio,1.5),w=Math.round(r.width*dpr),h=Math.round(r.height*dpr);if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);}gl.uniform1f(uAspect,r.width/r.height);gl.uniform1f(uPosition,parseFloat(getComputedStyle(source).objectPosition)/100||.5);gl.uniform1f(uTime,seconds);gl.drawArrays(gl.TRIANGLES,0,6);};
+   gl.uniform1f(gl.getUniformLocation(program,'imageAspect'),img.width/img.height);gl.uniform1f(gl.getUniformLocation(program,'wallEnd'),img.src.includes('panorama')?.69:.61);
+   const render=()=>{const r=host.getBoundingClientRect();if(!r.width||!r.height)return;const dpr=Math.min(devicePixelRatio,1.5),w=Math.round(r.width*dpr),h=Math.round(r.height*dpr);if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);}gl.uniform1f(uAspect,r.width/r.height);gl.uniform1f(uPosition,parseFloat(isPhoto?getComputedStyle(source).objectPosition:getComputedStyle(source).backgroundPosition)/100||.5);gl.uniform1f(uTime,seconds);gl.drawArrays(gl.TRIANGLES,0,6);};
    const tick=now=>{if(last)seconds+=(now-last)/1000;last=now;if(now-drawn>=33){render();drawn=now;}frame=requestAnimationFrame(tick);};
    const update=()=>{cancelAnimationFrame(frame);frame=0;last=0;const paused=reduced.matches||document.documentElement.classList.contains('light-paused');canvas.hidden=paused;host.classList.toggle('quiet-light-ready',!paused);if(visible&&!document.hidden&&!paused){render();frame=requestAnimationFrame(tick);}};
    observer=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;update();},{rootMargin:'40px 0px',threshold:0});
@@ -47,5 +49,5 @@
   }catch{dispose();}
  };
  const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){observer.unobserve(entry.target);create(entry.target);}});},{rootMargin:'200px 0px'});
- document.querySelectorAll('.light-break:not(.light-break--editorial)').forEach(host=>observer.observe(host));
+ document.querySelectorAll('.light-break:not(.light-break--editorial),.light-scene--hero,.subpage-hero,.mj-workflow-image,.mj-home-contact-photo').forEach(host=>observer.observe(host));
 })();
