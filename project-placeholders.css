@@ -1,0 +1,7 @@
+.mj-photo-placeholder {display:flex!important;align-items:center;justify-content:center;background:#d7d7d1!important;color:#62625c;text-align:center;overflow:hidden;cursor:default!important}
+.mj-photo-placeholder>span {display:block;font:400 clamp(16px,1.5vw,22px)/1.5 var(--sans);letter-spacing:-.02em}
+.mj-photo-placeholder small {display:block;margin-top:12px;font:500 9px/1.5 var(--sans);letter-spacing:.16em;color:#77776f}
+.mj-home-projects .mj-pending-project {background:#d7d7d1;cursor:default!important}
+.mj-home-projects .mj-pending-project .mj-photo-placeholder {height:100%;min-height:0}
+.mj-home-projects .mj-pending-project:hover {transform:none!important}
+@media(max-width:760px) {.mj-home-projects .mj-pending-project .mj-photo-placeholder {min-height:230px}}

@@ -124,3 +124,39 @@ body.client-subpage .mj-contact-closing>.light-shadow {display:none}
 body.client-subpage .offer-card-v3 {box-shadow:none!important}
 body.client-subpage .offer-card-v3 .offer-card-v3-rail {background:#d7d7d0!important}
 @media(min-width:761px) {body.client-subpage .mj-contact-board {grid-template-columns:1fr 1fr}}
+/* Portfolio remains a quiet alternating layout while client materials are prepared. */
+body.client-subpage .mj-project-row .mj-photo-placeholder {height:clamp(280px,31vw,440px);background:#d7d7d1}
+body.client-subpage .mj-project-description h2 {max-width:12ch}
+/* Bring article panels into the white / black / broken grey-beige palette. */
+body.mjx-articles .mj-blog-row {background:#e4e4df;color:#171717}
+body.mjx-articles .mj-blog-copy h2 {color:#171717}
+body.mjx-articles .mj-blog-copy .eyebrow {color:#6b6b63}
+body.mjx-articles .mj-blog-copy>p:not(.eyebrow) {color:#5d5d56}
+body.mjx-articles .mj-blog-copy .mj-link {color:#171717;border-color:#17171755}
+/* Contact and FAQ each occupy one desktop screen beneath the fixed header. */
+@media(min-width:761px) {
+ body.mjx-contact .mj-contact-board,body.mjx-contact .faq-grid {min-height:calc(100svh - 76px);scroll-margin-top:76px}
+ body.mjx-contact .mj-contact-form-panel {display:flex;flex-direction:column;justify-content:center;padding:clamp(24px,4svh,52px) 4.8vw}
+ body.mjx-contact .mj-contact-photo {display:flex;flex-direction:column;justify-content:center;padding:clamp(28px,5svh,64px) 4.8vw}
+ body.mjx-contact .mj-contact-photo h2,body.mjx-contact .faq-heading h2 {font-size:clamp(40px,3.5vw,62px)!important}
+ body.mjx-contact .mj-contact-photo>p:not(.eyebrow),body.mjx-contact .mj-contact-address {font-size:clamp(14px,1.05vw,18px);line-height:1.8}
+ body.mjx-contact .mj-contact-address {margin-top:clamp(24px,4svh,48px)}
+ body.mjx-contact .faq-heading {display:flex;flex-direction:column;justify-content:center;padding:clamp(28px,5svh,64px) 4.8vw!important}
+ body.mjx-contact .faq-heading>p:last-child {font-size:clamp(15px,1.1vw,18px);line-height:1.8;max-width:33ch}
+ body.mjx-contact .faq-list {display:flex;flex-direction:column;justify-content:center;padding:clamp(28px,5svh,64px) 4.8vw!important}
+ body.mjx-contact .faq summary {padding:clamp(22px,3.7svh,42px) 0;font-size:clamp(14px,1.1vw,18px);line-height:1.5}
+ body.mjx-contact .faq details>p {font-size:14px;line-height:1.8}
+ body.mjx-contact .faq details {flex:0 0 auto}
+}
+@media(min-width:761px) and (min-height:850px) {
+ body.mjx-contact .mj-contact-form-panel .mjx-contact-form>label:not(.mjx-consent) {padding:22px 0}
+ body.mjx-contact .mj-contact-form-panel textarea {height:145px!important;min-height:145px!important}
+ body.mjx-contact .mj-contact-form-panel input,body.mjx-contact .mj-contact-form-panel textarea {font-size:18px!important}
+ body.mjx-contact .mj-contact-form-panel .mjx-contact-form>button {min-height:60px}
+}
+@media(max-width:760px) {
+ body.client-subpage .mj-project-row .mj-photo-placeholder {height:260px}
+ body.mjx-contact .mj-contact-form-panel,body.mjx-contact .mj-contact-photo {padding:42px 6vw}
+ body.mjx-contact .faq-heading {padding-top:42px!important;padding-bottom:28px!important}
+ body.mjx-contact .faq-list {padding-bottom:42px!important}
+}
