@@ -6,3 +6,13 @@
 .mj-home-projects .mj-pending-project:hover {transform:none!important}
 @media(max-width:760px) {.mj-home-projects .mj-pending-project .mj-photo-placeholder {min-height:230px}}
 .mj-home-projects .mj-pending-project::after,.mj-home-projects .mj-pending-project .mj-project-image::after {display:none!important;background:none!important}
+
+/* Quieter, less panoramic portfolio frames. */
+body.client-subpage .mj-project-row .mj-photo-placeholder {width:100%;max-width:500px;height:auto!important;aspect-ratio:1.12;justify-self:end}
+body.client-subpage .mj-project-row:nth-of-type(even) .mj-photo-placeholder {justify-self:start}
+body .mj-home-projects .mj-project-grid {width:min(100%,760px);margin-inline:auto}
+@media(max-width:760px) {
+ body.client-subpage .mj-project-row .mj-photo-placeholder {max-width:none;aspect-ratio:1.12;justify-self:stretch}
+ body .mj-home-projects .mj-project-grid {width:100%}
+ body .mj-home-projects .mj-pending-project .mj-photo-placeholder {min-height:0;aspect-ratio:1.2}
+}
