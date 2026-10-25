@@ -5,3 +5,4 @@
 .mj-home-projects .mj-pending-project .mj-photo-placeholder {height:100%;min-height:0}
 .mj-home-projects .mj-pending-project:hover {transform:none!important}
 @media(max-width:760px) {.mj-home-projects .mj-pending-project .mj-photo-placeholder {min-height:230px}}
+.mj-home-projects .mj-pending-project::after,.mj-home-projects .mj-pending-project .mj-project-image::after {display:none!important;background:none!important}
