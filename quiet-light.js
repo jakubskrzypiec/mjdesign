@@ -1,5 +1,5 @@
 /* Moving foliage shadows on calibrated wall surfaces. The photograph itself stays fixed.
-   Canvas 2D also works when hardware WebGL is unavailable. */
+   Compositor animation keeps motion independent of a JavaScript drawing loop. */
 (() => {
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const foliage=document.createElement('canvas');foliage.width=600;foliage.height=900;
@@ -23,40 +23,28 @@
   // x/y bounds in original image coordinates (top-left origin), excluding furnishings.
   const wall=url.includes('panorama')?[.10,.02,.55,.69]:url.includes('detail')?[.27,.02,.67,.46]:[.015,.02,.28,.51];
   const surface=url.includes('panorama')?'dining-wall':url.includes('detail')?'reading-wall':'left-wall';
-  const canvas=document.createElement('canvas');canvas.className='quiet-light-canvas';canvas.setAttribute('aria-hidden','true');
-  const ctx=canvas.getContext('2d');if(!ctx)return;
-  const patch=document.createElement('canvas'),paint=patch.getContext('2d');if(!paint)return;
-  let frame=0,visible=false,last=0,seconds=0,drawn=0;
+  const layer=document.createElement('div');layer.className='quiet-light-canvas';layer.setAttribute('aria-hidden','true');
+  const region=document.createElement('div');region.className='wall-shadow-region';
+  const feather=document.createElement('div');feather.className='wall-shadow-feather';
+  const leaves=document.createElement('div');leaves.className='wall-shadow-leaves';leaves.style.backgroundImage='url("'+foliage.toDataURL()+'")';
+  feather.append(leaves);region.append(feather);layer.append(region);
+  let visible=false;
   const percent=v=>v?.endsWith('%')?parseFloat(v)/100:.5;
-  const render=()=>{
+  const layout=()=>{
    const r=host.getBoundingClientRect();if(!r.width||!r.height)return;
-   const dpr=Math.min(devicePixelRatio,1.5),w=Math.round(r.width*dpr),h=Math.round(r.height*dpr);
-   if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
-   ctx.clearRect(0,0,w,h);
    const placement=(isPhoto?getComputedStyle(source).objectPosition:getComputedStyle(source).backgroundPosition).split(' ');
-   const scale=Math.max(w/photo.width,h/photo.height),ox=(w-photo.width*scale)*percent(placement[0]),oy=(h-photo.height*scale)*percent(placement[1]);
-   const x=ox+wall[0]*photo.width*scale,y=oy+wall[1]*photo.height*scale;
-   const pw=Math.round((wall[2]-wall[0])*photo.width*scale),ph=Math.round((wall[3]-wall[1])*photo.height*scale);
-   if(x>=w||x+pw<=0||y>=h||y+ph<=0)return;
-   if(patch.width!==pw||patch.height!==ph){patch.width=pw;patch.height=ph;}
-   paint.clearRect(0,0,pw,ph);paint.globalCompositeOperation='source-over';paint.globalAlpha=.22;
-   const sway=Math.sin(seconds*.55),breathe=Math.sin(seconds*.37);
-   paint.save();paint.translate(pw*.5+sway*pw*.095,ph*.5+breathe*ph*.018);paint.rotate(Math.sin(seconds*.44)*.025);
-   paint.drawImage(foliage,-pw*.65,-ph*.65,pw*1.3,ph*1.3);paint.restore();
-   paint.globalAlpha=1;paint.globalCompositeOperation='destination-in';
-   const horizontal=paint.createLinearGradient(0,0,pw,0);horizontal.addColorStop(0,'transparent');horizontal.addColorStop(.08,'#000');horizontal.addColorStop(.9,'#000');horizontal.addColorStop(1,'transparent');paint.fillStyle=horizontal;paint.fillRect(0,0,pw,ph);
-   const vertical=paint.createLinearGradient(0,0,0,ph);vertical.addColorStop(0,'transparent');vertical.addColorStop(.06,'#000');vertical.addColorStop(.88,'#000');vertical.addColorStop(1,'transparent');paint.fillStyle=vertical;paint.fillRect(0,0,pw,ph);
-   ctx.drawImage(patch,x,y);
+   const scale=Math.max(r.width/photo.width,r.height/photo.height),ox=(r.width-photo.width*scale)*percent(placement[0]),oy=(r.height-photo.height*scale)*percent(placement[1]);
+   Object.assign(region.style,{left:(ox+wall[0]*photo.width*scale)+'px',top:(oy+wall[1]*photo.height*scale)+'px',width:((wall[2]-wall[0])*photo.width*scale)+'px',height:((wall[3]-wall[1])*photo.height*scale)+'px'});
   };
-  const tick=now=>{if(last)seconds+=(now-last)/1000;last=now;if(now-drawn>=40){render();drawn=now;}frame=requestAnimationFrame(tick);};
   const update=()=>{
-   cancelAnimationFrame(frame);last=0;const paused=reduced.matches||document.hidden||document.documentElement.classList.contains('light-paused');
-   canvas.hidden=paused;host.classList.toggle('quiet-light-ready',!paused);
-   if(visible&&!paused){render();frame=requestAnimationFrame(tick);}
+   const paused=reduced.matches||document.hidden||document.documentElement.classList.contains('light-paused');
+   layer.hidden=paused;host.classList.toggle('quiet-light-ready',!paused);
+   leaves.style.animationPlayState=visible&&!paused?'running':'paused';host.dataset.shadowMotion=visible&&!paused?'running':'paused';
+   if(visible&&!paused)layout();
   };
-  host.append(canvas);host.dataset.shadowSurface=surface;
+  host.append(layer);host.dataset.shadowSurface=surface;layout();
   new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;update();},{rootMargin:'40px 0px'}).observe(host);
-  new ResizeObserver(()=>{if(visible&&!canvas.hidden)render();}).observe(host);
+  new ResizeObserver(layout).observe(host);
   new MutationObserver(update).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
   reduced.addEventListener('change',update);document.addEventListener('visibilitychange',update);
  };

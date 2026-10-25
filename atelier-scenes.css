@@ -1,9 +1,9 @@
 /* New neutral interior series. Images retain their natural material colours. */
 body.light-direction .hero.hero-static-approved .hero-approved-bg {background-image:url('atelier-hero-v2.webp')!important;background-position:50% center!important}
-body.light-direction .subpage-hero--offer .subpage-hero-bg {background-image:url('atelier-panorama-v2.webp')!important;background-position:50% center!important}
-body.light-direction .subpage-hero--projects .subpage-hero-bg {background-image:url('atelier-hero-v2.webp')!important;background-position:50% 55%!important}
-body.light-direction .subpage-hero--articles .subpage-hero-bg {background-image:url('atelier-detail-v2.webp')!important;background-position:50% 48%!important}
-body.light-direction .subpage-hero--contact .subpage-hero-bg {background-image:url('atelier-panorama-v2.webp')!important;background-position:60% center!important}
+
+
+
+
 body.client-subpage .mjx-hero {height:clamp(260px,35svh,360px)!important;min-height:0!important}
 body.client-subpage .subpage-hero-inner {padding-bottom:28px!important}
 body.client-subpage .subpage-hero-inner h1 {font-size:clamp(36px,4vw,54px)!important;color:#fff!important}
@@ -31,3 +31,13 @@ body .mj-home-contact-photo .contact-inner {position:relative;z-index:3}
 /* Only the calibrated photo-space wall mask animates. No broad overlay on furniture. */
 .light-scene--hero>.light-shadow,.subpage-hero>.light-shadow,.mj-workflow-image>.light-shadow,.light-break>.light-shadow,.mj-home-contact-photo>.light-shadow {display:none!important}
 .mj-home-contact-photo.quiet-light-ready::after {display:none}
+
+/* One shared hero treatment on every main subpage. */
+body.light-direction.client-subpage .subpage-hero .subpage-hero-bg {background-image:url('atelier-panorama-v2.webp')!important;background-position:50% center!important}
+body.client-subpage .subpage-hero .subpage-hero-inner {padding:0 5vw 28px!important;display:flex;align-items:flex-end;justify-content:flex-start}
+.wall-shadow-region {position:absolute;overflow:hidden;pointer-events:none;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 90%,transparent)}
+.wall-shadow-feather {position:absolute;inset:0;mask-image:linear-gradient(transparent,#000 6%,#000 88%,transparent)}
+.wall-shadow-leaves {position:absolute;inset:-20%;background-position:center;background-size:100% 100%;background-repeat:no-repeat;opacity:.3;transform-origin:50% 85%;animation:wall-leaves-sway 6s ease-in-out infinite alternate;animation-play-state:paused;will-change:transform}
+@keyframes wall-leaves-sway {from {transform:translate3d(-8%,-1%,0) rotate(-1deg)}to {transform:translate3d(8%,1%,0) rotate(1deg)}}
+@media(max-width:760px) {body.client-subpage .subpage-hero .subpage-hero-inner {padding:0 6vw 28px!important}}
+@media(prefers-reduced-motion:reduce) {.wall-shadow-leaves {animation:none!important}}
