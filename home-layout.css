@@ -292,3 +292,8 @@ body .mj-home-quote {height:360px;min-height:360px;margin:64px 0}
 @media(max-width:680px) {
  body .mj-home-quote {height:320px;min-height:320px;margin-block:36px}
 }
+
+/* The studio address has the same gentle hover shift as email and telephone. */
+body .mj-home-contact-photo .contact-details>div {transition:padding-left .3s ease}
+@media(hover:hover) {body .mj-home-contact-photo .contact-details>div:hover {padding-left:8px}}
+@media(prefers-reduced-motion:reduce) {body .mj-home-contact-photo .contact-details>div {transition:none}}
