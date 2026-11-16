@@ -15,31 +15,39 @@
    leaf.save();leaf.translate(lx,ly);leaf.rotate(side*(.5+j*.2));leaf.beginPath();leaf.ellipse(0,0,25+(i%3)*4,9+(j%2)*2,0,0,Math.PI*2);leaf.fill();leaf.restore();
   }
  }
+ const foliageUrl='url("'+foliage.toDataURL()+'")';
  const create=async host=>{
   const source=host.querySelector(':scope > img')||host.querySelector('.hero-approved-bg,.subpage-hero-bg')||(host.matches('.mj-home-contact-photo')?host:null);if(!source)return;
   const isPhoto=source.tagName==='IMG';
   const url=isPhoto?(source.currentSrc||source.src):getComputedStyle(source).backgroundImage.match(/url\(["']?([^"')]+)["']?\)/)?.[1];if(!url)return;
   const photo=new Image();photo.src=url;try{await photo.decode();}catch{return;}
   // x/y bounds in original image coordinates (top-left origin), excluding furnishings.
-  const wall=url.includes('panorama')?[.10,.02,.55,.69]:url.includes('detail')?[.27,.02,.67,.46]:[.015,.02,.28,.51];
-  const surface=url.includes('panorama')?'dining-wall':url.includes('detail')?'reading-wall':'left-wall';
+  // The hero gets two walls: the window wall on the left and the panelled wall above the sofa,
+  // which stays in frame on narrow screens where the left wall is cropped away.
+  const walls=url.includes('panorama')?[[.10,.02,.55,.69]]:url.includes('detail')?[[.27,.02,.67,.46]]:[[.015,.02,.28,.51],[.53,.03,.87,.46]];
+  const surface=url.includes('panorama')?'dining-wall':url.includes('detail')?'reading-wall':'living-walls';
   const layer=document.createElement('div');layer.className='quiet-light-canvas';layer.setAttribute('aria-hidden','true');
-  const region=document.createElement('div');region.className='wall-shadow-region';
-  const feather=document.createElement('div');feather.className='wall-shadow-feather';
-  const leaves=document.createElement('div');leaves.className='wall-shadow-leaves';leaves.style.backgroundImage='url("'+foliage.toDataURL()+'")';
-  feather.append(leaves);region.append(feather);layer.append(region);
+  const regions=walls.map((wall,i)=>{
+   const region=document.createElement('div');region.className='wall-shadow-region';
+   const feather=document.createElement('div');feather.className='wall-shadow-feather';
+   const leaves=document.createElement('div');leaves.className='wall-shadow-leaves';leaves.style.backgroundImage=foliageUrl;
+   // Offset each wall's sway so the shadows never move in lockstep.
+   if(i){leaves.style.animationDuration='8.5s';leaves.style.animationDelay='-3s';leaves.style.backgroundSize='70% 100%';leaves.style.opacity='.17';leaves.style.filter='blur(2.5px)';}
+   feather.append(leaves);region.append(feather);layer.append(region);
+   return {wall,region,leaves};
+  });
   let visible=false;
   const percent=v=>v?.endsWith('%')?parseFloat(v)/100:.5;
   const layout=()=>{
    const r=host.getBoundingClientRect();if(!r.width||!r.height)return;
    const placement=(isPhoto?getComputedStyle(source).objectPosition:getComputedStyle(source).backgroundPosition).split(' ');
    const scale=Math.max(r.width/photo.width,r.height/photo.height),ox=(r.width-photo.width*scale)*percent(placement[0]),oy=(r.height-photo.height*scale)*percent(placement[1]);
-   Object.assign(region.style,{left:(ox+wall[0]*photo.width*scale)+'px',top:(oy+wall[1]*photo.height*scale)+'px',width:((wall[2]-wall[0])*photo.width*scale)+'px',height:((wall[3]-wall[1])*photo.height*scale)+'px'});
+   regions.forEach(({wall,region})=>Object.assign(region.style,{left:(ox+wall[0]*photo.width*scale)+'px',top:(oy+wall[1]*photo.height*scale)+'px',width:((wall[2]-wall[0])*photo.width*scale)+'px',height:((wall[3]-wall[1])*photo.height*scale)+'px'}));
   };
   const update=()=>{
    const paused=reduced.matches||document.hidden||document.documentElement.classList.contains('light-paused');
    layer.hidden=paused;host.classList.toggle('quiet-light-ready',!paused);
-   leaves.style.animationPlayState=visible&&!paused?'running':'paused';host.dataset.shadowMotion=visible&&!paused?'running':'paused';
+   regions.forEach(({leaves})=>{leaves.style.animationPlayState=visible&&!paused?'running':'paused';});host.dataset.shadowMotion=visible&&!paused?'running':'paused';
    if(visible&&!paused)layout();
   };
   host.append(layer);host.dataset.shadowSurface=surface;layout();

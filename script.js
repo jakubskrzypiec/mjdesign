@@ -334,9 +334,10 @@ if ('IntersectionObserver' in window) {
     const visible = entries
       .filter(entry => entry.isIntersecting)
       .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-    if (!visible) return;
+    // Nothing in the reading band (e.g. scrolled to Proces or Oferta): clear the highlight
+    // instead of leaving "Pracownia" lit for the rest of the page.
     sectionLinks.forEach(({ link, section }) => {
-      link.classList.toggle('is-active', section === visible.target);
+      link.classList.toggle('is-active', section === visible?.target);
     });
   }, { rootMargin: '-28% 0px -58% 0px', threshold: [0, .15, .35, .6] });
 

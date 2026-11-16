@@ -297,3 +297,37 @@ body .mj-home-quote {height:360px;min-height:360px;margin:64px 0}
 body .mj-home-contact-photo .contact-details>div {transition:padding-left .3s ease}
 @media(hover:hover) {body .mj-home-contact-photo .contact-details>div:hover {padding-left:8px}}
 @media(prefers-reduced-motion:reduce) {body .mj-home-contact-photo .contact-details>div {transition:none}}
+
+/* Process on a dark ground, so it separates clearly from the light statement band above.
+   Rows respond to the pointer: soft tint, a short shift right and a nudge of the title. */
+body .home-workflow {background:#0c0c0c;color:#f1f1ed}
+body .home-workflow .eyebrow {display:flex;align-items:center;gap:14px;color:#a9a9a4}
+body .home-workflow .eyebrow::after {content:'';width:42px;height:1px;background:currentColor;opacity:.45;transform-origin:left center;animation:workflow-rule 3.4s ease-in-out infinite}
+@keyframes workflow-rule {0%,100% {transform:scaleX(.55);opacity:.3} 50% {transform:scaleX(1);opacity:.6}}
+body .home-workflow h2 {color:#fff}
+body .home-workflow li {border-top-color:#ffffff1f;padding-left:0;transition:background-color .3s ease,padding-left .3s ease}
+body .home-workflow li:last-child {border-bottom-color:#ffffff1f}
+body .home-workflow li:nth-child(3) {background:transparent}
+body .home-workflow li>span {color:#8a8a85}
+body .home-workflow h3 {color:#fff;transition:transform .3s ease}
+body .home-workflow li p {color:#a9a9a4}
+@media(hover:hover) and (pointer:fine) {
+ body .home-workflow li:hover {background:#ffffff0a;padding-left:12px}
+ body .home-workflow li:hover h3 {transform:translateX(3px)}
+}
+@media(prefers-reduced-motion:reduce) {
+ body .home-workflow .eyebrow::after {animation:none}
+ body .home-workflow li,body .home-workflow h3 {transition:none}
+}
+
+/* Hero photograph and its wall shadows grow together, slowly, under the pointer. */
+body.light-direction .hero.hero-static-approved .hero-stage>.hero-approved-bg,
+body .hero-static-approved .hero-stage>.quiet-light-canvas {transform-origin:58% 45%;transition:transform 1.6s cubic-bezier(.2,.65,.3,1)!important}
+@media(hover:hover) and (pointer:fine) {
+ body.light-direction .hero.hero-static-approved .hero-stage:hover>.hero-approved-bg,
+ body .hero-static-approved .hero-stage:hover>.quiet-light-canvas {transform:scale(1.05)!important}
+}
+@media(prefers-reduced-motion:reduce) {
+ body.light-direction .hero.hero-static-approved .hero-stage>.hero-approved-bg,
+ body .hero-static-approved .hero-stage>.quiet-light-canvas {transition:none!important;transform:none!important}
+}
