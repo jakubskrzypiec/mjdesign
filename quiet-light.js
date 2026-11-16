@@ -1,21 +1,15 @@
-/* Moving foliage shadows on calibrated wall surfaces. The photograph itself stays fixed.
-   Compositor animation keeps motion independent of a JavaScript drawing loop. */
+/* Sunlight through a window, drifting slowly across calibrated wall surfaces, as if the sun moved.
+   The photograph itself stays fixed. Compositor animation keeps motion independent of a JavaScript loop. */
 (() => {
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
- const foliage=document.createElement('canvas');foliage.width=600;foliage.height=900;
- const leaf=foliage.getContext('2d');if(!leaf)return;
- leaf.filter='blur(6px)';leaf.strokeStyle='#111';leaf.fillStyle='#111';leaf.lineCap='round';
- leaf.lineWidth=9;leaf.beginPath();leaf.moveTo(40,920);leaf.bezierCurveTo(230,650,170,320,410,-40);leaf.stroke();
- // Individually angled leaves and smaller branches make a soft organic silhouette.
- for(let i=0;i<13;i++) {
-  const y=70+i*62,x=360-i*20,side=i%2?1:-1,endX=x+side*(100+(i%3)*24),endY=y-72;
-  leaf.lineWidth=4;leaf.beginPath();leaf.moveTo(x,y+50);leaf.quadraticCurveTo(x+side*45,y-10,endX,endY);leaf.stroke();
-  for(let j=0;j<4;j++) {
-   const t=(j+1)/4,lx=x+(endX-x)*t,ly=y+50+(endY-y-50)*t;
-   leaf.save();leaf.translate(lx,ly);leaf.rotate(side*(.5+j*.2));leaf.beginPath();leaf.ellipse(0,0,25+(i%3)*4,9+(j%2)*2,0,0,Math.PI*2);leaf.fill();leaf.restore();
-  }
- }
- const foliageUrl='url("'+foliage.toDataURL()+'")';
+ const pane=document.createElement('canvas');pane.width=800;pane.height=900;
+ const ctx=pane.getContext('2d');if(!ctx)return;
+ // Two columns by three rows of glass, sheared like a low sun projects them; the gaps are the glazing bars.
+ ctx.filter='blur(11px)';ctx.fillStyle='#fff0d2';
+ ctx.setTransform(1,0,-.38,1,330,0);
+ const w=170,h=230,bar=30,x0=110,y0=70;
+ for(let row=0;row<3;row++)for(let col=0;col<2;col++)ctx.fillRect(x0+col*(w+bar),y0+row*(h+bar),w,h);
+ const windowLight='url("'+pane.toDataURL()+'")';
  const create=async host=>{
   const source=host.querySelector(':scope > img')||host.querySelector('.hero-approved-bg,.subpage-hero-bg')||(host.matches('.mj-home-contact-photo')?host:null);if(!source)return;
   const isPhoto=source.tagName==='IMG';
@@ -30,9 +24,9 @@
   const regions=walls.map((wall,i)=>{
    const region=document.createElement('div');region.className='wall-shadow-region';
    const feather=document.createElement('div');feather.className='wall-shadow-feather';
-   const leaves=document.createElement('div');leaves.className='wall-shadow-leaves';leaves.style.backgroundImage=foliageUrl;
-   // Offset each wall's sway so the shadows never move in lockstep.
-   if(i){leaves.style.animationDuration='8.5s';leaves.style.animationDelay='-3s';leaves.style.backgroundSize='70% 100%';leaves.style.opacity='.17';leaves.style.filter='blur(2.5px)';}
+   const leaves=document.createElement('div');leaves.className='wall-light';leaves.style.backgroundImage=windowLight;
+   // Offset each wall's drift so the patches never move in lockstep.
+   if(i){leaves.style.animationDuration='26s';leaves.style.animationDelay='-9s';}
    feather.append(leaves);region.append(feather);layer.append(region);
    return {wall,region,leaves};
   });
